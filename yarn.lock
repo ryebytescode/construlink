@@ -1268,6 +1268,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@expo-google-fonts/poppins@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "@expo-google-fonts/poppins@npm:0.2.3"
+  checksum: 10c0/909a6f85d8a4983ab455e887a00069ccd01ab8355ae994eab94dcb3e3f243cc69a36d29777b5ddada759305a223c2ac71bf4537136e04e9ed8b48b4f8addcbdc
+  languageName: node
+  linkType: hard
+
 "@expo/bunyan@npm:^4.0.0":
   version: 4.0.1
   resolution: "@expo/bunyan@npm:4.0.1"
@@ -3883,6 +3890,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.25.2"
     "@biomejs/biome": "npm:1.9.4"
+    "@expo-google-fonts/poppins": "npm:^0.2.3"
     "@expo/vector-icons": "npm:^14.0.2"
     "@react-navigation/bottom-tabs": "npm:^7.2.0"
     "@react-navigation/native": "npm:^7.0.14"
