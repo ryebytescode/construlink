@@ -3919,6 +3919,7 @@ __metadata:
     expo-web-browser: "npm:~14.0.1"
     jest: "npm:^29.2.1"
     jest-expo: "npm:~52.0.2"
+    lefthook: "npm:^1.10.1"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     react-native: "npm:0.76.5"
@@ -6833,6 +6834,117 @@ __metadata:
   version: 3.0.3
   resolution: "kleur@npm:3.0.3"
   checksum: 10c0/cd3a0b8878e7d6d3799e54340efe3591ca787d9f95f109f28129bdd2915e37807bf8918bb295ab86afb8c82196beec5a1adcaf29042ce3f2bd932b038fe3aa4b
+  languageName: node
+  linkType: hard
+
+"lefthook-darwin-arm64@npm:1.10.1":
+  version: 1.10.1
+  resolution: "lefthook-darwin-arm64@npm:1.10.1"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lefthook-darwin-x64@npm:1.10.1":
+  version: 1.10.1
+  resolution: "lefthook-darwin-x64@npm:1.10.1"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lefthook-freebsd-arm64@npm:1.10.1":
+  version: 1.10.1
+  resolution: "lefthook-freebsd-arm64@npm:1.10.1"
+  conditions: os=freebsd & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lefthook-freebsd-x64@npm:1.10.1":
+  version: 1.10.1
+  resolution: "lefthook-freebsd-x64@npm:1.10.1"
+  conditions: os=freebsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lefthook-linux-arm64@npm:1.10.1":
+  version: 1.10.1
+  resolution: "lefthook-linux-arm64@npm:1.10.1"
+  conditions: os=linux & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lefthook-linux-x64@npm:1.10.1":
+  version: 1.10.1
+  resolution: "lefthook-linux-x64@npm:1.10.1"
+  conditions: os=linux & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lefthook-openbsd-arm64@npm:1.10.1":
+  version: 1.10.1
+  resolution: "lefthook-openbsd-arm64@npm:1.10.1"
+  conditions: os=openbsd & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lefthook-openbsd-x64@npm:1.10.1":
+  version: 1.10.1
+  resolution: "lefthook-openbsd-x64@npm:1.10.1"
+  conditions: os=openbsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lefthook-windows-arm64@npm:1.10.1":
+  version: 1.10.1
+  resolution: "lefthook-windows-arm64@npm:1.10.1"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lefthook-windows-x64@npm:1.10.1":
+  version: 1.10.1
+  resolution: "lefthook-windows-x64@npm:1.10.1"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lefthook@npm:^1.10.1":
+  version: 1.10.1
+  resolution: "lefthook@npm:1.10.1"
+  dependencies:
+    lefthook-darwin-arm64: "npm:1.10.1"
+    lefthook-darwin-x64: "npm:1.10.1"
+    lefthook-freebsd-arm64: "npm:1.10.1"
+    lefthook-freebsd-x64: "npm:1.10.1"
+    lefthook-linux-arm64: "npm:1.10.1"
+    lefthook-linux-x64: "npm:1.10.1"
+    lefthook-openbsd-arm64: "npm:1.10.1"
+    lefthook-openbsd-x64: "npm:1.10.1"
+    lefthook-windows-arm64: "npm:1.10.1"
+    lefthook-windows-x64: "npm:1.10.1"
+  dependenciesMeta:
+    lefthook-darwin-arm64:
+      optional: true
+    lefthook-darwin-x64:
+      optional: true
+    lefthook-freebsd-arm64:
+      optional: true
+    lefthook-freebsd-x64:
+      optional: true
+    lefthook-linux-arm64:
+      optional: true
+    lefthook-linux-x64:
+      optional: true
+    lefthook-openbsd-arm64:
+      optional: true
+    lefthook-openbsd-x64:
+      optional: true
+    lefthook-windows-arm64:
+      optional: true
+    lefthook-windows-x64:
+      optional: true
+  bin:
+    lefthook: bin/index.js
+  checksum: 10c0/bcdaf7fcb068ea0257a9f7200ce7f8a75e03455d81bc4bf3bb6288e048ceafefe57c54c73077d3526986db3d96f7a4c217f8012b14158a1e2ea215a02c7d78f0
   languageName: node
   linkType: hard
 
