@@ -3,12 +3,18 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
+    "build:android": "expo prebuild --platform android",
+    "buildc:android": "expo prebuild --platform android --clean",
+    "build:ios": "expo prebuild --platform ios",
+    "buildc:ios": "expo prebuild --platform ios --clean",
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "android": "expo run:android --device",
+    "android:release": "expo run:android --device --variant release",
+    "ios": "expo run:ios --device",
+    "ios:release": "expo run:ios --device --variant release",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "biome check --write .",
+    "format": "biome format --write ."
   },
   "jest": {
     "preset": "jest-expo"
