@@ -15,10 +15,7 @@ export default function AuthLayout() {
         name="method-chooser"
         options={{ headerTitle: () => null }}
       />
-      <Stack.Screen
-        name="email-phone-auth"
-        options={{ headerTitle: () => null }}
-      />
+      <Stack.Screen name="signup" options={{ headerTitle: () => null }} />
     </ClStack>
   )
 }
