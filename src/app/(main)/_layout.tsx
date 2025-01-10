@@ -8,7 +8,16 @@ export default function MainLayout() {
   return (
     <ClStack id="main">
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="auth" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="auth/role-selection"
+        options={{ headerTitle: () => null }}
+      />
+      <Stack.Screen
+        name="auth/method-chooser"
+        options={{ headerTitle: () => null }}
+      />
+      <Stack.Screen name="auth/signin" options={{ headerTitle: () => null }} />
+      <Stack.Screen name="auth/signup" options={{ headerTitle: () => null }} />
     </ClStack>
   )
 }
