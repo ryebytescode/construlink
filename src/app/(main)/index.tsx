@@ -39,7 +39,8 @@ export default function GettingStartedScreen() {
             onPress={() => router.push('/auth/role-selection')}
           />
           <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
-            Already a member? <ClLinkText href="/auth/method-chooser">Sign in</ClLinkText>
+            Already a member?{' '}
+            <ClLinkText href="/auth/method-chooser">Sign in</ClLinkText>
           </ClText>
         </View>
       </ClPageView>
