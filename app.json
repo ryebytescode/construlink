@@ -1,39 +1,67 @@
 {
   "expo": {
-    "name": "construlink-new2",
-    "slug": "construlink-new2",
+    "name": "Construlink",
+    "slug": "construlink",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "construlink",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#141314"
+      },
+      "package": "com.ryebytescode.construlink",
+      "googleServicesFile": "./firebase/google-services.json"
     },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./src/assets/images/favicon.png"
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ryebytescode.construlink",
+      "googleServicesFile": "./firebase/GoogleService-Info.plist"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./src/assets/images/splash.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "image": "./src/assets/images/splash.png",
+            "backgroundColor": "#141314"
+          }
         }
       ],
-      "expo-build-properties"
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/poppins/Poppins_100Thin.ttf",
+            "node_modules/@expo-google-fonts/poppins/Poppins_200ExtraLight.ttf",
+            "node_modules/@expo-google-fonts/poppins/Poppins_300Light.ttf",
+            "node_modules/@expo-google-fonts/poppins/Poppins_400Regular.ttf",
+            "node_modules/@expo-google-fonts/poppins/Poppins_500Medium.ttf",
+            "node_modules/@expo-google-fonts/poppins/Poppins_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/poppins/Poppins_700Bold.ttf",
+            "node_modules/@expo-google-fonts/poppins/Poppins_800ExtraBold.ttf",
+            "node_modules/@expo-google-fonts/poppins/Poppins_900Black.ttf"
+          ]
+        }
+      ],
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
