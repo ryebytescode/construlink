@@ -8,6 +8,7 @@ export default function MainLayout() {
   return (
     <ClStack id="main">
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="auth" options={{ headerShown: false }} />
     </ClStack>
   )
 }
