@@ -4561,6 +4561,7 @@ __metadata:
     expo-constants: "npm:~17.0.3"
     expo-font: "npm:~13.0.2"
     expo-haptics: "npm:~14.0.0"
+    expo-image: "npm:~2.0.3"
     expo-linking: "npm:~7.0.3"
     expo-navigation-bar: "npm:~4.0.6"
     expo-router: "npm:~4.0.16"
@@ -5417,6 +5418,21 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 10c0/6bfbaf9365dd53127d8cc43f6167b6373520ef029d7f62d3f2599bf326a4ed137dfd8163ded21c97eb80555a091068bb6674529e04e2a31e4d89fe23e92f41a1
+  languageName: node
+  linkType: hard
+
+"expo-image@npm:~2.0.3":
+  version: 2.0.3
+  resolution: "expo-image@npm:2.0.3"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native-web:
+      optional: true
+  checksum: 10c0/adceac4fbc29e375ed28fab00340db2fa290a0ab149ee296ddc700aadc75ceb9db657abd7a2fea17c1cd0dbd3a07c691df82b61dc684dbccf198ca95d5160a0a
   languageName: node
   linkType: hard
 
