@@ -1,9 +1,9 @@
-import Colors from "./palette";
-import Sizes from "./sizes";
-import Spacing from "./spacing";
-import Typography from "./typography";
+import Colors from './palette'
+import Sizes from './sizes'
+import Spacing from './spacing'
+import Typography from './typography'
 
-export type SkinnedButtonColors = "brand" | "accent";
+export type SkinnedButtonColors = 'brand' | 'accent'
 
 const Button = {
   colors: {
@@ -43,7 +43,7 @@ const Button = {
     },
   },
   borderWidth: Spacing[0.5],
-  radius: Sizes.radius["2xl"],
+  radius: Sizes.radius['2xl'],
   sizes: {
     xsmall: {
       px: Spacing[3],
@@ -71,7 +71,7 @@ const Button = {
       font: Typography.sizes.xl,
     },
   },
-};
+}
 
 const CheckBox = {
   colors: {
@@ -119,7 +119,7 @@ const CheckBox = {
       fontSize: Typography.sizes.lg.fontSize,
     },
   },
-};
+}
 
 const TextInput = {
   colors: {
@@ -132,7 +132,7 @@ const TextInput = {
       background: Colors.dark.neutral[700],
     },
   },
-  radius: Sizes.radius["2xl"],
+  radius: Sizes.radius['2xl'],
   sizes: {
     small: {
       padding: Spacing[2],
@@ -150,10 +150,10 @@ const TextInput = {
       labelFontSize: Typography.sizes.base.fontSize,
     },
   },
-};
+}
 
 export default {
   Button,
   CheckBox,
   TextInput,
-};
+}
