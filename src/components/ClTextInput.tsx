@@ -174,7 +174,7 @@ const useStyles = createStyles(
   ) => {
     return {
       inputLabel: {
-        marginBottom: spacing[2],
+        marginBottom: spacing[1],
         fontSize: TextInput.sizes[size].labelFontSize,
       },
 
