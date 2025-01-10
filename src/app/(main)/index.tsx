@@ -1,5 +1,6 @@
 import ClLogo from '@/assets/images/logo'
 import { ClButton } from '@/components/ClButton'
+import { ClLinkText } from '@/components/ClLinkText'
 import { ClPageView } from '@/components/ClPageView'
 import { ClText } from '@/components/ClText'
 import { createStyles } from '@/helpers/createStyles'
@@ -35,8 +36,11 @@ export default function GettingStartedScreen() {
           <ClButton
             text="Get Started"
             size="large"
-            onPress={() => router.push('/')}
+            onPress={() => router.push('/auth/role-selection')}
           />
+          <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
+            Already a member? <ClLinkText href="/auth/method-chooser">Sign in</ClLinkText>
+          </ClText>
         </View>
       </ClPageView>
     </>
