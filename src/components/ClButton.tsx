@@ -91,6 +91,12 @@ export function ClButton(props: ClTextButtonProps) {
     ghost: { borderWidth: 0 },
   }[variant]
 
+  const iconBaseStyles = {
+    solid: styles.iconVariantSolid,
+    outline: styles.iconVariantOutline,
+    ghost: {},
+  }[variant]
+
   return (
     <ButtonBase
       {...rest}
@@ -109,7 +115,7 @@ export function ClButton(props: ClTextButtonProps) {
         <ActivityIndicator size={Sizes.icon.md} color={colors.white} />
       ) : (
         <View style={styles.contents}>
-          {icon && <ClIcon {...icon} style={styles.icon} />}
+          {icon && <ClIcon {...icon} style={[styles.icon, iconBaseStyles]} />}
           <ClText
             weight="medium"
             style={[
@@ -187,8 +193,14 @@ const useStyles = createStyles(
       },
 
       icon: {
-        color: colors.white,
         fontSize: sizes.icon.md,
+      },
+
+      iconVariantSolid: {
+        color: colors.white,
+      },
+      iconVariantOutline: {
+        color: Button.colors[scheme][color].background,
       },
     }
   }
