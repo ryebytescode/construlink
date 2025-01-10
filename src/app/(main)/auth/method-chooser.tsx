@@ -3,26 +3,12 @@ import { ClLinkText } from '@/components/ClLinkText'
 import { ClPageView } from '@/components/ClPageView'
 import { ClText } from '@/components/ClText'
 import { createStyles } from '@/helpers/createStyles'
-import { useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { router } from 'expo-router'
-import type { MouseEvent } from 'react'
-import { type GestureResponderEvent, View } from 'react-native'
+import { View } from 'react-native'
 
 export default function MethodChooserScreen() {
-  const styles = useStyles()
-  const authMode = useAuthStore((state) => state.mode)
-  const setAuthMode = useAuthStore((state) => state.setMode)
-  const isSignUp = authMode === 'signup'
-
-  function handleSwitchMode(
-    event: MouseEvent<HTMLAnchorElement> | GestureResponderEvent
-  ) {
-    event.preventDefault()
-    setAuthMode(authMode === 'signup' ? 'signin' : 'signup')
-  }
-
   function handleGoToCredentials() {
     router.push({ pathname: '/auth/signup' })
   }
@@ -30,7 +16,7 @@ export default function MethodChooserScreen() {
   return (
     <ClPageView
       id="method-chooser"
-      title={isSignUp ? 'Create an account' : 'Sign into your account'}
+      title="Choose your authentication method"
       contentContainerStyle={{ flex: 1 }}
     >
       <ClButton
@@ -52,24 +38,9 @@ export default function MethodChooserScreen() {
           set: IconSet.MaterialCommunityIcons,
           name: 'email',
         }}
-        text={isSignUp ? 'Sign up with email' : 'Sign in with email'}
+        text="Continue with email"
         onPress={handleGoToCredentials}
       />
-      {isSignUp ? (
-        <ClText style={styles.text}>
-          Already a member?{' '}
-          <ClLinkText href="/" onPress={handleSwitchMode}>
-            Sign in
-          </ClLinkText>
-        </ClText>
-      ) : (
-        <ClText style={styles.text}>
-          Don't have an account?{' '}
-          <ClLinkText href="/" onPress={handleSwitchMode}>
-            Create one
-          </ClLinkText>
-        </ClText>
-      )}
       <View style={{ flex: 1 }} />
       <ClText type="helper" style={{ textAlign: 'center' }} dim>
         By continuing, you agree to our{' '}
