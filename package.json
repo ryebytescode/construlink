@@ -12,7 +12,7 @@
     "android:release": "expo run:android --device --variant release",
     "ios": "expo run:ios --device",
     "ios:release": "expo run:ios --device --variant release",
-    "test": "jest --watchAll",
+    "test": "jest --watchAll --silent=false",
     "lint": "biome check --write .",
     "format": "biome format --write .",
     "adb:info": "adb shell ip -f inet addr show"
