@@ -31,7 +31,11 @@ export default function RoleSelectionScreen() {
         onChange={(value) => setRole(value as Role)}
       />
       <View style={{ flex: 1 }} />
-      <ClButton text="Next" disabled={!role} onPress={() => router.push('/')} />
+      <ClButton
+        text="Next"
+        disabled={!role}
+        onPress={() => router.push('/auth/method-chooser')}
+      />
     </ClPageView>
   )
 }
