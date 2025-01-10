@@ -5,14 +5,30 @@ import { ClPageView } from '@/components/ClPageView'
 import { ClText } from '@/components/ClText'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
+import { useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
-import React from 'react'
-import { View } from 'react-native'
+import React, { type MouseEvent } from 'react'
+import { type GestureResponderEvent, View } from 'react-native'
 
 export default function GettingStartedScreen() {
   const styles = useStyles()
+  const setAuthMode = useAuthStore((state) => state.setMode)
+
+  function handleGetStarted() {
+    setAuthMode('signup')
+    router.push('/auth/role-selection')
+  }
+
+  function handleGoToSignIn(
+    event: MouseEvent<HTMLAnchorElement> | GestureResponderEvent
+  ) {
+    event.preventDefault()
+
+    setAuthMode('signin')
+    router.push('/auth/method-chooser')
+  }
 
   return (
     <>
@@ -36,11 +52,13 @@ export default function GettingStartedScreen() {
           <ClButton
             text="Get Started"
             size="large"
-            onPress={() => router.push('/auth/role-selection')}
+            onPress={handleGetStarted}
           />
           <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
             Already a member?{' '}
-            <ClLinkText href="/auth/method-chooser">Sign in</ClLinkText>
+            <ClLinkText href="/" onPress={handleGoToSignIn}>
+              Sign in
+            </ClLinkText>
           </ClText>
         </View>
       </ClPageView>
