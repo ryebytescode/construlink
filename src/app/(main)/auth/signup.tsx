@@ -1,13 +1,17 @@
 import { ClButton } from '@/components/ClButton'
+import { ClLinkText } from '@/components/ClLinkText'
 import { ClPageView } from '@/components/ClPageView'
+import { ClText } from '@/components/ClText'
 import { ControlledTextInput } from '@/components/controlled/ControlledTextInput'
 import { SignUpSchema } from '@/lib/schemas'
+import { useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React, { useState } from 'react'
+import { router } from 'expo-router'
+import React, { type MouseEvent, useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import { View } from 'react-native'
+import { type GestureResponderEvent, View } from 'react-native'
 
 const defaultValues: SignUpFields = {
   email: '',
@@ -29,6 +33,8 @@ export default function EmailPhoneAuthScreen() {
     },
     resolver: zodResolver(SignUpSchema),
   })
+  const setAuthMode = useAuthStore((state) => state.setMode)
+  const setRole = useAuthStore((state) => state.setRole)
   const isEmailMode = inputMode === 'email'
 
   const onSubmit: SubmitHandler<SignUpFields> = async (data) => {}
@@ -36,6 +42,16 @@ export default function EmailPhoneAuthScreen() {
   function handleToggleInputMode() {
     setInputMode((prev) => (prev === 'email' ? 'phone' : 'email'))
     reset()
+  }
+
+  function handleGoToSignIn(
+    event: MouseEvent<HTMLAnchorElement> | GestureResponderEvent
+  ) {
+    event.preventDefault()
+    setAuthMode('signin')
+    setRole(null)
+    router.dismissAll()
+    router.navigate('/auth/method-chooser')
   }
 
   return (
@@ -108,6 +124,12 @@ export default function EmailPhoneAuthScreen() {
         onPress={handleSubmit(onSubmit)}
         bodyStyle={{ marginTop: Spacing[4] }}
       />
+      <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
+        Already a member?{' '}
+        <ClLinkText href="/" onPress={handleGoToSignIn}>
+          Sign in
+        </ClLinkText>
+      </ClText>
     </ClPageView>
   )
 }
