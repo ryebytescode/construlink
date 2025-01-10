@@ -3,14 +3,17 @@ import { ClLinkText } from '@/components/ClLinkText'
 import { ClPageView } from '@/components/ClPageView'
 import { ClText } from '@/components/ClText'
 import { createStyles } from '@/helpers/createStyles'
+import { useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { router } from 'expo-router'
 import { View } from 'react-native'
 
 export default function MethodChooserScreen() {
+  const authMode = useAuthStore((state) => state.mode) ?? 'signup'
+
   function handleGoToCredentials() {
-    router.push({ pathname: '/auth/signup' })
+    router.push({ pathname: `/auth/${authMode}` })
   }
 
   return (
