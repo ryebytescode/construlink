@@ -4578,6 +4578,7 @@ __metadata:
     react-hook-form: "npm:^7.54.2"
     react-native: "npm:0.76.5"
     react-native-gesture-handler: "npm:~2.20.2"
+    react-native-pager-view: "npm:6.5.1"
     react-native-reanimated: "npm:~3.16.1"
     react-native-safe-area-context: "npm:4.12.0"
     react-native-screens: "npm:~4.4.0"
@@ -9392,6 +9393,16 @@ __metadata:
     react: ">=18.2.0"
     react-native: ">=0.73.0"
   checksum: 10c0/5690e521e8310d21643634a8d0dacd524e19b76695f347b26f649fcac156a7a901fd6daef7f78482381a41e8445f4552f40ade13790fdf112fab15b0f54dbabd
+  languageName: node
+  linkType: hard
+
+"react-native-pager-view@npm:6.5.1":
+  version: 6.5.1
+  resolution: "react-native-pager-view@npm:6.5.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/2c6a1cdd30151252f7ee31ce039246c59308ddd4ff6d4dbf44b0d64387338e51cfc432a68795cd80f2f7a1c77617c259462de48c2f4cd24d98805290d70ec02f
   languageName: node
   linkType: hard
 
