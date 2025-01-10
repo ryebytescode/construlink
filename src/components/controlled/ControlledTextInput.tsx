@@ -8,19 +8,21 @@ import {
   type UseControllerProps,
   useController,
 } from 'react-hook-form'
-import { View } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { ClErrorMessage } from '../ClErrorMessage'
 import { ClTextInput } from '../ClTextInput'
 
 type TextInputProps = ComponentProps<typeof ClTextInput>
 
 interface ControlledTextInputProps {
+  style?: StyleProp<ViewStyle>
   textInputOptions?: Partial<
     Omit<TextInputProps, 'onBlur' | 'onChange' | 'value' | 'valid' | 'disabled'>
   >
 }
 
 export const ControlledTextInput = <TFields extends FieldValues>({
+  style,
   textInputOptions,
   ...controllerProps
 }: ControlledTextInputProps & UseControllerProps<TFields>) => {
@@ -28,7 +30,7 @@ export const ControlledTextInput = <TFields extends FieldValues>({
   const colors = useAppStore((state) => state.colors)
 
   return (
-    <View style={{ gap: Spacing[1] }}>
+    <View style={[{ gap: Spacing[1] }, style]}>
       <ClTextInput
         onChangeText={field.onChange}
         {...field}
