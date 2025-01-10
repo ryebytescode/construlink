@@ -14,7 +14,8 @@
         "backgroundColor": "#141314"
       },
       "package": "com.ryebytescode.construlink",
-      "googleServicesFile": "./firebase/google-services.json"
+      "googleServicesFile": "./firebase/google-services.json",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "ios": {
       "supportsTablet": true,
