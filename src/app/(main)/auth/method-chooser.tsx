@@ -8,14 +8,13 @@ import { Spacing } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { router } from 'expo-router'
 import type { MouseEvent } from 'react'
-import { useForm } from 'react-hook-form'
 import { type GestureResponderEvent, View } from 'react-native'
 
 export default function MethodChooserScreen() {
   const styles = useStyles()
-  const { control } = useForm<SignUpFields>()
   const authMode = useAuthStore((state) => state.mode)
   const setAuthMode = useAuthStore((state) => state.setMode)
+  const isSignUp = authMode === 'signup'
 
   function handleSwitchMode(
     event: MouseEvent<HTMLAnchorElement> | GestureResponderEvent
@@ -25,15 +24,13 @@ export default function MethodChooserScreen() {
   }
 
   function handleGoToCredentials() {
-    router.push({ pathname: '/auth/email-phone-auth' })
+    router.push({ pathname: '/auth/signup' })
   }
 
   return (
     <ClPageView
       id="method-chooser"
-      title={
-        authMode === 'signup' ? 'Create an account' : 'Sign into your account'
-      }
+      title={isSignUp ? 'Create an account' : 'Sign into your account'}
       contentContainerStyle={{ flex: 1 }}
     >
       <ClButton
@@ -55,12 +52,10 @@ export default function MethodChooserScreen() {
           set: IconSet.MaterialCommunityIcons,
           name: 'email',
         }}
-        text={
-          authMode === 'signup' ? 'Sign up with email' : 'Sign in with email'
-        }
+        text={isSignUp ? 'Sign up with email' : 'Sign in with email'}
         onPress={handleGoToCredentials}
       />
-      {authMode === 'signup' ? (
+      {isSignUp ? (
         <ClText style={styles.text}>
           Already a member?{' '}
           <ClLinkText href="/" onPress={handleSwitchMode}>
