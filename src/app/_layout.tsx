@@ -6,6 +6,7 @@ import * as NavigationBar from 'expo-navigation-bar'
 import { Slot } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
+import * as SystemUI from 'expo-system-ui'
 import { Fragment, useEffect } from 'react'
 import { SafeAreaView } from 'react-native'
 import 'react-native-reanimated'
@@ -28,6 +29,7 @@ export default function RootLayout() {
   useEffect(() => {
     changeScheme(scheme)
 
+    SystemUI.setBackgroundColorAsync(Palette[scheme].background)
     NavigationBar.setBackgroundColorAsync(Palette[scheme].background)
     NavigationBar.setPositionAsync('relative')
   }, [scheme, changeScheme])
