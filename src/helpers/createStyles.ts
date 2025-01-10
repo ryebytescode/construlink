@@ -36,7 +36,6 @@ export const createStyles =
       []
     )
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies:
     return useMemo(() => {
       const css =
         typeof styles === 'function'
