@@ -14,7 +14,8 @@
     "ios:release": "expo run:ios --device --variant release",
     "test": "jest --watchAll",
     "lint": "biome check --write .",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "adb:info": "adb shell ip -f inet addr show"
   },
   "jest": {
     "preset": "jest-expo"
