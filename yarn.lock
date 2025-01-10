@@ -4562,6 +4562,7 @@ __metadata:
     expo-font: "npm:~13.0.2"
     expo-haptics: "npm:~14.0.0"
     expo-linking: "npm:~7.0.3"
+    expo-navigation-bar: "npm:~4.0.6"
     expo-router: "npm:~4.0.16"
     expo-splash-screen: "npm:~0.29.19"
     expo-status-bar: "npm:~2.0.0"
@@ -5466,6 +5467,20 @@ __metadata:
   dependencies:
     invariant: "npm:^2.2.4"
   checksum: 10c0/d8b27ac2e67b910f37677d5924325075602ad5d0ff00a62ca7ff7e2e32450d63a9ff7a65cccebe078ebd09e6bb069299efbb59bf68d1b14b8146c8ae51d26e3b
+  languageName: node
+  linkType: hard
+
+"expo-navigation-bar@npm:~4.0.6":
+  version: 4.0.6
+  resolution: "expo-navigation-bar@npm:4.0.6"
+  dependencies:
+    "@react-native/normalize-colors": "npm:0.76.5"
+    debug: "npm:^4.3.2"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/d309faf0ca3413606a512ece890094e335e7a01ccaf2f58ac83677e00debfc1a8fba50fcee970316e1997bfec7185eef047bf8181f2355b3c8bda179c42d0289
   languageName: node
   linkType: hard
 
