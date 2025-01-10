@@ -3,34 +3,37 @@ import { ClLinkText } from '@/components/ClLinkText'
 import { ClPageView } from '@/components/ClPageView'
 import { ClText } from '@/components/ClText'
 import { createStyles } from '@/helpers/createStyles'
+import { useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { router } from 'expo-router'
 import type { MouseEvent } from 'react'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { type GestureResponderEvent, View } from 'react-native'
 
 export default function MethodChooserScreen() {
   const styles = useStyles()
   const { control } = useForm<SignUpFields>()
-  const [mode, setMode] = useState<'signin' | 'signup'>('signup')
+  const authMode = useAuthStore((state) => state.mode)
+  const setAuthMode = useAuthStore((state) => state.setMode)
 
   function handleSwitchMode(
     event: MouseEvent<HTMLAnchorElement> | GestureResponderEvent
   ) {
     event.preventDefault()
-    setMode(mode === 'signup' ? 'signin' : 'signup')
+    setAuthMode(authMode === 'signup' ? 'signin' : 'signup')
   }
 
   function handleGoToCredentials() {
-    router.push({ pathname: '/' })
+    router.push({ pathname: '/auth/email-phone-auth' })
   }
 
   return (
     <ClPageView
       id="method-chooser"
-      title={mode === 'signup' ? 'Create an account' : 'Sign into your account'}
+      title={
+        authMode === 'signup' ? 'Create an account' : 'Sign into your account'
+      }
       contentContainerStyle={{ flex: 1 }}
     >
       <ClButton
@@ -52,10 +55,12 @@ export default function MethodChooserScreen() {
           set: IconSet.MaterialCommunityIcons,
           name: 'email',
         }}
-        text={mode === 'signup' ? 'Sign up with email' : 'Sign in with email'}
+        text={
+          authMode === 'signup' ? 'Sign up with email' : 'Sign in with email'
+        }
         onPress={handleGoToCredentials}
       />
-      {mode === 'signup' ? (
+      {authMode === 'signup' ? (
         <ClText style={styles.text}>
           Already a member?{' '}
           <ClLinkText href="/" onPress={handleSwitchMode}>
