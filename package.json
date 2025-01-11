@@ -15,7 +15,8 @@
     "test": "jest --watchAll --silent=false",
     "lint": "biome check --write .",
     "format": "biome format --write .",
-    "adb:info": "adb shell ip -f inet addr show"
+    "adb:info": "adb shell ip -f inet addr show",
+    "get-local-sha": "cd android && ./gradlew signingReport"
   },
   "jest": {
     "preset": "jest-expo"
