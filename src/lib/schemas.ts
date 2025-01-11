@@ -60,3 +60,37 @@ export const SignUpSchema: ZodType<SignUpFields> = z
     message: 'Required',
     path: ['password'],
   })
+
+export const SignInSchema: ZodType<SignInFields> = z
+  .object({
+    email: z
+      .string({
+        required_error: 'Required',
+      })
+      .min(1, 'Required')
+      .regex(patterns.email, 'Invalid email format')
+      .optional(),
+    phone: z
+      .string({
+        required_error: 'Required',
+      })
+      .regex(
+        patterns.phone,
+        'Invalid format. Should be in the form 0912 345 6789'
+      )
+      .optional(),
+    password: z
+      .string({
+        required_error: 'Requirsed',
+      })
+      .optional(),
+    mode: z.enum(['email', 'phone']),
+  })
+  .refine((data) => (data.mode === 'email' ? !!data.email : !!data.phone), {
+    message: 'Required',
+    path: ['email', 'phone'],
+  })
+  .refine((data) => (data.mode === 'email' ? !!data.password : true), {
+    message: 'Required',
+    path: ['password'],
+  })
