@@ -22,5 +22,8 @@ export function useFirebaseInitializer() {
     return unsubscribe
   }, [])
 
-  return isInitializing
+  return {
+    isInitializing,
+    hasUser: currentUser !== null,
+  }
 }
