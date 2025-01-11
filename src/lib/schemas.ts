@@ -33,7 +33,7 @@ export const SignUpSchema: ZodType<SignUpFields> = z
       .optional(),
     password: z
       .string({
-        required_error: 'Requirsed',
+        required_error: 'Required',
       })
       .min(8, 'Must be 8 characters long')
       .regex(
@@ -81,7 +81,7 @@ export const SignInSchema: ZodType<SignInFields> = z
       .optional(),
     password: z
       .string({
-        required_error: 'Requirsed',
+        required_error: 'Required',
       })
       .optional(),
     mode: z.enum(['email', 'phone']),
