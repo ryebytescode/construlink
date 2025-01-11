@@ -4,6 +4,7 @@ import { useAppStore } from '@/stores/app'
 import { Spacing } from '@/theme'
 import { forwardRef, useImperativeHandle, useState } from 'react'
 import { ActivityIndicator, Modal, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface ClSpinnerProps {
   transluscent?: boolean
@@ -30,19 +31,22 @@ export const ClSpinner = forwardRef<ClSpinnerHandleProps, ClSpinnerProps>(
     }))
 
     return (
-      <Modal
-        visible={isVisible}
-        transparent={true}
-        animationType="fade"
-        hardwareAccelerated={true}
-      >
-        <View style={styles.container}>
-          <ActivityIndicator
-            size={Spacing[20]}
-            color={resolveColor(colors.accent[500], colors.brand[500])}
-          />
-        </View>
-      </Modal>
+      <SafeAreaView>
+        <Modal
+          visible={isVisible}
+          transparent={true}
+          animationType="fade"
+          hardwareAccelerated={true}
+          statusBarTranslucent
+        >
+          <View style={styles.container}>
+            <ActivityIndicator
+              size={Spacing[20]}
+              color={resolveColor(colors.accent[500], colors.brand[500])}
+            />
+          </View>
+        </Modal>
+      </SafeAreaView>
     )
   }
 )
