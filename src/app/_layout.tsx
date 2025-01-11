@@ -1,3 +1,4 @@
+import { ClSpinner } from '@/components/ClSpinner'
 import { useFirebaseInitializer } from '@/hooks/useFirebaseInitializer'
 import { useRefresh } from '@/hooks/useRefresh'
 import { useRenderCount } from '@/hooks/useRenderCount'
@@ -6,13 +7,14 @@ import { useAppStore } from '@/stores/app'
 import { Palette } from '@/theme'
 import * as NavigationBar from 'expo-navigation-bar'
 import { NetworkStateType, useNetworkState } from 'expo-network'
-import { Slot } from 'expo-router'
+import { Slot, router } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import * as SystemUI from 'expo-system-ui'
 import { Fragment, useEffect } from 'react'
-import { Alert, SafeAreaView } from 'react-native'
+import { Alert } from 'react-native'
 import 'react-native-reanimated'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -29,7 +31,7 @@ export default function RootLayout() {
   const scheme = useScheme()
   const changeScheme = useAppStore((state) => state.changeScheme)
   const { refresh } = useRefresh()
-  const isFirebaseInitializing = useFirebaseInitializer()
+  const { isInitializing, hasUser } = useFirebaseInitializer()
   const networkState = useNetworkState()
 
   useEffect(() => {
@@ -41,10 +43,14 @@ export default function RootLayout() {
   }, [scheme, changeScheme])
 
   useEffect(() => {
-    if (!isFirebaseInitializing) SplashScreen.hideAsync()
-  }, [isFirebaseInitializing])
+    if (!isInitializing) {
+      SplashScreen.hideAsync().then(() => {
+        if (hasUser) router.replace('/(main)/user/dashboard-test')
+      })
+    }
+  }, [isInitializing, hasUser])
 
-  if (!networkState.isConnected) {
+  if (networkState.type === NetworkStateType.NONE) {
     Alert.alert(
       "You're offline",
       "It seems like there's no internet connection. Please check your network settings and try again.",
@@ -61,11 +67,13 @@ export default function RootLayout() {
     )
   }
 
+  if (isInitializing) return <ClSpinner />
+
   return (
     <Fragment>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaProvider>
         <Slot />
-      </SafeAreaView>
+      </SafeAreaProvider>
       <StatusBar style="auto" />
     </Fragment>
   )
