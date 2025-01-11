@@ -100,7 +100,7 @@ export default function EmailPhoneAuthScreen() {
         />
       )}
       <ClButton
-        text="Next"
+        text={isEmailMode ? 'Sign in' : 'Send OTP'}
         onPress={handleSubmit(onSubmit)}
         bodyStyle={{ marginVertical: Spacing[4] }}
       />
