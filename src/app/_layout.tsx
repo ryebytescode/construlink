@@ -1,14 +1,17 @@
+import { useFirebaseInitializer } from '@/hooks/useFirebaseInitializer'
+import { useRefresh } from '@/hooks/useRefresh'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { useScheme } from '@/hooks/useScheme'
 import { useAppStore } from '@/stores/app'
 import { Palette } from '@/theme'
 import * as NavigationBar from 'expo-navigation-bar'
+import { NetworkStateType, useNetworkState } from 'expo-network'
 import { Slot } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import * as SystemUI from 'expo-system-ui'
 import { Fragment, useEffect } from 'react'
-import { SafeAreaView } from 'react-native'
+import { Alert, SafeAreaView } from 'react-native'
 import 'react-native-reanimated'
 
 export { ErrorBoundary } from 'expo-router'
@@ -25,6 +28,9 @@ export default function RootLayout() {
 
   const scheme = useScheme()
   const changeScheme = useAppStore((state) => state.changeScheme)
+  const { refresh } = useRefresh()
+  const isFirebaseInitializing = useFirebaseInitializer()
+  const networkState = useNetworkState()
 
   useEffect(() => {
     changeScheme(scheme)
@@ -35,8 +41,25 @@ export default function RootLayout() {
   }, [scheme, changeScheme])
 
   useEffect(() => {
-    SplashScreen.hideAsync()
-  }, [])
+    if (!isFirebaseInitializing) SplashScreen.hideAsync()
+  }, [isFirebaseInitializing])
+
+  if (!networkState.isConnected) {
+    Alert.alert(
+      "You're offline",
+      "It seems like there's no internet connection. Please check your network settings and try again.",
+      [
+        {
+          text: 'Retry',
+          isPreferred: true,
+          onPress: refresh,
+        },
+      ],
+      {
+        cancelable: false,
+      }
+    )
+  }
 
   return (
     <Fragment>
