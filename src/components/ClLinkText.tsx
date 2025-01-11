@@ -19,7 +19,7 @@ export function ClLinkText({
   const styles = useStyles()
 
   return (
-    <Link style={linkStyle} {...rest}>
+    <Link style={linkStyle} {...rest} adjustsFontSizeToFit>
       <ClText weight="semiBold" style={[styles.text, style]} {...textProps}>
         {children}
       </ClText>
