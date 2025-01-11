@@ -45,7 +45,12 @@ export default function RootLayout() {
   useEffect(() => {
     if (!isInitializing) {
       SplashScreen.hideAsync().then(() => {
-        if (hasUser) router.replace('/(main)/user/dashboard-test')
+        if (hasUser) {
+          if (router.canDismiss()) router.dismissAll()
+          router.replace('/(main)/user/dashboard-test')
+        } else {
+          router.replace('/')
+        }
       })
     }
   }, [isInitializing, hasUser])
