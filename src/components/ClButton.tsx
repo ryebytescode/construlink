@@ -115,7 +115,16 @@ export function ClButton(props: ClTextButtonProps) {
         <ActivityIndicator size={Sizes.icon.md} color={colors.white} />
       ) : (
         <View style={styles.contents}>
-          {icon && <ClIcon {...icon} style={[styles.icon, iconBaseStyles]} />}
+          {icon && (
+            <ClIcon
+              {...icon}
+              style={[
+                styles.icon,
+                iconBaseStyles,
+                disabled && styles.textVariantDisabled,
+              ]}
+            />
+          )}
           <ClText
             weight="medium"
             style={[
