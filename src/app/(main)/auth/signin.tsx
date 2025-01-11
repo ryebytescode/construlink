@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { router } from 'expo-router'
 import React, { type MouseEvent, useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import type { GestureResponderEvent } from 'react-native'
+import { type GestureResponderEvent, View } from 'react-native'
 
 const defaultValues: SignUpFields = {
   email: '',
@@ -55,7 +55,7 @@ export default function EmailPhoneAuthScreen() {
   }
 
   return (
-    <ClPageView id="signin" title="Sign in" scrollable>
+    <ClPageView id="signin" title="Sign in" contentContainerStyle={{ flex: 1 }}>
       <ClButton
         icon={
           isEmailMode
@@ -102,8 +102,12 @@ export default function EmailPhoneAuthScreen() {
       <ClButton
         text="Next"
         onPress={handleSubmit(onSubmit)}
-        bodyStyle={{ marginTop: Spacing[4] }}
+        bodyStyle={{ marginVertical: Spacing[4] }}
       />
+      <View style={{ alignItems: 'center' }}>
+        <ClLinkText href="/">Forgot password?</ClLinkText>
+      </View>
+      <View style={{ flex: 1 }} />
       <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
         Don't have an account?{' '}
         <ClLinkText href="/" onPress={handleGoToSignUp}>
