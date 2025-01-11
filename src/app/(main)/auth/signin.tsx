@@ -44,11 +44,11 @@ export default function EmailPhoneAuthScreen() {
       if (isEmailMode) {
         await auth().signInWithEmailAndPassword(data.email!, data.password!)
       } else {
-        await auth().signInWithPhoneNumber(data.phone!)
+        const phone = `'+63${data.phone!.slice(1, data.phone!.length)}`
+        await auth().signInWithPhoneNumber(phone, true)
       }
     } catch (error) {
       const errorCode = (error as FirebaseError).code
-
       if (errorCode === 'auth/invalid-credential') {
         Alert.alert(
           'Sign in Failed',
@@ -89,8 +89,9 @@ export default function EmailPhoneAuthScreen() {
   }, [inputMode])
 
   return (
-    <ClPageView id="signin" title="Sign in" contentContainerStyle={{ flex: 1 }}>
-      <ClButton
+    <>
+      <ClPageView id="signin" title="Sign in" contentContainerStyle={{ flex: 1 }}>
+        {/* <ClButton
         icon={
           isEmailMode
             ? { set: IconSet.MaterialCommunityIcons, name: 'cellphone' }
@@ -99,57 +100,58 @@ export default function EmailPhoneAuthScreen() {
         variant="outline"
         text={`Use ${isEmailMode ? 'phone number' : 'email'}`}
         onPress={handleToggleInputMode}
-      />
-      {isEmailMode ? (
-        <>
+      /> */}
+        {isEmailMode ? (
+          <>
+            <ControlledTextInput
+              control={control}
+              name="email"
+              textInputOptions={{
+                label: 'Email',
+                placeholder: 'juandelacruz@yahoo.com',
+                inputMode: 'email',
+              }}
+            />
+            <ControlledTextInput
+              control={control}
+              name="password"
+              textInputOptions={{
+                label: 'Password',
+                placeholder: '********',
+                secureTextEntry: true,
+                passwordMode: true,
+              }}
+            />
+          </>
+        ) : (
           <ControlledTextInput
             control={control}
-            name="email"
+            name="phone"
             textInputOptions={{
-              label: 'Email',
-              placeholder: 'juandelacruz@yahoo.com',
-              inputMode: 'email',
+              label: 'Phone',
+              placeholder: '0912 345 6789',
+              inputMode: 'numeric',
+              maxLength: 11,
             }}
           />
-          <ControlledTextInput
-            control={control}
-            name="password"
-            textInputOptions={{
-              label: 'Password',
-              placeholder: '********',
-              secureTextEntry: true,
-              passwordMode: true,
-            }}
-          />
-        </>
-      ) : (
-        <ControlledTextInput
-          control={control}
-          name="phone"
-          textInputOptions={{
-            label: 'Phone',
-            placeholder: '0912 345 6789',
-            inputMode: 'numeric',
-            maxLength: 11,
-          }}
+        )}
+        <ClButton
+          text={isEmailMode ? 'Sign in' : 'Send OTP'}
+          onPress={handleSubmit(onSubmit)}
+          bodyStyle={{ marginVertical: Spacing[4] }}
         />
-      )}
-      <ClButton
-        text={isEmailMode ? 'Sign in' : 'Send OTP'}
-        onPress={handleSubmit(onSubmit)}
-        bodyStyle={{ marginVertical: Spacing[4] }}
-      />
-      <View style={{ alignItems: 'center' }}>
-        <ClLinkText href="/">Forgot password?</ClLinkText>
-      </View>
-      <View style={{ flex: 1 }} />
-      <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
-        Don't have an account?{' '}
-        <ClLinkText href="/" onPress={handleGoToSignUp}>
-          Create one
-        </ClLinkText>
-      </ClText>
+        <View style={{ alignItems: 'center' }}>
+          <ClLinkText href="/">Forgot password?</ClLinkText>
+        </View>
+        <View style={{ flex: 1 }} />
+        <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
+          Don't have an account?{' '}
+          <ClLinkText href="/" onPress={handleGoToSignUp}>
+            Create one
+          </ClLinkText>
+        </ClText>
+      </ClPageView>
       <ClSpinner ref={spinnerRef} transluscent />
-    </ClPageView>
+    </>
   )
 }
