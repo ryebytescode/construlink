@@ -8,7 +8,8 @@ interface SignUpFields {
 }
 
 interface SignInFields {
-  email: string
-  phone: string
-  password: string
+  email?: string
+  phone?: string
+  password?: string
+  mode: 'email' | 'phone'
 }
