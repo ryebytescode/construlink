@@ -76,3 +76,10 @@ export const SignInSchema: ZodType<SignInFields> = z.discriminatedUnion(
     }),
   ]
 )
+
+export const ForgotPasswordSchema: ZodType<ForgotPasswordField> = z.object({
+  email: z
+    .string()
+    .min(1, 'Required')
+    .regex(patterns.email, 'Invalid email format'),
+})
