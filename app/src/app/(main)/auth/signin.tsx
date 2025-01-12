@@ -23,7 +23,7 @@ const defaultValues: SignInFields = {
   mode: 'email',
 }
 
-export default function EmailPhoneAuthScreen() {
+export default function SignInScreen() {
   const [inputMode, setInputMode] = useState<SignInFields['mode']>(
     defaultValues.mode
   )
