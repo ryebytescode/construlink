@@ -10,7 +10,7 @@ import { router } from 'expo-router'
 import React from 'react'
 import { View } from 'react-native'
 
-export default function EmailPhoneAuthScreen() {
+export default function ResetDoneScreen() {
   const styles = useStyles()
 
   return (
