@@ -17,3 +17,8 @@ interface SignInFields {
 interface ForgotPasswordField {
   email: string
 }
+
+interface ResetPasswordFields {
+  newPassword: string
+  confirmPassword: string
+}
