@@ -93,7 +93,6 @@ export function ClTabBar({
     (index) => index === state.index
   )
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   const computeTabDim = useCallback((e: LayoutChangeEvent) => {
     const layout = e.nativeEvent.layout
 

@@ -54,7 +54,6 @@ export const ClAlert = forwardRef<ClAlertHandleProps, ClAlertProps>(
       state: props.state ?? AlertState.SUCCESS,
     })
     const [isVisible, setIsVisible] = useState(props.visible ?? false)
-    // biome-ignore lint/style/noNonNullAssertion:
     const styles = useStyles({ state: _options.state! })
 
     useImperativeHandle(ref, () => ({
@@ -78,7 +77,6 @@ export const ClAlert = forwardRef<ClAlertHandleProps, ClAlertProps>(
         <View style={styles.modalWrapper}>
           <View style={styles.iconWrapper}>
             <ClIcon
-              // biome-ignore lint/style/noNonNullAssertion:
               {...icons[_options.state!]}
               color={styles.icon.color}
               size={styles.icon.fontSize}

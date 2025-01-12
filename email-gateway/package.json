@@ -1,0 +1,6 @@
+{
+  "name": "@construlink/email-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "yarn@4.6.0"
+}
