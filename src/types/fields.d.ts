@@ -13,3 +13,7 @@ interface SignInFields {
   password?: string
   mode: 'email' | 'phone'
 }
+
+interface ForgotPasswordField {
+  email: string
+}
