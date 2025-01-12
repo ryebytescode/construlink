@@ -15,7 +15,10 @@ import React, { type MouseEvent, useRef } from 'react'
 import { type GestureResponderEvent, View } from 'react-native'
 
 export default function EmailPhoneAuthScreen() {
-  const { email } = useLocalSearchParams<{ email?: string }>()
+  const { email, forReset } = useLocalSearchParams<{
+    email?: string
+    forReset?: string
+  }>()
 
   const styles = useStyles()
   const spinnerRef = useRef<ClSpinnerHandleProps>(null)
@@ -51,7 +54,7 @@ export default function EmailPhoneAuthScreen() {
             Check your inbox
           </ClText>
           <ClText dim style={{ textAlign: 'center' }}>
-            We sent a reset password email to{' '}
+            We sent a {forReset ? 'reset password' : 'verification'} email to{' '}
             <ClText weight="semiBold">{email}</ClText>.
           </ClText>
         </View>
@@ -68,7 +71,7 @@ export default function EmailPhoneAuthScreen() {
             onPress={handleGoBack}
             textProps={{ type: 'helper' }}
           >
-            try again
+            {forReset ? 'try again' : 'resend verification'}
           </ClLinkText>
         </ClText>
       </ClPageView>
