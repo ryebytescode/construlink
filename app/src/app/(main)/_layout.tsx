@@ -31,6 +31,10 @@ export default function MainLayout() {
         options={{ headerTitle: () => null }}
       />
       <Stack.Screen
+        name="auth/reset-done"
+        options={{ headerTitle: () => null }}
+      />
+      <Stack.Screen
         name="user/dashboard-test"
         options={{ headerTitle: () => null }}
       />
