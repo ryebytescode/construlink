@@ -57,7 +57,7 @@ export default function EmailPhoneAuthScreen() {
 
   return (
     <ClPageView id="signup" title="Create an account" scrollable>
-      <ClButton
+      {/* <ClButton
         icon={
           isEmailMode
             ? { set: IconSet.MaterialCommunityIcons, name: 'cellphone' }
@@ -66,7 +66,7 @@ export default function EmailPhoneAuthScreen() {
         variant="outline"
         text={`Use ${isEmailMode ? 'phone number' : 'email'}`}
         onPress={handleToggleInputMode}
-      />
+      /> */}
       <View style={{ flexDirection: 'row', gap: Spacing[4] }}>
         <ControlledTextInput
           control={control}
