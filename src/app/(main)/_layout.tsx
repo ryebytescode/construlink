@@ -19,6 +19,14 @@ export default function MainLayout() {
       <Stack.Screen name="auth/signin" options={{ headerTitle: () => null }} />
       <Stack.Screen name="auth/signup" options={{ headerTitle: () => null }} />
       <Stack.Screen
+        name="auth/forgot-password"
+        options={{ headerTitle: () => null }}
+      />
+      <Stack.Screen
+        name="auth/email-sent"
+        options={{ headerTitle: () => null }}
+      />
+      <Stack.Screen
         name="user/dashboard-test"
         options={{ headerTitle: () => null }}
       />
