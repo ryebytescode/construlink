@@ -90,7 +90,11 @@ export default function EmailPhoneAuthScreen() {
 
   return (
     <>
-      <ClPageView id="signin" title="Sign in" contentContainerStyle={{ flex: 1 }}>
+      <ClPageView
+        id="signin"
+        title="Sign in"
+        contentContainerStyle={{ flex: 1 }}
+      >
         {/* <ClButton
         icon={
           isEmailMode
@@ -141,10 +145,10 @@ export default function EmailPhoneAuthScreen() {
           bodyStyle={{ marginVertical: Spacing[4] }}
         />
         <View style={{ alignItems: 'center' }}>
-          <ClLinkText href="/">Forgot password?</ClLinkText>
+          <ClLinkText href="/auth/forgot-password">Forgot password?</ClLinkText>
         </View>
         <View style={{ flex: 1 }} />
-        <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
+        <ClText style={{ textAlign: 'center' }}>
           Don't have an account?{' '}
           <ClLinkText href="/" onPress={handleGoToSignUp}>
             Create one
