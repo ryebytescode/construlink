@@ -12,7 +12,7 @@ import React, { useEffect, useRef } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { Alert } from 'react-native'
 
-export default function EmailPhoneAuthScreen() {
+export default function ResetPasswordScreen() {
   const { control, handleSubmit } = useForm<ResetPasswordFields>({
     defaultValues: { confirmPassword: '', newPassword: '' },
     resolver: zodResolver(ResetPasswordSchema),
