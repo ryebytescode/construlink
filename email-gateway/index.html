@@ -37,9 +37,17 @@
         <script>
         const urlParams = new URLSearchParams(window.location.search)
         const mode = urlParams.get('mode')
+        const code = urlParams.get('oobCode')
+        let path = ''
         
-        if (mode === 'resetPassword') {
-            window.location.replace(`construlink://auth/reset-password?code=${urlParams.get('oobCode')}`)
+        if (mode && code) {
+            if (mode === 'resetPassword') {
+                path = 'auth/reset-password'
+            } else if (mode === 'verifyEmail') {
+                path = 'auth/verification'
+            }
+
+            window.location.replace(`construlink://${path}?code=${code}`)
         }
     </script>
     </body>
