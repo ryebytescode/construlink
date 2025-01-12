@@ -1,4 +1,4 @@
-import { SignInSchema, SignUpSchema } from '../schemas'
+import { ResetPasswordSchema, SignInSchema, SignUpSchema } from '../schemas'
 
 test('Sign up schema (using email)', () => {
   const testValues: SignUpFields = {
@@ -49,5 +49,25 @@ test('Sign in schema (using phone)', () => {
   }
 
   const safe = SignInSchema.safeParse(testValues)
+  expect(safe.success).toStrictEqual(true)
+})
+
+test('Reset password (different)', () => {
+  const testValues: ResetPasswordFields = {
+    newPassword: 'Johndoe.12345',
+    confirmPassword: 'johndoe.12345',
+  }
+
+  const safe = ResetPasswordSchema.safeParse(testValues)
+  expect(safe.success).toStrictEqual(false)
+})
+
+test('Reset password (the same)', () => {
+  const testValues: ResetPasswordFields = {
+    newPassword: 'Johndoe.12345',
+    confirmPassword: 'Johndoe.12345',
+  }
+
+  const safe = ResetPasswordSchema.safeParse(testValues)
   expect(safe.success).toStrictEqual(true)
 })
