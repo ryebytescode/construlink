@@ -1,17 +1,19 @@
 import { ClButton } from '@/components/ClButton'
 import { ClLinkText } from '@/components/ClLinkText'
 import { ClPageView } from '@/components/ClPageView'
+import { ClSpinner, type ClSpinnerHandleProps } from '@/components/ClSpinner'
 import { ClText } from '@/components/ClText'
 import { ControlledTextInput } from '@/components/controlled/ControlledTextInput'
 import { SignUpSchema } from '@/lib/schemas'
 import { useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
-import { IconSet } from '@/types/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
+import auth from '@react-native-firebase/auth'
 import { router } from 'expo-router'
-import React, { type MouseEvent, useState } from 'react'
+import type { FirebaseError } from 'firebase/app'
+import React, { type MouseEvent, useRef, useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import { type GestureResponderEvent, View } from 'react-native'
+import { Alert, type GestureResponderEvent, View } from 'react-native'
 
 const defaultValues: SignUpFields = {
   email: '',
@@ -22,7 +24,7 @@ const defaultValues: SignUpFields = {
   mode: 'email',
 }
 
-export default function EmailPhoneAuthScreen() {
+export default function SignUpScreen() {
   const [inputMode, setInputMode] = useState<SignUpFields['mode']>(
     defaultValues.mode
   )
@@ -37,7 +39,48 @@ export default function EmailPhoneAuthScreen() {
   const setRole = useAuthStore((state) => state.setRole)
   const isEmailMode = inputMode === 'email'
 
-  const onSubmit: SubmitHandler<SignUpFields> = async (data) => {}
+  const spinnerRef = useRef<ClSpinnerHandleProps>(null)
+
+  const onSubmit: SubmitHandler<SignUpFields> = async (data) => {
+    spinnerRef.current?.show()
+
+    try {
+      if (isEmailMode) {
+        await auth().createUserWithEmailAndPassword(data.email!, data.password!)
+        await auth().currentUser?.updateProfile({
+          displayName: `${data.firstName} ${data.lastName}`,
+        })
+        await auth().currentUser?.sendEmailVerification()
+        router.push(`/auth/email-sent?email=${data.email!}`)
+      }
+    } catch (error) {
+      const errorCode = (error as FirebaseError).code
+      console.log(errorCode)
+      let message = ''
+
+      if (errorCode === 'auth/email-already-in-use') {
+        message = 'The email you entered is already associated with an account.'
+      } else {
+        message = "We couldn't create your account due to a server error."
+      }
+
+      Alert.alert(
+        'Sign up failed',
+        message,
+        [
+          {
+            text: 'Retry',
+            isPreferred: true,
+          },
+        ],
+        {
+          cancelable: false,
+        }
+      )
+    } finally {
+      spinnerRef.current?.hide()
+    }
+  }
 
   function handleToggleInputMode() {
     setInputMode((prev) => (prev === 'email' ? 'phone' : 'email'))
@@ -56,8 +99,9 @@ export default function EmailPhoneAuthScreen() {
   }
 
   return (
-    <ClPageView id="signup" title="Create an account" scrollable>
-      {/* <ClButton
+    <>
+      <ClPageView id="signup" title="Create an account" scrollable>
+        {/* <ClButton
         icon={
           isEmailMode
             ? { set: IconSet.MaterialCommunityIcons, name: 'cellphone' }
@@ -67,73 +111,76 @@ export default function EmailPhoneAuthScreen() {
         text={`Use ${isEmailMode ? 'phone number' : 'email'}`}
         onPress={handleToggleInputMode}
       /> */}
-      <View style={{ flexDirection: 'row', gap: Spacing[4] }}>
-        <ControlledTextInput
-          control={control}
-          name="firstName"
-          textInputOptions={{
-            label: 'First name',
-            placeholder: 'Juan',
-          }}
-          style={{ flex: 1 }}
-        />
-        <ControlledTextInput
-          control={control}
-          name="lastName"
-          textInputOptions={{
-            label: 'Last name',
-            placeholder: 'dela Cruz',
-          }}
-          style={{ flex: 1 }}
-        />
-      </View>
-      {isEmailMode ? (
-        <>
+        <View style={{ flexDirection: 'row', gap: Spacing[4] }}>
           <ControlledTextInput
             control={control}
-            name="email"
+            name="firstName"
             textInputOptions={{
-              label: 'Email',
-              placeholder: 'juandelacruz@yahoo.com',
-              inputMode: 'email',
+              label: 'First name',
+              placeholder: 'Juan',
             }}
+            style={{ flex: 1 }}
           />
           <ControlledTextInput
             control={control}
-            name="password"
+            name="lastName"
             textInputOptions={{
-              label: 'Password',
-              placeholder: '********',
-              secureTextEntry: true,
-              passwordMode: true,
-              autoCapitalize: 'none',
-              autoComplete: 'off',
-              autoCorrect: false,
+              label: 'Last name',
+              placeholder: 'dela Cruz',
+            }}
+            style={{ flex: 1 }}
+          />
+        </View>
+        {isEmailMode ? (
+          <>
+            <ControlledTextInput
+              control={control}
+              name="email"
+              textInputOptions={{
+                label: 'Email',
+                placeholder: 'juandelacruz@yahoo.com',
+                inputMode: 'email',
+                autoCapitalize: 'none',
+              }}
+            />
+            <ControlledTextInput
+              control={control}
+              name="password"
+              textInputOptions={{
+                label: 'Password',
+                placeholder: '********',
+                secureTextEntry: true,
+                passwordMode: true,
+                autoCapitalize: 'none',
+                autoComplete: 'off',
+                autoCorrect: false,
+              }}
+            />
+          </>
+        ) : (
+          <ControlledTextInput
+            control={control}
+            name="phone"
+            textInputOptions={{
+              label: 'Phone',
+              placeholder: '0912 345 6789',
+              inputMode: 'numeric',
             }}
           />
-        </>
-      ) : (
-        <ControlledTextInput
-          control={control}
-          name="phone"
-          textInputOptions={{
-            label: 'Phone',
-            placeholder: '0912 345 6789',
-            inputMode: 'numeric',
-          }}
+        )}
+        <ClButton
+          text="Create my account"
+          onPress={handleSubmit(onSubmit)}
+          bodyStyle={{ marginTop: Spacing[4] }}
         />
-      )}
-      <ClButton
-        text="Next"
-        onPress={handleSubmit(onSubmit)}
-        bodyStyle={{ marginTop: Spacing[4] }}
-      />
-      <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
-        Already a member?{' '}
-        <ClLinkText href="/" onPress={handleGoToSignIn}>
-          Sign in
-        </ClLinkText>
-      </ClText>
-    </ClPageView>
+        <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
+          Already a member?{' '}
+          <ClLinkText href="/" onPress={handleGoToSignIn}>
+            Sign in
+          </ClLinkText>
+        </ClText>
+      </ClPageView>
+      <ClSpinner ref={spinnerRef} transluscent />
+    </>
   )
 }
