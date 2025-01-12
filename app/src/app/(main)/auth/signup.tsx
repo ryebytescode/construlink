@@ -50,7 +50,8 @@ export default function EmailPhoneAuthScreen() {
     event.preventDefault()
     setAuthMode('signin')
     setRole(null)
-    router.dismissAll()
+
+    if (router.canDismiss()) router.dismissAll()
     router.navigate('/auth/method-chooser')
   }
 
@@ -105,6 +106,9 @@ export default function EmailPhoneAuthScreen() {
               placeholder: '********',
               secureTextEntry: true,
               passwordMode: true,
+              autoCapitalize: 'none',
+              autoComplete: 'off',
+              autoCorrect: false,
             }}
           />
         </>

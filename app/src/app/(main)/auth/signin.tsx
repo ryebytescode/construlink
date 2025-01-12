@@ -80,7 +80,8 @@ export default function EmailPhoneAuthScreen() {
     event.preventDefault()
     setAuthMode('signup')
     setRole(null)
-    router.dismissAll()
+
+    if (router.canDismiss()) router.dismissAll()
     router.navigate('/auth/role-selection')
   }
 
@@ -124,6 +125,9 @@ export default function EmailPhoneAuthScreen() {
                 placeholder: '********',
                 secureTextEntry: true,
                 passwordMode: true,
+                autoCapitalize: 'none',
+                autoComplete: 'off',
+                autoCorrect: false,
               }}
             />
           </>
