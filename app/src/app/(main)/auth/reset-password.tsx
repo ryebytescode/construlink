@@ -25,7 +25,9 @@ export default function EmailPhoneAuthScreen() {
     spinnerRef.current?.show()
 
     try {
-      console.log('submitted')
+      await auth().confirmPasswordReset(code!, data.confirmPassword)
+      router.dismissAll()
+      router.replace('/auth/reset-done')
     } catch (error) {
       const errorCode = (error as FirebaseError).code
       console.log(errorCode)
@@ -78,6 +80,9 @@ export default function EmailPhoneAuthScreen() {
             placeholder: '********',
             secureTextEntry: true,
             passwordMode: true,
+            autoCapitalize: 'none',
+            autoComplete: 'off',
+            autoCorrect: false,
           }}
         />
         <ControlledTextInput
@@ -88,6 +93,9 @@ export default function EmailPhoneAuthScreen() {
             placeholder: '********',
             secureTextEntry: true,
             passwordMode: true,
+            autoCapitalize: 'none',
+            autoComplete: 'off',
+            autoCorrect: false,
           }}
         />
         <ClButton
