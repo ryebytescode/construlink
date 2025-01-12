@@ -51,7 +51,7 @@ export default function EmailPhoneAuthScreen() {
             Check your inbox
           </ClText>
           <ClText dim style={{ textAlign: 'center' }}>
-            Instructions have been sent to{' '}
+            We sent a reset password email to{' '}
             <ClText weight="semiBold">{email}</ClText>.
           </ClText>
         </View>
@@ -62,13 +62,13 @@ export default function EmailPhoneAuthScreen() {
         />
         <View style={{ flex: 1 }} />
         <ClText type="helper" style={{ textAlign: 'center' }}>
-          Did not receive the email? Check your spam filter, or{' '}
+          Haven't received the email? Check your spam folder, or{' '}
           <ClLinkText
             href="/"
             onPress={handleGoBack}
             textProps={{ type: 'helper' }}
           >
-            try another email address
+            try again
           </ClLinkText>
         </ClText>
       </ClPageView>
