@@ -6,6 +6,23 @@ const staticFields = {
   lastName: z.string().min(1, 'Required').regex(patterns.name, 'Invalid name'),
 }
 
+const passwordField = z
+  .string()
+  .min(8, 'Must be 8 characters long')
+  .regex(
+    patterns.password.oneUpperCase,
+    'Must contain at least one uppercase letter'
+  )
+  .regex(
+    patterns.password.oneLowerCase,
+    'Must contain at least one lowercase letter'
+  )
+  .regex(patterns.password.oneDigit, 'Must contain at least one number')
+  .regex(
+    patterns.password.oneSpecialChar,
+    'Must contain at least one special character (.#?!@$%^&*-)'
+  )
+
 export const SignUpSchema: ZodType<SignUpFields> = z.discriminatedUnion(
   'mode',
   [
@@ -16,22 +33,7 @@ export const SignUpSchema: ZodType<SignUpFields> = z.discriminatedUnion(
         .string()
         .min(1, 'Required')
         .regex(patterns.email, 'Invalid email format'),
-      password: z
-        .string()
-        .min(8, 'Must be 8 characters long')
-        .regex(
-          patterns.password.oneUpperCase,
-          'Must contain at least one uppercase letter'
-        )
-        .regex(
-          patterns.password.oneLowerCase,
-          'Must contain at least one lowercase letter'
-        )
-        .regex(patterns.password.oneDigit, 'Must contain at least one number')
-        .regex(
-          patterns.password.oneSpecialChar,
-          'Must contain at least one special character (.#?!@$%^&*-)'
-        ),
+      password: passwordField,
       phone: z.string().optional(), // Phone is optional for email mode
     }),
     z.object({
@@ -83,3 +85,13 @@ export const ForgotPasswordSchema: ZodType<ForgotPasswordField> = z.object({
     .min(1, 'Required')
     .regex(patterns.email, 'Invalid email format'),
 })
+
+export const ResetPasswordSchema: ZodType<ResetPasswordFields> = z
+  .object({
+    newPassword: passwordField,
+    confirmPassword: passwordField,
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match.",
+    path: ['confirmPassword'],
+  })
