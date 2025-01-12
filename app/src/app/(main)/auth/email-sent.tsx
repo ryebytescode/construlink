@@ -9,12 +9,13 @@ import { resolveColor } from '@/helpers/resolveColor'
 import { Cl } from '@/lib/options'
 import { Spacing } from '@/theme'
 import { IconSet } from '@/types/icons'
+import auth from '@react-native-firebase/auth'
 import * as Linking from 'expo-linking'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import React, { type MouseEvent, useRef } from 'react'
-import { type GestureResponderEvent, View } from 'react-native'
+import { Alert, type GestureResponderEvent, View } from 'react-native'
 
-export default function EmailPhoneAuthScreen() {
+export default function EmailSentScreen() {
   const { email, forReset } = useLocalSearchParams<{
     email?: string
     forReset?: string
@@ -23,11 +24,29 @@ export default function EmailPhoneAuthScreen() {
   const styles = useStyles()
   const spinnerRef = useRef<ClSpinnerHandleProps>(null)
 
-  function handleGoBack(
+  async function handleRetry(
     event: MouseEvent<HTMLAnchorElement> | GestureResponderEvent
   ) {
     event.preventDefault()
-    router.back()
+
+    if (forReset) {
+      router.back()
+    } else {
+      spinnerRef.current?.show()
+      await auth().currentUser?.sendEmailVerification()
+
+      spinnerRef.current?.hide()
+      Alert.alert(
+        'Email verification sent!',
+        'We sent another verification email, please check your inbox.',
+        [
+          {
+            text: 'Ok, thanks!',
+            isPreferred: true,
+          },
+        ]
+      )
+    }
   }
 
   async function handleOpenEmailApp() {
@@ -68,7 +87,7 @@ export default function EmailPhoneAuthScreen() {
           Haven't received the email? Check your spam folder, or{' '}
           <ClLinkText
             href="/"
-            onPress={handleGoBack}
+            onPress={handleRetry}
             textProps={{ type: 'helper' }}
           >
             {forReset ? 'try again' : 'resend verification'}
