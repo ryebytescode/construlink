@@ -35,6 +35,14 @@ export default function MainLayout() {
         options={{ headerTitle: () => null }}
       />
       <Stack.Screen
+        name="auth/verification"
+        options={{ headerTitle: () => null }}
+      />
+      <Stack.Screen
+        name="auth/verification-done"
+        options={{ headerTitle: () => null }}
+      />
+      <Stack.Screen
         name="user/dashboard-test"
         options={{ headerTitle: () => null }}
       />
