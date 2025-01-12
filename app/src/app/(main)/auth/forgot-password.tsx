@@ -12,7 +12,7 @@ import React, { useRef } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { Alert } from 'react-native'
 
-export default function EmailPhoneAuthScreen() {
+export default function ForgotPasswordScreen() {
   const { control, handleSubmit } = useForm<ForgotPasswordField>({
     defaultValues: { email: '' },
     resolver: zodResolver(ForgotPasswordSchema),
@@ -25,7 +25,7 @@ export default function EmailPhoneAuthScreen() {
 
     try {
       await auth().sendPasswordResetEmail(data.email)
-      router.push(`/auth/email-sent?email=${data.email}`)
+      router.push(`/auth/email-sent?email=${data.email}&forReset=1`)
     } catch (error) {
       const errorCode = (error as FirebaseError).code
       console.log(errorCode)
