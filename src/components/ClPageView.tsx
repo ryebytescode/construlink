@@ -41,9 +41,7 @@ export const ClPageView = (props: ClPageViewProps) => {
               title
             )}
             {typeof subtitle === 'string' ? (
-              <ClText type="lead" dim>
-                {subtitle}
-              </ClText>
+              <ClText dim>{subtitle}</ClText>
             ) : (
               subtitle
             )}
