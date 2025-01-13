@@ -8,7 +8,7 @@
   "workspaces": ["app", "email-gateway"],
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "lefthook": "^1.10.1"
+    "lefthook": "^1.10.3"
   },
   "private": true,
   "packageManager": "yarn@4.6.0"
