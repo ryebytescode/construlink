@@ -8,6 +8,7 @@ export default function MainLayout() {
   return (
     <ClStack id="main">
       <Stack.Screen name="index" options={{ headerShown: false }} />
+
       <Stack.Screen
         name="auth/role-selection"
         options={{ headerTitle: () => null }}
@@ -42,6 +43,8 @@ export default function MainLayout() {
         name="auth/verification-done"
         options={{ headerTitle: () => null }}
       />
+
+      <Stack.Screen name="user/(tabs)" options={{ headerShown: false }} />
       <Stack.Screen
         name="user/dashboard-test"
         options={{ headerTitle: () => null }}
