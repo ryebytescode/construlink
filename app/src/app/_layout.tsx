@@ -47,7 +47,7 @@ export default function RootLayout() {
       SplashScreen.hideAsync().then(() => {
         if (hasUser) {
           if (router.canDismiss()) router.dismissAll()
-          router.replace('/(main)/user/dashboard-test')
+          router.replace('/user/home')
         } else {
           router.replace('/')
         }
