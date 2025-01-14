@@ -14,6 +14,7 @@ import type { FirebaseError } from 'firebase/app'
 import React, { type MouseEvent, useRef, useState } from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { Alert, type GestureResponderEvent, View } from 'react-native'
+import { useShallow } from 'zustand/react/shallow'
 
 const defaultValues: SignUpFields = {
   email: '',
@@ -35,8 +36,13 @@ export default function SignUpScreen() {
     },
     resolver: zodResolver(SignUpSchema),
   })
-  const setAuthMode = useAuthStore((state) => state.setMode)
-  const setRole = useAuthStore((state) => state.setRole)
+  const { setAuthMode, setRole, role } = useAuthStore(
+    useShallow((state) => ({
+      setAuthMode: state.setMode,
+      setRole: state.setRole,
+      role: state.role,
+    }))
+  )
   const isEmailMode = inputMode === 'email'
 
   const spinnerRef = useRef<ClSpinnerHandleProps>(null)
