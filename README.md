@@ -5,10 +5,12 @@
 ## Stack
 
 ### App
+
 - React Native (Expo)
 - Zustand
 - React Hook Form
 - Zod
 
 ### Backend
+
 - Firebase
