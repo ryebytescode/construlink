@@ -9,6 +9,7 @@ import { useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
 import { router } from 'expo-router'
 import type { FirebaseError } from 'firebase/app'
 import React, { type MouseEvent, useRef, useState } from 'react'
@@ -52,16 +53,25 @@ export default function SignUpScreen() {
 
     try {
       if (isEmailMode) {
-        await auth().createUserWithEmailAndPassword(data.email!, data.password!)
-        await auth().currentUser?.updateProfile({
+        const { user } = await auth().createUserWithEmailAndPassword(
+          data.email!,
+          data.password!
+        )
+
+        await user.updateProfile({
           displayName: `${data.firstName} ${data.lastName}`,
         })
+
+        await firestore()
+          .collection<User>('users')
+          .doc(user.uid)
+          .set({ role: role! })
+
         await auth().currentUser?.sendEmailVerification()
         router.push(`/auth/email-sent?email=${data.email!}`)
       }
     } catch (error) {
       const errorCode = (error as FirebaseError).code
-      console.log(errorCode)
       let message = ''
 
       if (errorCode === 'auth/email-already-in-use') {
