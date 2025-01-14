@@ -77,6 +77,8 @@ export default function SignUpScreen() {
           cancelable: false,
         }
       )
+
+      if (__DEV__) console.log(errorCode)
     } finally {
       spinnerRef.current?.hide()
     }
