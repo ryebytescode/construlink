@@ -7,7 +7,7 @@ import { useAppStore } from '@/stores/app'
 import { Palette } from '@/theme'
 import * as NavigationBar from 'expo-navigation-bar'
 import { NetworkStateType, useNetworkState } from 'expo-network'
-import { Slot, router } from 'expo-router'
+import { Slot, router, useSegments } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import * as SystemUI from 'expo-system-ui'
@@ -29,6 +29,7 @@ export default function RootLayout() {
   useRenderCount('RootLayout')
 
   const scheme = useScheme()
+  const segments = useSegments()
   const changeScheme = useAppStore((state) => state.changeScheme)
   const { refresh } = useRefresh()
   const { isInitializing, hasUser } = useFirebaseInitializer()
@@ -48,7 +49,7 @@ export default function RootLayout() {
         if (hasUser) {
           if (router.canDismiss()) router.dismissAll()
           router.replace('/user/home')
-        } else {
+        } else if (!hasUser && segments[0] === 'user') {
           router.replace('/')
         }
       })
