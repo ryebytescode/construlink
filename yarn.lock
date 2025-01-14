@@ -1269,6 +1269,7 @@ __metadata:
     "@hookform/resolvers": "npm:^3.10.0"
     "@react-native-firebase/app": "npm:^21.6.2"
     "@react-native-firebase/auth": "npm:^21.6.2"
+    "@react-native-firebase/firestore": "npm:^21.6.2"
     "@react-navigation/bottom-tabs": "npm:^7.2.0"
     "@react-navigation/native": "npm:^7.0.14"
     "@types/jest": "npm:^29.5.14"
@@ -2817,6 +2818,15 @@ __metadata:
     expo:
       optional: true
   checksum: 10c0/8f5e5162a33570c261504892a9b8ccfa5cb4b885c4b0af0c8894ca9d294649446a1cc0d1b6ec51a33d0c847a556a77714e63e9a85519fb4e4f24d7600082b928
+  languageName: node
+  linkType: hard
+
+"@react-native-firebase/firestore@npm:^21.6.2":
+  version: 21.6.2
+  resolution: "@react-native-firebase/firestore@npm:21.6.2"
+  peerDependencies:
+    "@react-native-firebase/app": 21.6.2
+  checksum: 10c0/0218159275f4fedc4ef71999334d2703ed7c09db3a970bcf54eeff001a9818d90302ae75cf264111d33524c0faf38bfe868ffde483202105848c42f19b76ca39
   languageName: node
   linkType: hard
 
