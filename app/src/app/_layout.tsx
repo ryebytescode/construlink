@@ -49,7 +49,7 @@ export default function RootLayout() {
         if (hasUser) {
           if (router.canDismiss()) router.dismissAll()
           router.replace('/user/home')
-        } else if (!hasUser && segments[0] === 'user') {
+        } else if (!hasUser && segments[1] === 'user') {
           router.replace('/')
         }
       })
