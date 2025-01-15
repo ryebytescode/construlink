@@ -2,6 +2,8 @@ import { ClSpinner } from '@/components/ClSpinner'
 import { useRefresh } from '@/hooks/useRefresh'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { useScheme } from '@/hooks/useScheme'
+import { Role } from '@/lib/constants'
+import { UserCollection } from '@/services/firestore'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { Palette } from '@/theme'
@@ -40,10 +42,12 @@ export default function RootLayout() {
   const scheme = useScheme()
   const segments = useSegments()
   const changeScheme = useAppStore((state) => state.changeScheme)
-  const { user, setUser } = useAuthStore(
+  const { user, role, setUser, setRole } = useAuthStore(
     useShallow((state) => ({
       user: state.user,
+      role: state.role,
       setUser: state.setUser,
+      setRole: state.setRole,
     }))
   )
   const { refresh } = useRefresh()
@@ -54,7 +58,12 @@ export default function RootLayout() {
     let unsubscribe: (() => void) | undefined = undefined
 
     async function initialize() {
-      unsubscribe = auth().onAuthStateChanged(setUser)
+      unsubscribe = auth().onAuthStateChanged(async (currentUser) => {
+        if (currentUser) {
+          setUser(currentUser)
+          setRole(await UserCollection.getRole(currentUser.uid))
+        }
+      })
 
       try {
         // Cache fonts
@@ -87,15 +96,17 @@ export default function RootLayout() {
   useEffect(() => {
     if (isReady) {
       SplashScreen.hideAsync().then(() => {
-        if (user) {
+        if (user && role) {
           if (router.canDismiss()) router.dismissAll()
-          router.replace('/user/home')
+          router.replace(
+            role === Role.EMPLOYER ? '/user/tradespeople' : '/user/jobs'
+          )
         } else if (!user && segments[1] === 'user') {
           router.replace('/')
         }
       })
     }
-  }, [isReady, user])
+  }, [isReady, user, role])
 
   if (networkState.type === NetworkStateType.NONE) {
     Alert.alert(
