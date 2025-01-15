@@ -31,7 +31,7 @@ export default function VerificationDoneScreen() {
       </View>
       <ClButton
         text="Continue"
-        onPress={() => router.replace('/user/dashboard-test')}
+        onPress={() => router.replace('/user/home')}
         bodyStyle={{ marginTop: Spacing[4] }}
       />
     </ClPageView>
