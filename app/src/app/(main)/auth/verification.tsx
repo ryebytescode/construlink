@@ -5,18 +5,22 @@ import { resolveColor } from '@/helpers/resolveColor'
 import auth from '@react-native-firebase/auth'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import type { FirebaseError } from 'firebase/app'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, Alert, View } from 'react-native'
 
 export default function VerificationScreen() {
   const styles = useStyles()
   const { code } = useLocalSearchParams<{ code?: string }>()
   const currentUser = auth().currentUser
+  const [isResending, setIsResending] = useState(false)
 
   useEffect(() => {
     async function checkCode() {
       try {
-        await auth().checkActionCode(code!)
+        await auth().applyActionCode(code!)
+
+        if (router.canDismiss()) router.dismissAll()
+        router.replace('/auth/verification-done')
       } catch (error) {
         const errorCode = (error as FirebaseError).code
         let message = ''
@@ -32,18 +36,22 @@ export default function VerificationScreen() {
         }
 
         Alert.alert('Verification failed', message, [
-          {
-            text: 'Resend verificaion',
-            isPreferred: true,
-            onPress: async () => {
-              await currentUser?.sendEmailVerification()
-            },
-          },
+          currentUser
+            ? {
+                text: 'Resend verification',
+                isPreferred: true,
+                onPress: async () => {
+                  setIsResending(true)
+                  await currentUser?.sendEmailVerification()
+                  router.replace(`/auth/email-sent?email=${currentUser?.email}`)
+                },
+              }
+            : {},
           {
             text: "I'll verify later",
             onPress: () => {
               if (currentUser) {
-                router.replace('/user/dashboard-test')
+                router.replace('/user/home')
               } else {
                 router.replace('/')
               }
@@ -68,10 +76,12 @@ export default function VerificationScreen() {
           size={styles.icon.fontSize}
         />
         <ClText type="h3" weight="bold">
-          Success!
+          Just wait a sec...
         </ClText>
         <ClText dim style={{ textAlign: 'center' }}>
-          Verifying your email address...
+          {isResending
+            ? 'Resending a new verification email'
+            : "We're verifying your email address"}
         </ClText>
       </View>
     </ClPageView>
@@ -85,7 +95,7 @@ const useStyles = createStyles(({ colors, spacing, sizes }) => ({
     marginTop: spacing[20],
   },
   icon: {
-    color: resolveColor(colors.states.success.base, colors.states.success[600]),
+    color: resolveColor(colors.accent[500], colors.brand[500]),
     fontSize: sizes.icon['3xl'],
   },
 }))
