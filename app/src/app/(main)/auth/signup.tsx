@@ -68,7 +68,7 @@ export default function SignUpScreen() {
           .set({ role: role! })
 
         await auth().currentUser?.sendEmailVerification()
-        router.push(`/auth/email-sent?email=${data.email!}`)
+        router.replace(`/auth/email-sent?email=${data.email!}`)
       }
     } catch (error) {
       const errorCode = (error as FirebaseError).code
