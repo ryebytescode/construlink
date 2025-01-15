@@ -86,18 +86,18 @@ export function ClTabBar({
   const styles = useStyles()
   const highlighterDim = useSharedValue({ width: 0, height: 0 })
   const highlighterX = useSharedValue(0)
-  const visibleTabIndices = options
-    .map(({ shown }, index) => (shown ? index : undefined))
-    .filter((index) => index !== undefined)
-  const selectedVisibleTabIndex = visibleTabIndices.findIndex(
-    (index) => index === state.index
-  )
+  // const visibleTabIndices = options
+  //   .map(({ shown }, index) => (shown ? index : undefined))
+  //   .filter((index) => index !== undefined)
+  // const selectedVisibleTabIndex = visibleTabIndices.findIndex(
+  //   (index) => index === state.index
+  // )
 
   const computeTabDim = useCallback((e: LayoutChangeEvent) => {
     const layout = e.nativeEvent.layout
 
     highlighterDim.value = {
-      width: Math.ceil(layout.width / visibleTabIndices.length),
+      width: Math.ceil(layout.width / state.routes.length),
       height: Math.ceil(layout.height),
     }
   }, [])
@@ -114,14 +114,11 @@ export function ClTabBar({
 
   // Trigger sliding animation
   useEffect(() => {
-    highlighterX.value = withSpring(
-      highlighterDim.value.width * selectedVisibleTabIndex,
-      {
-        duration: 800,
-        stiffness: 20,
-      }
-    )
-  }, [selectedVisibleTabIndex])
+    highlighterX.value = withSpring(highlighterDim.value.width * state.index, {
+      duration: 800,
+      stiffness: 20,
+    })
+  }, [state.index])
 
   return (
     <Animated.View

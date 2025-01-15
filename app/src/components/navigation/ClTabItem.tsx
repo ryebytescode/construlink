@@ -98,7 +98,7 @@ const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: spacing[3],
+    paddingVertical: spacing[2],
     gap: spacing[1],
   },
   label: {
