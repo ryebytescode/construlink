@@ -10,6 +10,7 @@ export namespace UserCollection {
   }
 
   export async function getRole(uid: string) {
-    return await firestore().collection<User>('users').doc(uid).get()
+    const result = await firestore().collection<User>('users').doc(uid).get()
+    return result.exists ? result.data()!.role : null
   }
 }
