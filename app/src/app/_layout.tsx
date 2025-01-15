@@ -1,20 +1,29 @@
 import { ClSpinner } from '@/components/ClSpinner'
-import { useFirebaseInitializer } from '@/hooks/useFirebaseInitializer'
 import { useRefresh } from '@/hooks/useRefresh'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { useScheme } from '@/hooks/useScheme'
 import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
 import { Palette } from '@/theme'
+import {
+  AntDesign,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from '@expo/vector-icons'
+import auth from '@react-native-firebase/auth'
+import * as Font from 'expo-font'
 import * as NavigationBar from 'expo-navigation-bar'
 import { NetworkStateType, useNetworkState } from 'expo-network'
 import { Slot, router, useSegments } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import * as SystemUI from 'expo-system-ui'
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { useShallow } from 'zustand/react/shallow'
 
 export { ErrorBoundary } from 'expo-router'
 
@@ -31,9 +40,41 @@ export default function RootLayout() {
   const scheme = useScheme()
   const segments = useSegments()
   const changeScheme = useAppStore((state) => state.changeScheme)
+  const { user, setUser } = useAuthStore(
+    useShallow((state) => ({
+      user: state.user,
+      setUser: state.setUser,
+    }))
+  )
   const { refresh } = useRefresh()
-  const { isInitializing, hasUser } = useFirebaseInitializer()
   const networkState = useNetworkState()
+  const [isReady, setIsReady] = useState(false)
+
+  useEffect(() => {
+    let unsubscribe: (() => void) | undefined = undefined
+
+    async function initialize() {
+      unsubscribe = auth().onAuthStateChanged(setUser)
+
+      try {
+        // Cache fonts
+        await Font.loadAsync({
+          ...MaterialIcons.font,
+          ...MaterialCommunityIcons.font,
+          ...Ionicons.font,
+          ...AntDesign.font,
+        })
+      } catch (error) {
+        if (__DEV__) console.warn(error)
+      } finally {
+        setIsReady(true)
+      }
+    }
+
+    initialize()
+
+    return unsubscribe
+  }, [])
 
   useEffect(() => {
     changeScheme(scheme)
@@ -44,17 +85,17 @@ export default function RootLayout() {
   }, [scheme, changeScheme])
 
   useEffect(() => {
-    if (!isInitializing) {
+    if (isReady) {
       SplashScreen.hideAsync().then(() => {
-        if (hasUser) {
+        if (user) {
           if (router.canDismiss()) router.dismissAll()
           router.replace('/user/home')
-        } else if (!hasUser && segments[1] === 'user') {
+        } else if (!user && segments[1] === 'user') {
           router.replace('/')
         }
       })
     }
-  }, [isInitializing, hasUser])
+  }, [isReady, user])
 
   if (networkState.type === NetworkStateType.NONE) {
     Alert.alert(
@@ -73,7 +114,7 @@ export default function RootLayout() {
     )
   }
 
-  if (isInitializing) return <ClSpinner />
+  if (!isReady) return <ClSpinner />
 
   return (
     <Fragment>
