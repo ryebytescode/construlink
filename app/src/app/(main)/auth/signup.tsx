@@ -92,7 +92,7 @@ export default function SignUpScreen() {
       )
 
       if (__DEV__) console.log(errorCode)
-    } finally {
+
       spinnerRef.current?.hide()
     }
   }
