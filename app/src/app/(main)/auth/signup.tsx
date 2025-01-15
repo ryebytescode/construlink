@@ -5,11 +5,11 @@ import { ClSpinner, type ClSpinnerHandleProps } from '@/components/ClSpinner'
 import { ClText } from '@/components/ClText'
 import { ControlledTextInput } from '@/components/controlled/ControlledTextInput'
 import { SignUpSchema } from '@/lib/schemas'
+import { UserCollection } from '@/services/firestore'
 import { useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
 import { zodResolver } from '@hookform/resolvers/zod'
 import auth from '@react-native-firebase/auth'
-import firestore from '@react-native-firebase/firestore'
 import { router } from 'expo-router'
 import type { FirebaseError } from 'firebase/app'
 import React, { type MouseEvent, useRef, useState } from 'react'
@@ -62,10 +62,7 @@ export default function SignUpScreen() {
           displayName: `${data.firstName} ${data.lastName}`,
         })
 
-        await firestore()
-          .collection<User>('users')
-          .doc(user.uid)
-          .set({ role: role! })
+        UserCollection.setRole(user.uid, role!)
 
         await auth().currentUser?.sendEmailVerification()
         router.replace(`/auth/email-sent?email=${data.email!}`)
