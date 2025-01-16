@@ -21,8 +21,9 @@ import { Slot, router, useSegments } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import * as SystemUI from 'expo-system-ui'
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/react/shallow'
@@ -128,11 +129,11 @@ export default function RootLayout() {
   if (!isReady) return <ClSpinner />
 
   return (
-    <Fragment>
+    <GestureHandlerRootView>
       <SafeAreaProvider>
         <Slot />
       </SafeAreaProvider>
       <StatusBar style="auto" />
-    </Fragment>
+    </GestureHandlerRootView>
   )
 }
