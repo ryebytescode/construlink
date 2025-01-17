@@ -1161,6 +1161,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@backpackapp-io/react-native-toast@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "@backpackapp-io/react-native-toast@npm:0.13.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: ">=2.2.1"
+    react-native-reanimated: ">=2.8.0"
+    react-native-safe-area-context: ">=4.2.4"
+  checksum: 10c0/a563aa3337ad12405fdd4392e4a576b8828df50fcd34317020a192d2b75159b19822cd9ddcd20b4d3dcf66b336ec5034022baabe2f4ed5db8fda3020a2c280f7
+  languageName: node
+  linkType: hard
+
 "@bcoe/v8-coverage@npm:^0.2.3":
   version: 0.2.3
   resolution: "@bcoe/v8-coverage@npm:0.2.3"
@@ -1264,6 +1277,7 @@ __metadata:
   resolution: "@construlink/app@workspace:app"
   dependencies:
     "@babel/core": "npm:^7.26.0"
+    "@backpackapp-io/react-native-toast": "npm:^0.13.0"
     "@expo-google-fonts/poppins": "npm:^0.2.3"
     "@expo/vector-icons": "npm:^14.0.4"
     "@gorhom/bottom-sheet": "npm:^5.0.6"
@@ -1283,6 +1297,8 @@ __metadata:
     expo-font: "npm:~13.0.3"
     expo-haptics: "npm:~14.0.1"
     expo-image: "npm:~2.0.4"
+    expo-image-manipulator: "npm:~13.0.6"
+    expo-image-picker: "npm:~16.0.4"
     expo-linking: "npm:~7.0.4"
     expo-navigation-bar: "npm:~4.0.7"
     expo-network: "npm:~7.0.5"
@@ -5491,6 +5507,37 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 10c0/31a77f7fb2f9a3db586ca34e9fb80b9b03f29ed93aa045eeba3facec31bd71537c7a10c10c90b54cadec2334aad44df4a3cc5f99af1ca33f63f349b5547fdb43
+  languageName: node
+  linkType: hard
+
+"expo-image-loader@npm:~5.0.0":
+  version: 5.0.0
+  resolution: "expo-image-loader@npm:5.0.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/d9982e94c0437967d61b231ab12b32a47e3f96ceee0674b243621d87a9eedbedbc6e6879962ba7fe032c18dbc801cbb54034b56d1426e847dc7b9a8a29bfc740
+  languageName: node
+  linkType: hard
+
+"expo-image-manipulator@npm:~13.0.6":
+  version: 13.0.6
+  resolution: "expo-image-manipulator@npm:13.0.6"
+  dependencies:
+    expo-image-loader: "npm:~5.0.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/15bf6e709b5434687abb57bd60b1a5021c8d489c23a3fcf4146837b8d4534fe8766c6344eca11f4f47490788046426933114b8a82dc34928aacf2149c9a25d28
+  languageName: node
+  linkType: hard
+
+"expo-image-picker@npm:~16.0.4":
+  version: 16.0.4
+  resolution: "expo-image-picker@npm:16.0.4"
+  dependencies:
+    expo-image-loader: "npm:~5.0.0"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/8399ece13c07339643e15626ff8c12519af4d5096f4b6a2c9f801d4ed1a6db34827c027983a1e1040f995960c00dca769dd008bb83d721474dcbe0c9a8ed6e6e
   languageName: node
   linkType: hard
 

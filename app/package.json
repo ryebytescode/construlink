@@ -20,6 +20,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@backpackapp-io/react-native-toast": "^0.13.0",
     "@expo-google-fonts/poppins": "^0.2.3",
     "@expo/vector-icons": "^14.0.4",
     "@gorhom/bottom-sheet": "^5.0.6",
@@ -36,6 +37,8 @@
     "expo-font": "~13.0.3",
     "expo-haptics": "~14.0.1",
     "expo-image": "~2.0.4",
+    "expo-image-manipulator": "~13.0.6",
+    "expo-image-picker": "~16.0.4",
     "expo-linking": "~7.0.4",
     "expo-navigation-bar": "~4.0.7",
     "expo-network": "~7.0.5",
