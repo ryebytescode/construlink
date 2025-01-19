@@ -1282,11 +1282,15 @@ __metadata:
     "@expo/vector-icons": "npm:^14.0.4"
     "@gorhom/bottom-sheet": "npm:^5.0.6"
     "@hookform/resolvers": "npm:^3.10.0"
+    "@react-native-async-storage/async-storage": "npm:1.23.1"
     "@react-native-firebase/app": "npm:^21.6.2"
     "@react-native-firebase/auth": "npm:^21.6.2"
     "@react-native-firebase/firestore": "npm:^21.6.2"
     "@react-navigation/bottom-tabs": "npm:^7.2.0"
     "@react-navigation/native": "npm:^7.0.14"
+    "@tanstack/query-async-storage-persister": "npm:^5.64.2"
+    "@tanstack/react-query": "npm:^5.64.2"
+    "@tanstack/react-query-persist-client": "npm:^5.64.2"
     "@types/jest": "npm:^29.5.14"
     "@types/react": "npm:~18.3.18"
     "@types/react-test-renderer": "npm:^18.3.1"
@@ -2841,6 +2845,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-async-storage/async-storage@npm:1.23.1":
+  version: 1.23.1
+  resolution: "@react-native-async-storage/async-storage@npm:1.23.1"
+  dependencies:
+    merge-options: "npm:^3.0.4"
+  peerDependencies:
+    react-native: ^0.0.0-0 || >=0.60 <1.0
+  checksum: 10c0/6cfdcab91f0e04f80f4aa91397eb4aedcd1124bf2a997cb730c7f2c70dad75d2aa0ca0f41576ed4e34544a1f79e090169f566366c32a89a41b74bf74bea1c1db
+  languageName: node
+  linkType: hard
+
 "@react-native-firebase/app@npm:^21.6.2":
   version: 21.6.2
   resolution: "@react-native-firebase/app@npm:21.6.2"
@@ -3296,6 +3311,54 @@ __metadata:
   dependencies:
     "@sinonjs/commons": "npm:^3.0.0"
   checksum: 10c0/2e2fb6cc57f227912814085b7b01fede050cd4746ea8d49a1e44d5a0e56a804663b0340ae2f11af7559ea9bf4d087a11f2f646197a660ea3cb04e19efc04aa63
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-async-storage-persister@npm:^5.64.2":
+  version: 5.64.2
+  resolution: "@tanstack/query-async-storage-persister@npm:5.64.2"
+  dependencies:
+    "@tanstack/query-persist-client-core": "npm:5.64.2"
+  checksum: 10c0/3869cf80a364ccd4cd018b3c063de0be521c4cc5a51a9c732fc447a73969afd5ae8d09f57e119df61da2a5dd43e88fa82f6d9a93b9b8c2793c7bbb30290ff085
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-core@npm:5.64.2":
+  version: 5.64.2
+  resolution: "@tanstack/query-core@npm:5.64.2"
+  checksum: 10c0/96dfaa334d2e3aeb3bcd55a3b8b3f3b4f7283b435d90681302ca6c08d0a597a5745c3c790d0242908266af6188efe804aac3c82ca8ed3fd7cd73c24220d93acc
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-persist-client-core@npm:5.64.2":
+  version: 5.64.2
+  resolution: "@tanstack/query-persist-client-core@npm:5.64.2"
+  dependencies:
+    "@tanstack/query-core": "npm:5.64.2"
+  checksum: 10c0/9a5cedfaf09d6b305b3793bc614e4e58793689ff759c62f62b688c21fcc163c11116ad8a5a79ed94f640146bdfa8055889001e6cc267732177f4f4e1081b1a19
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-persist-client@npm:^5.64.2":
+  version: 5.64.2
+  resolution: "@tanstack/react-query-persist-client@npm:5.64.2"
+  dependencies:
+    "@tanstack/query-persist-client-core": "npm:5.64.2"
+  peerDependencies:
+    "@tanstack/react-query": ^5.64.2
+    react: ^18 || ^19
+  checksum: 10c0/32bd13b541be3bd4e0fd39a06239033658d7b15adf83eb1fdd54d37f134b8e1688f9d9ab6d768bb32d383f96df71cdb85cc6e112a28fed310850501bd3e228d5
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.64.2":
+  version: 5.64.2
+  resolution: "@tanstack/react-query@npm:5.64.2"
+  dependencies:
+    "@tanstack/query-core": "npm:5.64.2"
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 10c0/4e81c8e922ced8ef5f2e5975d7784409b532ce007b1771fe8569e380d08666b5323a90fa91de6ef10f9f2f8882d3fdf1be109eeb99a54bd84b1fa2075de9e75b
   languageName: node
   linkType: hard
 
@@ -6768,6 +6831,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-plain-obj@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "is-plain-obj@npm:2.1.0"
+  checksum: 10c0/e5c9814cdaa627a9ad0a0964ded0e0491bfd9ace405c49a5d63c88b30a162f1512c069d5b80997893c4d0181eadc3fed02b4ab4b81059aba5620bfcdfdeb9c53
+  languageName: node
+  linkType: hard
+
 "is-plain-object@npm:^2.0.4":
   version: 2.0.4
   resolution: "is-plain-object@npm:2.0.4"
@@ -8112,6 +8182,15 @@ __metadata:
   version: 5.2.1
   resolution: "memoize-one@npm:5.2.1"
   checksum: 10c0/fd22dbe9a978a2b4f30d6a491fc02fb90792432ad0dab840dc96c1734d2bd7c9cdeb6a26130ec60507eb43230559523615873168bcbe8fafab221c30b11d54c1
+  languageName: node
+  linkType: hard
+
+"merge-options@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "merge-options@npm:3.0.4"
+  dependencies:
+    is-plain-obj: "npm:^2.1.0"
+  checksum: 10c0/02b5891ceef09b0b497b5a0154c37a71784e68ed71b14748f6fd4258ffd3fe4ecd5cb0fd6f7cae3954fd11e7686c5cb64486daffa63c2793bbe8b614b61c7055
   languageName: node
   linkType: hard
 
