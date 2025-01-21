@@ -5,10 +5,11 @@ import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { Role } from '@/lib/constants'
 import { isEmployer, useAuthStore } from '@/stores/auth'
+import { Spacing, Typo } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { Tabs, router } from 'expo-router'
 import { useMemo } from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import {
   type EdgeInsets,
   useSafeAreaInsets,
@@ -101,10 +102,18 @@ const UserLayout = () => {
     <Tabs
       tabBar={(props) => <ClTabBar {...props} options={options} />}
       screenOptions={{
-        headerShown: false,
         tabBarHideOnKeyboard: true,
         sceneStyle: styles.sceneContainer,
-        animation: 'shift'
+        animation: 'shift',
+        headerBackground: () => (
+          <View
+            style={{ backgroundColor: styles.sceneContainer.backgroundColor }}
+          />
+        ),
+        headerTintColor: 'white',
+        headerTitleStyle: {
+          ...Typo.fontMap.semiBold,
+        },
       }}
     >
       <Tabs.Screen
@@ -112,13 +121,12 @@ const UserLayout = () => {
         redirect={role === Role.EMPLOYER}
         options={{
           title: 'Jobs',
-          headerShown: true,
-          headerTransparent: true,
-          headerTitle: () => null,
           headerRight: () => (
-            <TouchableOpacity onPress={() => router.push('/user/jobs')}>
+            <TouchableOpacity
+            //   onPress={() => router.navigate('/(main)/(user)/job/create')}
+            >
               <ClIcon
-                set={IconSet.Ionicons}
+                set={IconSet.MaterialIcon}
                 name="search"
                 color={styles.settingsIcon.color}
                 size={styles.settingsIcon.fontSize}
@@ -181,11 +189,9 @@ const useStyles = createStyles(
   ({ colors, sizes, spacing }, { insets }: { insets: EdgeInsets }) => ({
     sceneContainer: {
       backgroundColor: colors.background,
-      paddingTop: insets.top,
-      paddingBottom: insets.bottom,
     },
     headerRightContainer: {
-      paddingRight: spacing[4]
+      paddingRight: spacing[4],
     },
     settingsIcon: {
       color: resolveColor(colors.accent.base, colors.brand.base),
