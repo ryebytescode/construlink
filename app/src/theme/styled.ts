@@ -1,3 +1,4 @@
+import PoppinsFontFace from '@/assets/font-face'
 import Colors from './palette'
 import Sizes from './sizes'
 import Spacing from './spacing'
@@ -152,8 +153,27 @@ const TextInput = {
   },
 }
 
+const RichTextInput = {
+  initialCSSText: PoppinsFontFace,
+  contentCSSText: `
+    font-family: 'Montserrat', sans-serif;
+    line-height: 24px;
+  `,
+  colors: {
+    light: {
+      textColor: Colors.light.primaryText,
+      backgroundColor: Colors.light.neutral[100],
+    },
+    dark: {
+      textColor: Colors.dark.primaryText,
+      backgroundColor: Colors.light.neutral[800],
+    },
+  },
+}
+
 export default {
   Button,
   CheckBox,
   TextInput,
+  RichTextInput,
 }
