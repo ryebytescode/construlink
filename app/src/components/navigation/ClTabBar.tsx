@@ -142,7 +142,7 @@ export function ClTabBar({
 const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
   tabBar: {
     position: 'absolute',
-    bottom: spacing[4],
+    bottom: 0,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
