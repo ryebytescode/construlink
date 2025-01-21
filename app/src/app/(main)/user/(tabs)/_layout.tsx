@@ -32,22 +32,22 @@ const UserLayout = () => {
         icon: {
           outline: isEmployer()
             ? {
-                set: IconSet.Ionicons,
-                name: 'hammer-outline',
-              }
+              set: IconSet.Ionicons,
+              name: 'hammer-outline',
+            }
             : {
-                set: IconSet.MaterialCommunityIcons,
-                name: 'briefcase-search-outline',
-              },
+              set: IconSet.MaterialCommunityIcons,
+              name: 'briefcase-search-outline',
+            },
           filled: isEmployer()
             ? {
-                set: IconSet.Ionicons,
-                name: 'hammer',
-              }
+              set: IconSet.Ionicons,
+              name: 'hammer',
+            }
             : {
-                set: IconSet.MaterialCommunityIcons,
-                name: 'briefcase-search',
-              },
+              set: IconSet.MaterialCommunityIcons,
+              name: 'briefcase-search',
+            },
         },
         shown: true,
       },
@@ -106,7 +106,27 @@ const UserLayout = () => {
         sceneStyle: styles.sceneContainer,
       }}
     >
-      <Tabs.Screen name="jobs" redirect={role === Role.EMPLOYER} />
+      <Tabs.Screen
+        name="jobs"
+        redirect={role === Role.EMPLOYER}
+        options={{
+          title: 'Jobs',
+          headerShown: true,
+          headerTransparent: true,
+          headerTitle: () => null,
+          headerRight: () => (
+            <TouchableOpacity onPress={() => router.push('/user/jobs')}>
+              <ClIcon
+                set={IconSet.Ionicons}
+                name="search"
+                color={styles.settingsIcon.color}
+                size={styles.settingsIcon.fontSize}
+              />
+            </TouchableOpacity>
+          ),
+          headerRightContainerStyle: styles.headerRightContainer,
+        }}
+      />
       <Tabs.Screen name="tradespeople" redirect={role === Role.TRADESPERSON} />
       {/* <Tabs.Screen
         name="jobs"
