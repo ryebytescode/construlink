@@ -39,10 +39,6 @@ export default function Jobs() {
       <ClPageView
         id="jobs-tab"
         scrollable={false}
-        title="Jobs"
-        contentContainerStyle={{
-          paddingBottom: Spacing[14],
-        }}
       >
         <FlatList
           data={data}
