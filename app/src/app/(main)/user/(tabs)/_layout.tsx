@@ -5,7 +5,7 @@ import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { Role } from '@/lib/constants'
 import { isEmployer, useAuthStore } from '@/stores/auth'
-import { Spacing, Typo } from '@/theme'
+import { Palette, Spacing, Typo } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { Tabs, router } from 'expo-router'
 import { useMemo } from 'react'
@@ -110,7 +110,7 @@ const UserLayout = () => {
             style={{ backgroundColor: styles.sceneContainer.backgroundColor }}
           />
         ),
-        headerTintColor: 'white',
+        headerTintColor: resolveColor(Palette.dark.white, Palette.light.primaryText) as string,
         headerTitleStyle: {
           ...Typo.fontMap.semiBold,
         },
