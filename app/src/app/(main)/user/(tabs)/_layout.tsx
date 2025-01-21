@@ -32,22 +32,22 @@ const UserLayout = () => {
         icon: {
           outline: isEmployer()
             ? {
-              set: IconSet.Ionicons,
-              name: 'hammer-outline',
-            }
+                set: IconSet.Ionicons,
+                name: 'hammer-outline',
+              }
             : {
-              set: IconSet.MaterialCommunityIcons,
-              name: 'briefcase-search-outline',
-            },
+                set: IconSet.MaterialCommunityIcons,
+                name: 'briefcase-search-outline',
+              },
           filled: isEmployer()
             ? {
-              set: IconSet.Ionicons,
-              name: 'hammer',
-            }
+                set: IconSet.Ionicons,
+                name: 'hammer',
+              }
             : {
-              set: IconSet.MaterialCommunityIcons,
-              name: 'briefcase-search',
-            },
+                set: IconSet.MaterialCommunityIcons,
+                name: 'briefcase-search',
+              },
         },
         shown: true,
       },
@@ -184,8 +184,7 @@ const useStyles = createStyles(
       paddingBottom: insets.bottom,
     },
     headerRightContainer: {
-      paddingRight: spacing[4],
-      paddingTop: spacing[2],
+      paddingRight: spacing[4]
     },
     settingsIcon: {
       color: resolveColor(colors.accent.base, colors.brand.base),
