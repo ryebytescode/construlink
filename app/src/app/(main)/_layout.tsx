@@ -32,55 +32,69 @@ export default function MainLayout() {
   useRenderCount('MainLayout')
 
   return (
-<PersistQueryClientProvider
+    <PersistQueryClientProvider
       client={queryClient}
       persistOptions={{ persister: asyncStoragePersister }}
     >
-    <ClStack id="main">
-      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <ClStack id="main">
+        <Stack.Screen name="index" options={{ headerShown: false }} />
 
-      <Stack.Screen
-        name="auth/role-selection"
-        options={{ headerTitle: () => null }}
-      />
-      <Stack.Screen
-        name="auth/method-chooser"
-        options={{ headerTitle: () => null }}
-      />
-      <Stack.Screen name="auth/signin" options={{ headerTitle: () => null }} />
-      <Stack.Screen name="auth/signup" options={{ headerTitle: () => null }} />
-      <Stack.Screen
-        name="auth/forgot-password"
-        options={{ headerTitle: () => null }}
-      />
-      <Stack.Screen
-        name="auth/email-sent"
-        options={{ headerTitle: () => null }}
-      />
-      <Stack.Screen
-        name="auth/reset-password"
-        options={{ headerTitle: () => null }}
-      />
-      <Stack.Screen
-        name="auth/reset-done"
-        options={{ headerTitle: () => null }}
-      />
-      <Stack.Screen
-        name="auth/verification"
-        options={{ headerTitle: () => null }}
-      />
-      <Stack.Screen
-        name="auth/verification-done"
-        options={{ headerTitle: () => null }}
-      />
+        <Stack.Screen
+          name="auth/role-selection"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="auth/method-chooser"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="auth/signin"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="auth/signup"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="auth/forgot-password"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="auth/email-sent"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="auth/reset-password"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="auth/reset-done"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="auth/verification"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="auth/verification-done"
+          options={{ headerTitle: () => null }}
+        />
 
-      <Stack.Screen name="user/(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="user/dashboard-test"
-        options={{ headerTitle: () => null }}
-      />
-    </ClStack>
-<DevToolsBubble />
+        <Stack.Screen name="user/(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="user/dashboard-test"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="user/job/search"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="user/job/[jobId]"
+          options={{ headerTitle: () => null }}
+        />
+      </ClStack>
+      <DevToolsBubble />
     </PersistQueryClientProvider>
   )
 }
