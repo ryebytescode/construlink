@@ -104,6 +104,7 @@ const UserLayout = () => {
         headerShown: false,
         tabBarHideOnKeyboard: true,
         sceneStyle: styles.sceneContainer,
+        animation: 'shift'
       }}
     >
       <Tabs.Screen
