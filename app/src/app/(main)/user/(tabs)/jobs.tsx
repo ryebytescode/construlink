@@ -36,10 +36,7 @@ export default function Jobs() {
 
   return (
     <>
-      <ClPageView
-        id="jobs-tab"
-        scrollable={false}
-      >
+      <ClPageView id="jobs-tab" scrollable={false}>
         <FlatList
           data={data}
           contentContainerStyle={styles.entries}
