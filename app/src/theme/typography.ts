@@ -25,7 +25,7 @@ const weights: Record<Weight, TextStyle['fontWeight']> = {
   black: 'black',
 }
 
-const fontMap: Record<Weight, TextStyle> = {
+const fontMap: Record<Weight, Pick<TextStyle, 'fontFamily' | 'fontWeight'>> = {
   thin: {
     fontFamily: Platform.select({
       android: 'Poppins_100Thin',
