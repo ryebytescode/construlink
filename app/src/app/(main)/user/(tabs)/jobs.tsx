@@ -41,7 +41,7 @@ export default function Jobs() {
         scrollable={false}
         title="Jobs"
         contentContainerStyle={{
-          paddingBottom: Spacing[20],
+          paddingBottom: Spacing[14],
         }}
       >
         <FlatList
