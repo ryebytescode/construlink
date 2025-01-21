@@ -1,11 +1,41 @@
 import { ClStack } from '@/components/navigation/ClStack'
 import { useRenderCount } from '@/hooks/useRenderCount'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
+import { QueryClient, onlineManager } from '@tanstack/react-query'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
+import * as Network from 'expo-network'
 import { Stack } from 'expo-router'
+import { DevToolsBubble } from 'react-native-react-query-devtools'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 1000 * 60 * 60 * 24, // 24 hours
+    },
+  },
+})
+
+const asyncStoragePersister = createAsyncStoragePersister({
+  storage: AsyncStorage,
+})
+
+onlineManager.setEventListener((setOnline) => {
+  const subscription = Network.addNetworkStateListener((state) =>
+    setOnline(state?.isConnected || false)
+  )
+
+  return subscription.remove
+})
 
 export default function MainLayout() {
   useRenderCount('MainLayout')
 
   return (
+<PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{ persister: asyncStoragePersister }}
+    >
     <ClStack id="main">
       <Stack.Screen name="index" options={{ headerShown: false }} />
 
@@ -50,5 +80,7 @@ export default function MainLayout() {
         options={{ headerTitle: () => null }}
       />
     </ClStack>
+<DevToolsBubble />
+    </PersistQueryClientProvider>
   )
 }
