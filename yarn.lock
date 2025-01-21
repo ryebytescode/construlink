@@ -1294,6 +1294,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/react": "npm:~18.3.18"
     "@types/react-test-renderer": "npm:^18.3.1"
+    date-fns: "npm:^4.1.0"
     expo: "npm:~52.0.25"
     expo-blur: "npm:~14.0.2"
     expo-build-properties: "npm:~0.13.2"
@@ -1320,6 +1321,7 @@ __metadata:
     react-native: "npm:0.76.6"
     react-native-gesture-handler: "npm:~2.20.2"
     react-native-pager-view: "npm:6.5.1"
+    react-native-react-query-devtools: "npm:^1.3.10"
     react-native-reanimated: "npm:~3.16.6"
     react-native-safe-area-context: "npm:4.12.0"
     react-native-screens: "npm:~4.4.0"
@@ -4928,6 +4930,13 @@ __metadata:
     whatwg-mimetype: "npm:^3.0.0"
     whatwg-url: "npm:^11.0.0"
   checksum: 10c0/051c3aaaf3e961904f136aab095fcf6dff4db23a7fc759dd8ba7b3e6ba03fc07ef608086caad8ab910d864bd3b5e57d0d2f544725653d77c96a2c971567045f4
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: 10c0/b79ff32830e6b7faa009590af6ae0fb8c3fd9ffad46d930548fbb5acf473773b4712ae887e156ba91a7b3dc30591ce0f517d69fd83bd9c38650fdc03b4e0bac8
   languageName: node
   linkType: hard
 
@@ -9609,6 +9618,20 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/2c6a1cdd30151252f7ee31ce039246c59308ddd4ff6d4dbf44b0d64387338e51cfc432a68795cd80f2f7a1c77617c259462de48c2f4cd24d98805290d70ec02f
+  languageName: node
+  linkType: hard
+
+"react-native-react-query-devtools@npm:^1.3.10":
+  version: 1.3.10
+  resolution: "react-native-react-query-devtools@npm:1.3.10"
+  dependencies:
+    fast-deep-equal: "npm:^3.1.3"
+  peerDependencies:
+    "@tanstack/react-query": ^5.17.19
+    react: ^18.2.0
+    react-native: ">=0.63.0"
+    react-native-svg: ^15
+  checksum: 10c0/72cd830d1940b639f1f818797cc3721c43518e1d1f2f1fa9e237d3a03fb7abe9fe3722e1181be783d83b9cef839acc059f7ab4d9af7659dad66139a4a2376645
   languageName: node
   linkType: hard
 
