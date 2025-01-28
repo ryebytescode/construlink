@@ -66,10 +66,12 @@ export const ClBottomSheet = forwardRef<BottomSheetModal, ClBottomSheetProps>(
         return dismiss()
       }
 
-      BackHandler.addEventListener('hardwareBackPress', handleBackButton)
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackButton
+      )
 
-      return () =>
-        BackHandler.removeEventListener('hardwareBackPress', handleBackButton)
+      return () => backHandler.remove()
     }, [])
 
     const View = scrollable ? BottomSheetScrollView : BottomSheetView
