@@ -43,6 +43,6 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "ignore": ["android", "ios", "package.json"]
+    "ignore": ["android", "ios", "package.json", "font-face.ts"]
   }
 }
