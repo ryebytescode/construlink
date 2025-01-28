@@ -80,7 +80,7 @@ export const ClPageView = (props: ClPageViewProps) => {
 const useStyles = createStyles(({ spacing, typo }) => ({
   container: {
     gap: spacing[4],
-    paddingHorizontal: spacing[4]
+    paddingHorizontal: spacing[4],
   },
   pageHeader: {
     gap: spacing[2],
