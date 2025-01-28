@@ -23,6 +23,7 @@ interface Job extends HasKey {
   isUsingRange: boolean
   postAs: string
   status: string
+  applyCount: number
 }
 
 interface Company extends HasKey {
