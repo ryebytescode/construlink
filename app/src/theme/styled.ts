@@ -156,7 +156,7 @@ const TextInput = {
 const RichTextInput = {
   initialCSSText: PoppinsFontFace,
   contentCSSText: `
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Poppins', sans-serif;
     line-height: 24px;
   `,
   colors: {
