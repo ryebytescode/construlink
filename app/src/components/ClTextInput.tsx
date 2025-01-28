@@ -105,6 +105,7 @@ export const ClTextInput = forwardRef<RNTextInput, Partial<ClTextInputProps>>(
           nextInput ? nextInput.current?.focus() : undefined
         }
         secureTextEntry={passwordMode && !showPassword}
+        textAlignVertical={rest.multiline ? 'top' : 'center'}
       />
     )
 
