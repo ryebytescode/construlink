@@ -1,7 +1,9 @@
 import ClLogo from '@/assets/images/logo'
 import { ClButton } from '@/components/ClButton'
+import { ClInlineSpinner } from '@/components/ClInlineSpinner'
 import { ClLinkText } from '@/components/ClLinkText'
 import { ClPageView } from '@/components/ClPageView'
+import { ClSpinner } from '@/components/ClSpinner'
 import { ClText } from '@/components/ClText'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
@@ -31,7 +33,7 @@ export default function GettingStartedScreen() {
     router.push('/auth/method-chooser')
   }
 
-  if (isAuth) return null
+  if (isAuth) return <ClInlineSpinner visible />
 
   return (
     <>
