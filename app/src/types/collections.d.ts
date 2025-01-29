@@ -26,6 +26,14 @@ interface Job extends HasKey {
   applyCount: number
 }
 
+interface JobApplication extends HasKey {
+  jobId: string
+  tradespersonId: string
+  message?: string
+  status: import('@/lib/constants').JobApplicationStatus
+  review: string
+}
+
 interface Company extends HasKey {
   name: string
   description: string
