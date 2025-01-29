@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface ClSpinnerProps {
   transluscent?: boolean
+  visible?: boolean
 }
 
 export interface ClSpinnerHandleProps {
@@ -16,10 +17,10 @@ export interface ClSpinnerHandleProps {
 }
 
 export const ClSpinner = forwardRef<ClSpinnerHandleProps, ClSpinnerProps>(
-  ({ transluscent }, ref) => {
+  ({ transluscent, visible }, ref) => {
     const styles = useStyles({ transluscent })
     const colors = useAppStore((state) => state.colors)
-    const [isVisible, setIsVisible] = useState(false)
+    const [isVisible, setIsVisible] = useState(visible ?? false)
 
     useImperativeHandle(ref, () => ({
       show() {
