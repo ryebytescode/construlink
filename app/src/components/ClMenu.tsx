@@ -16,7 +16,7 @@ export interface ClMenuItem {
 }
 
 interface ClMenuProps {
-  items: ClMenuItem[]
+  items: (ClMenuItem | null)[]
   containerStyle?: StyleProp<ViewStyle>
   hasBorders?: boolean
 }
@@ -35,10 +35,13 @@ export function ClMenu(props: ClMenuProps) {
         !hasBorders && { borderWidth: 0 },
       ]}
     >
-      {items.map((item, index) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey:
-        <MenuItem key={index} {...item} index={index} />
-      ))}
+      {items.map(
+        (item, index) =>
+          item && (
+            // biome-ignore lint/suspicious/noArrayIndexKey:
+            <MenuItem key={index} {...item} index={index} />
+          )
+      )}
     </View>
   )
 }
