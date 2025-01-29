@@ -4,12 +4,11 @@ import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { Role } from '@/lib/constants'
-import { isEmployer, useAuthStore } from '@/stores/auth'
-import { Palette, Spacing, Typo } from '@/theme'
+import { useAuthStore } from '@/stores/auth'
+import { Palette, Typo } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { Tabs, router } from 'expo-router'
-import { useMemo } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import {
   type EdgeInsets,
@@ -20,84 +19,71 @@ export const unstable_settings = {
   initialRouteName: 'index',
 }
 
+const options: ClTabOption[] = [
+  {
+    routeName: 'jobs',
+    icon: {
+      outline: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'briefcase-search-outline',
+      },
+      filled: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'briefcase-search',
+      },
+    },
+    shown: true,
+  },
+  {
+    routeName: 'tradespeople',
+    icon: {
+      outline: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'briefcase-search-outline',
+      },
+      filled: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'briefcase-search',
+      },
+    },
+    shown: true,
+  },
+  {
+    routeName: 'applications',
+    icon: {
+      outline: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'clock-outline',
+      },
+      filled: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'clock',
+      },
+    },
+    shown: true,
+  },
+  {
+    routeName: 'profile',
+    icon: {
+      outline: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'account-circle-outline',
+      },
+      filled: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'account-circle',
+      },
+    },
+    shown: true,
+  },
+]
+
 const UserLayout = () => {
   useRenderCount('UserLayout')
 
   const insets = useSafeAreaInsets()
   const styles = useStyles({ insets })
   const role = useAuthStore((state) => state.role)
-
-  const options: ClTabOption[] = useMemo(
-    () => [
-      {
-        routeName: 'search',
-        icon: {
-          outline: isEmployer()
-            ? {
-                set: IconSet.Ionicons,
-                name: 'hammer-outline',
-              }
-            : {
-                set: IconSet.MaterialCommunityIcons,
-                name: 'briefcase-search-outline',
-              },
-          filled: isEmployer()
-            ? {
-                set: IconSet.Ionicons,
-                name: 'hammer',
-              }
-            : {
-                set: IconSet.MaterialCommunityIcons,
-                name: 'briefcase-search',
-              },
-        },
-        shown: true,
-      },
-      {
-        routeName: 'schedule',
-        icon: {
-          outline: {
-            set: IconSet.MaterialCommunityIcons,
-            name: 'calendar-clock-outline',
-          },
-          filled: {
-            set: IconSet.MaterialCommunityIcons,
-            name: 'calendar-clock',
-          },
-        },
-        shown: true,
-      },
-      {
-        routeName: 'jobs',
-        icon: {
-          outline: {
-            set: IconSet.MaterialCommunityIcons,
-            name: 'newspaper-variant-outline',
-          },
-          filled: {
-            set: IconSet.MaterialCommunityIcons,
-            name: 'newspaper-variant',
-          },
-        },
-        shown: isEmployer(),
-      },
-      {
-        routeName: 'profile',
-        icon: {
-          outline: {
-            set: IconSet.MaterialCommunityIcons,
-            name: 'account-circle-outline',
-          },
-          filled: {
-            set: IconSet.MaterialCommunityIcons,
-            name: 'account-circle',
-          },
-        },
-        shown: true,
-      },
-    ],
-    [useAuthStore.getState().role]
-  )
 
   return (
     <BottomSheetModalProvider>
@@ -153,6 +139,27 @@ const UserLayout = () => {
                 <ClIcon
                   set={IconSet.MaterialIcon}
                   name="search"
+                  color={styles.settingsIcon.color}
+                  size={styles.settingsIcon.fontSize}
+                />
+              </TouchableOpacity>
+            ),
+            headerRightContainerStyle: styles.headerRightContainer,
+          }}
+        />
+        <Tabs.Screen
+          name="applications"
+          redirect={role === Role.EMPLOYER}
+          options={{
+            title: 'Track',
+            headerTitle: 'My Applications',
+            headerRight: () => (
+              <TouchableOpacity
+              //   onPress={() => router.navigate('/(main)/(user)/settings')}
+              >
+                <ClIcon
+                  set={IconSet.Ionicons}
+                  name="settings"
                   color={styles.settingsIcon.color}
                   size={styles.settingsIcon.fontSize}
                 />
