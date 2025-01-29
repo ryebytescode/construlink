@@ -1,4 +1,3 @@
-import 'react-native-get-random-values'
 import { ClSpinner } from '@/components/ClSpinner'
 import { useRefresh } from '@/hooks/useRefresh'
 import { useRenderCount } from '@/hooks/useRenderCount'
@@ -22,9 +21,10 @@ import { Slot, router, useSegments } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import * as SystemUI from 'expo-system-ui'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import 'react-native-get-random-values'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useShallow } from 'zustand/react/shallow'
@@ -34,7 +34,7 @@ export { ErrorBoundary } from 'expo-router'
 SplashScreen.preventAutoHideAsync()
 
 SplashScreen.setOptions({
-  duration: 600,
+  duration: 800,
   fade: true,
 })
 
@@ -127,7 +127,7 @@ export default function RootLayout() {
     )
   }
 
-  if (!isReady) return <ClSpinner />
+  if (!isReady) return <ClSpinner visible />
 
   return (
     <GestureHandlerRootView>
