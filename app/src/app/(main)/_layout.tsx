@@ -11,7 +11,7 @@ import { DevToolsBubble } from 'react-native-react-query-devtools'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      gcTime: 1000 * 60 * 60 * 24, // 24 hours
+      staleTime: 1000 * 60 * 60 * 24, // 24 hours
     },
   },
 })
@@ -87,10 +87,19 @@ export default function MainLayout() {
         />
         <Stack.Screen
           name="user/job/search"
-          options={{ headerTitle: () => null }}
+          options={{ headerTitle: () => null, animation: 'fade_from_bottom' }}
         />
         <Stack.Screen
           name="user/job/[jobId]"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen name="user/job/apply" options={{ title: 'Apply Job' }} />
+        <Stack.Screen
+          name="user/job/apply-done"
+          options={{ headerTitle: () => null }}
+        />
+        <Stack.Screen
+          name="user/job/applications"
           options={{ headerTitle: () => null }}
         />
       </ClStack>
