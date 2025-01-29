@@ -98,10 +98,6 @@ export default function MainLayout() {
           name="user/job/apply-done"
           options={{ headerTitle: () => null }}
         />
-        <Stack.Screen
-          name="user/job/applications"
-          options={{ headerTitle: () => null }}
-        />
       </ClStack>
       <DevToolsBubble />
     </PersistQueryClientProvider>
