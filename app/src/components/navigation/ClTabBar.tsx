@@ -3,10 +3,8 @@ import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { useCallback, useEffect } from 'react'
-import type { LayoutChangeEvent } from 'react-native'
+import { type LayoutChangeEvent, View } from 'react-native'
 import Animated, {
-  SlideInDown,
-  SlideOutDown,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -35,9 +33,8 @@ const RenderTabItems = ({
           : route.name
 
     const isFocused = state.index === index
-    const icon = isFocused
-      ? tabOptions[index].icon.filled
-      : tabOptions[index].icon.outline
+    const currentTab = tabOptions.find((item) => item.routeName === route.name)!
+    const icon = isFocused ? currentTab.icon.filled : currentTab.icon.outline
 
     const onPress = () => {
       const event = navigation.emit({
@@ -58,7 +55,7 @@ const RenderTabItems = ({
       })
     }
 
-    return tabOptions[index].shown ? (
+    return (
       <ClTabItem
         key={route.key}
         label={label}
@@ -69,7 +66,7 @@ const RenderTabItems = ({
         onPress={onPress}
         onLongPress={onLongPress}
       />
-    ) : null
+    )
   })
 }
 
@@ -86,18 +83,11 @@ export function ClTabBar({
   const styles = useStyles()
   const highlighterDim = useSharedValue({ width: 0, height: 0 })
   const highlighterX = useSharedValue(0)
-  // const visibleTabIndices = options
-  //   .map(({ shown }, index) => (shown ? index : undefined))
-  //   .filter((index) => index !== undefined)
-  // const selectedVisibleTabIndex = visibleTabIndices.findIndex(
-  //   (index) => index === state.index
-  // )
-
   const computeTabDim = useCallback((e: LayoutChangeEvent) => {
     const layout = e.nativeEvent.layout
 
     highlighterDim.value = {
-      width: Math.ceil(layout.width / state.routes.length),
+      width: Math.ceil(layout.width / state.routeNames.length),
       height: Math.ceil(layout.height),
     }
   }, [])
@@ -121,12 +111,7 @@ export function ClTabBar({
   }, [state.index])
 
   return (
-    <Animated.View
-      style={styles.tabBar}
-      onLayout={computeTabDim}
-      entering={SlideInDown}
-      exiting={SlideOutDown}
-    >
+    <View style={styles.tabBar} onLayout={computeTabDim}>
       <Animated.View style={[styles.tabHighlighter, highlighterAnimStyles]} />
       {RenderTabItems({
         state,
@@ -135,7 +120,7 @@ export function ClTabBar({
         options,
         insets,
       })}
-    </Animated.View>
+    </View>
   )
 }
 
