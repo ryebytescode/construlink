@@ -4,7 +4,7 @@ import { Styled } from '@/theme'
 import { useState } from 'react'
 import { View } from 'react-native'
 import WebView from 'react-native-webview'
-import { ClSpinner } from './ClSpinner'
+import { ClText } from './ClText'
 
 interface ClWebViewProps {
   html: string
@@ -20,6 +20,7 @@ export function ClWebView(props: ClWebViewProps) {
             window.ReactNativeWebView.postMessage(document.body.clientHeight)
         }, 500)
     `
+
   return (
     <View pointerEvents="none" style={{ height: webViewHeight }}>
       <WebView
@@ -45,7 +46,7 @@ export function ClWebView(props: ClWebViewProps) {
         cacheMode="LOAD_NO_CACHE"
         bounces={false}
         startInLoadingState={true}
-        renderLoading={() => <ClSpinner />}
+        renderLoading={() => <ClText type="helper">Loading contents...</ClText>}
         injectedJavaScript={webViewScript}
         onMessage={(event) => setWebViewHeight(Number(event.nativeEvent.data))}
       />
