@@ -131,7 +131,7 @@ const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: resolveColor(colors.neutral[800], 'white'),
+    backgroundColor: resolveColor(colors.neutral[900], 'white'),
     borderWidth: sizes.borderWidth.thin,
     borderColor: resolveColor(colors.neutral[700], colors.neutral[200]),
     marginHorizontal: spacing[4],
