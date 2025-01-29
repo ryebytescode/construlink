@@ -15,6 +15,7 @@ import { type GestureResponderEvent, View } from 'react-native'
 export default function GettingStartedScreen() {
   const styles = useStyles()
   const setAuthMode = useAuthStore((state) => state.setMode)
+  const isAuth = useAuthStore((state) => state.user)
 
   function handleGetStarted() {
     setAuthMode('signup')
@@ -29,6 +30,8 @@ export default function GettingStartedScreen() {
     setAuthMode('signin')
     router.push('/auth/method-chooser')
   }
+
+  if (isAuth) return null
 
   return (
     <>
