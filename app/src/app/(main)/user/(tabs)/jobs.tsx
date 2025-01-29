@@ -1,48 +1,53 @@
 import { ClButton } from '@/components/ClButton'
 import { ClIcon } from '@/components/ClIcon'
 import { ClPageView } from '@/components/ClPageView'
-import { ClSpinner } from '@/components/ClSpinner'
+import { ClSpinner, type ClSpinnerHandleProps } from '@/components/ClSpinner'
 import { ClText } from '@/components/ClText'
 import { JobCard } from '@/components/cards/JobCard'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
+import { useRenderCount } from '@/hooks/useRenderCount'
 import { JobCollection } from '@/services/firestore'
-import { Spacing } from '@/theme'
 import { IconSet } from '@/types/icons'
 import firestore from '@react-native-firebase/firestore'
 import { useQuery } from '@tanstack/react-query'
 import { router } from 'expo-router'
-import React from 'react'
-import { Alert, FlatList, RefreshControl, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { FlatList, RefreshControl, View } from 'react-native'
 
 export default function Jobs() {
-  const styles = useStyles()
-  const { data, isLoading, isFetching, isSuccess, isError, refetch } = useQuery(
-    {
-      queryKey: ['jobs'],
-      queryFn: () => JobCollection.getAllJobPosts(),
-    }
-  )
+  useRenderCount('Jobs')
 
-  if (isError) {
-    Alert.alert('Loading failed', 'Could not retrieve jobs.', [
-      {
-        text: 'Retry',
-        isPreferred: true,
-        onPress: () => refetch(),
-      },
-    ])
-  }
+  const styles = useStyles()
+  const spinnerRef = useRef<ClSpinnerHandleProps>(null)
+
+  const {
+    data: jobPosts,
+    refetch,
+    isRefetching,
+    isLoading,
+  } = useQuery({
+    queryKey: ['jobs'],
+    queryFn: JobCollection.getAllJobPosts,
+  })
+
+  useEffect(() => {
+    if (isRefetching || isLoading) {
+      spinnerRef.current?.show()
+    } else {
+      spinnerRef.current?.hide()
+    }
+  }, [isRefetching])
 
   return (
     <>
       <ClPageView id="jobs-tab" scrollable={false}>
         <FlatList
-          data={data}
+          data={jobPosts}
           contentContainerStyle={styles.entries}
           showsVerticalScrollIndicator={false}
           refreshControl={
-            <RefreshControl refreshing={isLoading} onRefresh={refetch} />
+            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
           }
           ListEmptyComponent={
             <View style={styles.emptyPlaceholder}>
@@ -83,7 +88,7 @@ export default function Jobs() {
           )}
         />
       </ClPageView>
-      {(isLoading || isFetching) && <ClSpinner transluscent />}
+      <ClSpinner ref={spinnerRef} transluscent />
     </>
   )
 }
