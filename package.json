@@ -11,7 +11,7 @@
   ],
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "lefthook": "^1.10.3"
+    "lefthook": "^1.10.10"
   },
   "private": true,
   "packageManager": "yarn@4.6.0"
