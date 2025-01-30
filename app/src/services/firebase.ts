@@ -1,8 +1,56 @@
 import { JobApplicationStatus, type Role } from '@/lib/constants'
-import firestore from '@react-native-firebase/firestore'
+import auth from '@react-native-firebase/auth'
+import firestore, { serverTimestamp } from '@react-native-firebase/firestore'
 import { v7 as uuidv7 } from 'uuid'
 
 const db = firestore()
+
+export namespace User {
+  export function get() {
+    return auth().currentUser
+  }
+
+  export function getDisplayName(
+    full?: boolean
+  ): string | ChangeDisplayNameFields | null {
+    const currentUser = get()
+
+    if (!currentUser) return null
+
+    if (full) return currentUser.displayName
+
+    const displayName = currentUser.displayName?.split(' ')
+
+    if (!displayName) {
+      return {
+        firstName: '',
+        lastName: '',
+      }
+    }
+
+    return {
+      firstName: displayName[0],
+      lastName: displayName[1],
+    }
+  }
+
+  export async function editDisplayName(fields: ChangeDisplayNameFields) {
+    const currentUser = get()
+
+    if (!currentUser) return false
+
+    try {
+      await currentUser?.updateProfile({
+        displayName: `${fields.firstName} ${fields.lastName}`,
+      })
+
+      return true
+    } catch (error: unknown) {
+      console.log(error)
+      return false
+    }
+  }
+}
 
 export namespace UserCollection {
   export async function setRole(uid: string, role: Role) {
@@ -78,22 +126,23 @@ export namespace JobCollection {
 
   export async function applyJob(uid: string, jobId: string, message?: string) {
     try {
+      await db
+        .collection<Partial<JobApplication>>('applications')
+        .doc(uuidv7())
+        .set({
+          job: db.collection('jobs').doc(jobId),
+          status: JobApplicationStatus.PENDING,
+          tradespersonId: uid,
+          message,
+          createdAt: serverTimestamp(),
+        })
+
       // Update the application count
       await db
         .collection<Job>('jobs')
         .doc(jobId)
         .update({
           applyCount: firestore.FieldValue.increment(1),
-        })
-
-      await db
-        .collection<Partial<JobApplication>>('applications')
-        .doc(uuidv7())
-        .set({
-          jobId,
-          status: JobApplicationStatus.PENDING,
-          tradespersonId: uid,
-          message,
         })
 
       return true
@@ -105,20 +154,41 @@ export namespace JobCollection {
 
   export async function checkIfAppliedToJob(uid: string, jobId: string) {
     try {
-      let isApplied = false
+      const result = await db
+        .collection<JobApplication>('applications')
+        .where('tradespersonId', '==', uid)
+        .where('job', '==', db.collection('jobs').doc(jobId))
+        .get()
+
+      if (result.empty) return false
+
+      return true
+    } catch (error: unknown) {
+      console.error(error)
+      return false
+    }
+  }
+
+  export async function getJobApplications(uid: string) {
+    const entries: JobApplication[] = []
+
+    try {
       const result = await db
         .collection<JobApplication>('applications')
         .where('tradespersonId', '==', uid)
         .get()
 
-      if (result.empty) return false
+      if (result.empty) return null
 
       // biome-ignore lint/complexity/noForEach:
-      result.forEach((document) => {
-        isApplied = document.data().jobId === jobId
+      result.forEach((documentSnapshot) => {
+        entries.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        })
       })
 
-      return isApplied
+      return entries
     } catch (error: unknown) {
       console.error(error)
       return false
