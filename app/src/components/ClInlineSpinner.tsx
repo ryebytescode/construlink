@@ -4,7 +4,7 @@ import { useAppStore } from '@/stores/app'
 import { Spacing } from '@/theme'
 import { forwardRef, useImperativeHandle, useState } from 'react'
 import { ActivityIndicator } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 interface ClSpinnerProps {
   transluscent?: boolean
@@ -32,12 +32,16 @@ export const ClInlineSpinner = forwardRef<ClSpinnerHandleProps, ClSpinnerProps>(
     }))
 
     return isVisible ? (
-      <SafeAreaView style={styles.container}>
+      <Animated.View
+        style={styles.container}
+        entering={FadeIn}
+        exiting={FadeOut}
+      >
         <ActivityIndicator
           size={Spacing[20]}
           color={resolveColor(colors.accent[500], colors.brand[500])}
         />
-      </SafeAreaView>
+      </Animated.View>
     ) : null
   }
 )
@@ -50,7 +54,10 @@ const useStyles = createStyles(
         : colors.background,
       justifyContent: 'center',
       alignItems: 'center',
-      flex: 1,
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      zIndex: 12,
     },
   })
 )
