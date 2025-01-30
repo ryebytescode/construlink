@@ -7,7 +7,6 @@ import { Role } from '@/lib/constants'
 import { useAuthStore } from '@/stores/auth'
 import { Palette, Typo } from '@/theme'
 import { IconSet } from '@/types/icons'
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { Tabs, router } from 'expo-router'
 import { TouchableOpacity, View } from 'react-native'
 import {
@@ -63,6 +62,20 @@ const options: ClTabOption[] = [
     shown: true,
   },
   {
+    routeName: 'messages',
+    icon: {
+      outline: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'message-outline',
+      },
+      filled: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'message',
+      },
+    },
+    shown: true,
+  },
+  {
     routeName: 'profile',
     icon: {
       outline: {
@@ -86,109 +99,124 @@ const UserLayout = () => {
   const role = useAuthStore((state) => state.role)
 
   return (
-    <BottomSheetModalProvider>
-      <Tabs
-        tabBar={(props) => <ClTabBar {...props} options={options} />}
-        screenOptions={{
-          tabBarHideOnKeyboard: true,
-          sceneStyle: styles.sceneContainer,
-          animation: 'shift',
-          headerBackground: () => (
-            <View
-              style={{ backgroundColor: styles.sceneContainer.backgroundColor }}
-            />
+    <Tabs
+      tabBar={(props) => <ClTabBar {...props} options={options} />}
+      screenOptions={{
+        tabBarHideOnKeyboard: true,
+        sceneStyle: styles.sceneContainer,
+        animation: 'shift',
+        headerBackground: () => (
+          <View
+            style={{ backgroundColor: styles.sceneContainer.backgroundColor }}
+          />
+        ),
+        headerTintColor: resolveColor(
+          Palette.dark.white,
+          Palette.light.primaryText
+        ) as string,
+        headerTitleStyle: {
+          ...Typo.fontMap.semiBold,
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="jobs"
+        redirect={role === Role.EMPLOYER}
+        options={{
+          title: 'Jobs',
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => router.navigate('/user/job/search')}
+            >
+              <ClIcon
+                set={IconSet.MaterialIcon}
+                name="search"
+                color={styles.settingsIcon.color}
+                size={styles.settingsIcon.fontSize}
+              />
+            </TouchableOpacity>
           ),
-          headerTintColor: resolveColor(
-            Palette.dark.white,
-            Palette.light.primaryText
-          ) as string,
-          headerTitleStyle: {
-            ...Typo.fontMap.semiBold,
-          },
+          headerRightContainerStyle: styles.headerRightContainer,
         }}
-      >
-        <Tabs.Screen
-          name="jobs"
-          redirect={role === Role.EMPLOYER}
-          options={{
-            title: 'Jobs',
-            headerRight: () => (
-              <TouchableOpacity
-                onPress={() => router.navigate('/user/job/search')}
-              >
-                <ClIcon
-                  set={IconSet.MaterialIcon}
-                  name="search"
-                  color={styles.settingsIcon.color}
-                  size={styles.settingsIcon.fontSize}
-                />
-              </TouchableOpacity>
-            ),
-            headerRightContainerStyle: styles.headerRightContainer,
-          }}
-        />
-        <Tabs.Screen
-          name="tradespeople"
-          redirect={role === Role.TRADESPERSON}
-          options={{
-            title: 'Tradespeople',
-            headerRight: () => (
-              <TouchableOpacity
-                onPress={() => router.navigate('/user/job/search')}
-              >
-                <ClIcon
-                  set={IconSet.MaterialIcon}
-                  name="search"
-                  color={styles.settingsIcon.color}
-                  size={styles.settingsIcon.fontSize}
-                />
-              </TouchableOpacity>
-            ),
-            headerRightContainerStyle: styles.headerRightContainer,
-          }}
-        />
-        <Tabs.Screen
-          name="applications"
-          redirect={role === Role.EMPLOYER}
-          options={{
-            title: 'Track',
-            headerTitle: 'My Applications',
-            headerRight: () => (
-              <TouchableOpacity
-              //   onPress={() => router.navigate('/(main)/(user)/settings')}
-              >
-                <ClIcon
-                  set={IconSet.Ionicons}
-                  name="settings"
-                  color={styles.settingsIcon.color}
-                  size={styles.settingsIcon.fontSize}
-                />
-              </TouchableOpacity>
-            ),
-            headerRightContainerStyle: styles.headerRightContainer,
-          }}
-        />
-        <Tabs.Screen
-          name="profile"
-          options={{
-            title: 'Profile',
-            headerRight: () => (
-              <TouchableOpacity
-              //   onPress={() => router.navigate('/(main)/(user)/settings')}
-              >
-                <ClIcon
-                  set={IconSet.Ionicons}
-                  name="settings"
-                  color={styles.settingsIcon.color}
-                  size={styles.settingsIcon.fontSize}
-                />
-              </TouchableOpacity>
-            ),
-            headerRightContainerStyle: styles.headerRightContainer,
-          }}
-        />
-      </Tabs>
-    </BottomSheetModalProvider>
+      />
+      <Tabs.Screen
+        name="tradespeople"
+        redirect={role === Role.TRADESPERSON}
+        options={{
+          title: 'Tradespeople',
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => router.navigate('/user/job/search')}
+            >
+              <ClIcon
+                set={IconSet.MaterialIcon}
+                name="search"
+                color={styles.settingsIcon.color}
+                size={styles.settingsIcon.fontSize}
+              />
+            </TouchableOpacity>
+          ),
+          headerRightContainerStyle: styles.headerRightContainer,
+        }}
+      />
+      <Tabs.Screen
+        name="applications"
+        redirect={role === Role.EMPLOYER}
+        options={{
+          title: 'Track',
+          headerTitle: 'My Applications',
+          headerRight: () => (
+            <TouchableOpacity
+            //   onPress={() => router.navigate('/(main)/(user)/settings')}
+            >
+              <ClIcon
+                set={IconSet.Ionicons}
+                name="settings"
+                color={styles.settingsIcon.color}
+                size={styles.settingsIcon.fontSize}
+              />
+            </TouchableOpacity>
+          ),
+          headerRightContainerStyle: styles.headerRightContainer,
+        }}
+      />
+      <Tabs.Screen
+        name="messages"
+        options={{
+          title: 'Messages',
+          headerRight: () => (
+            <TouchableOpacity
+            //   onPress={() => router.navigate('/(main)/(user)/settings')}
+            >
+              <ClIcon
+                set={IconSet.Ionicons}
+                name="settings"
+                color={styles.settingsIcon.color}
+                size={styles.settingsIcon.fontSize}
+              />
+            </TouchableOpacity>
+          ),
+          headerRightContainerStyle: styles.headerRightContainer,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          headerRight: () => (
+            <TouchableOpacity onPress={() => router.navigate('/user/settings')}>
+              <ClIcon
+                set={IconSet.Ionicons}
+                name="settings"
+                color={styles.settingsIcon.color}
+                size={styles.settingsIcon.fontSize}
+              />
+            </TouchableOpacity>
+          ),
+          headerRightContainerStyle: styles.headerRightContainer,
+        }}
+      />
+    </Tabs>
   )
 }
 
