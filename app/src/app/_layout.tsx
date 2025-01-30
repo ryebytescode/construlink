@@ -3,7 +3,7 @@ import { useRefresh } from '@/hooks/useRefresh'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { useScheme } from '@/hooks/useScheme'
 import { Role } from '@/lib/constants'
-import { UserCollection } from '@/services/firestore'
+import { UserCollection } from '@/services/firebase'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { Palette } from '@/theme'
@@ -41,8 +41,8 @@ SplashScreen.setOptions({
 export default function RootLayout() {
   useRenderCount('RootLayout')
 
-  const scheme = useScheme()
   const segments = useSegments()
+  const scheme = useAppStore((state) => state.scheme)
   const changeScheme = useAppStore((state) => state.changeScheme)
   const { user, role, setUser, setRole } = useAuthStore(
     useShallow((state) => ({
