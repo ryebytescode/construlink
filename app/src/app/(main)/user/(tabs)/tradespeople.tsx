@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/auth'
 import auth from '@react-native-firebase/auth'
 import { useShallow } from 'zustand/react/shallow'
 
-export default function Home() {
+export default function TradespeopleTab() {
   const { setUser, setRole } = useAuthStore(
     useShallow((state) => ({
       setUser: state.setUser,
@@ -20,7 +20,7 @@ export default function Home() {
   }
 
   return (
-    <ClPageView id="tradespeople-tab" title="Tradespeople">
+    <ClPageView id="tradespeople-tab">
       <ClText>You're signed in</ClText>
       <ClButton text="Sign out" onPress={handleSignOut} />
     </ClPageView>
