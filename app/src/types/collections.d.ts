@@ -5,6 +5,9 @@ interface User {
 type Timestamp = import(
   '@react-native-firebase/firestore'
 ).FirebaseFirestoreTypes.Timestamp
+type Reference<T> = import(
+  '@react-native-firebase/firestore'
+).FirebaseFirestoreTypes.DocumentReference<T>
 type HasKey = { key: string }
 
 interface Job extends HasKey {
@@ -27,7 +30,9 @@ interface Job extends HasKey {
 }
 
 interface JobApplication extends HasKey {
-  jobId: string
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  job: Reference<Job>
   tradespersonId: string
   message?: string
   status: import('@/lib/constants').JobApplicationStatus
