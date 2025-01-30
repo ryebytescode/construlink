@@ -1,7 +1,7 @@
 import { type ZodType, z } from 'zod'
 import patterns from './patterns'
 
-const staticFields = {
+const nameFields = {
   firstName: z.string().min(1, 'Required').regex(patterns.name, 'Invalid name'),
   lastName: z.string().min(1, 'Required').regex(patterns.name, 'Invalid name'),
 }
@@ -27,7 +27,7 @@ export const SignUpSchema: ZodType<SignUpFields> = z.discriminatedUnion(
   'mode',
   [
     z.object({
-      ...staticFields,
+      ...nameFields,
       mode: z.literal('email'),
       email: z
         .string()
@@ -37,7 +37,7 @@ export const SignUpSchema: ZodType<SignUpFields> = z.discriminatedUnion(
       phone: z.string().optional(), // Phone is optional for email mode
     }),
     z.object({
-      ...staticFields,
+      ...nameFields,
       mode: z.literal('phone'),
       phone: z
         .string()
@@ -95,3 +95,6 @@ export const ResetPasswordSchema: ZodType<ResetPasswordFields> = z
     message: "Passwords don't match.",
     path: ['confirmPassword'],
   })
+
+export const ChangeDisplayNameSchema: ZodType<ChangeDisplayNameFields> =
+  z.object(nameFields)
