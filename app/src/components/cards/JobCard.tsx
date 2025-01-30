@@ -1,7 +1,7 @@
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { Cl } from '@/lib/options'
-import { CompanyCollection } from '@/services/firestore'
+import { CompanyCollection } from '@/services/firebase'
 import typography from '@/theme/typography'
 import { IconSet } from '@/types/icons'
 import { formatDistanceToNowStrict } from 'date-fns'
@@ -76,7 +76,10 @@ export function JobCard(props: JobCardProps) {
       <View>
         <ClText
           weight="bold"
-          style={{ fontSize: typography.sizes.lg.fontSize }}
+          style={{
+            fontSize: typography.sizes.lg.fontSize,
+            flexWrap: 'wrap',
+          }}
         >
           {title}
         </ClText>
@@ -122,7 +125,7 @@ function JobAuthor({ authorId, postAs }: { authorId: string; postAs: string }) {
   }, [])
 
   return (
-    <ClText style={{ fontSize: typography.sizes.base.fontSize }}>
+    <ClText style={{ fontSize: typography.sizes.sm.fontSize }}>
       {authorName}
     </ClText>
   )
@@ -169,5 +172,8 @@ const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
     borderRadius: sizes.radius['2xl'],
     borderWidth: sizes.borderWidth.thin,
     borderColor: resolveColor(colors.accent[700], colors.brand[200]),
+  },
+  saveIcon: {
+    color: resolveColor(colors.accent[500], colors.brand[50]),
   },
 }))
