@@ -1,13 +1,14 @@
 import { ClButton } from '@/components/ClButton'
 import { ClIcon } from '@/components/ClIcon'
+import { ClInlineSpinner } from '@/components/ClInlineSpinner'
 import { ClPageView } from '@/components/ClPageView'
-import { ClSpinner, type ClSpinnerHandleProps } from '@/components/ClSpinner'
+import type { ClSpinnerHandleProps } from '@/components/ClSpinner'
 import { ClText } from '@/components/ClText'
 import { JobCard } from '@/components/cards/JobCard'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
-import { JobCollection } from '@/services/firestore'
+import { JobCollection } from '@/services/firebase'
 import { IconSet } from '@/types/icons'
 import firestore from '@react-native-firebase/firestore'
 import { useQuery } from '@tanstack/react-query'
@@ -25,19 +26,19 @@ export default function Jobs() {
     data: jobPosts,
     refetch,
     isRefetching,
-    isLoading,
+    isFetching,
   } = useQuery({
     queryKey: ['jobs'],
     queryFn: JobCollection.getAllJobPosts,
   })
 
   useEffect(() => {
-    if (isRefetching || isLoading) {
+    if (isFetching || isRefetching) {
       spinnerRef.current?.show()
     } else {
       spinnerRef.current?.hide()
     }
-  }, [isRefetching])
+  }, [isFetching, isRefetching])
 
   return (
     <>
@@ -88,7 +89,7 @@ export default function Jobs() {
           )}
         />
       </ClPageView>
-      <ClSpinner ref={spinnerRef} transluscent />
+      <ClInlineSpinner ref={spinnerRef} transluscent />
     </>
   )
 }
