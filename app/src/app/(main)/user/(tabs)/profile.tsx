@@ -1,28 +1,33 @@
 // import { ClMenu } from '@/components/ClMenu'
 import { ClPageView } from '@/components/ClPageView'
-import { ClText } from '@/components/ClText'
+import { ProfileCard } from '@/components/cards/ProfileCard'
 // import { ProfileCard } from '@/components/cards/ProfileCard'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
+import { UserCollection } from '@/services/firebase'
 import { isEmployer, useAuthStore } from '@/stores/auth'
-import { IconSet } from '@/types/icons'
-import { router } from 'expo-router'
+import auth from '@react-native-firebase/auth'
+import { useQuery } from '@tanstack/react-query'
 
 export default function Profile() {
   useRenderCount('Profile')
 
-  const user = useAuthStore((state) => state.user)
+  const user = auth().currentUser
   const role = useAuthStore((state) => state.role)
+  const { data: stats } = useQuery({
+    queryKey: ['stats'],
+    queryFn: () => UserCollection.getStats(user!.uid, role!),
+  })
 
   return (
-    <ClPageView id="profile-tab" title="Profile">
-      {/* <ProfileCard
+    <ClPageView id="profile-tab">
+      <ProfileCard
         role={role!}
-        name={user?.displayName}
+        name={user!.displayName ?? '...'}
         designation={isEmployer() ? 'Employer' : 'Tradesperson'}
-        // stats={stats!}
-      /> */}
+        stats={stats!}
+      />
       {/* Overview */}
       {/* <ClMenu
         items={[
