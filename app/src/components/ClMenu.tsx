@@ -10,6 +10,7 @@ import { ClText } from './ClText'
 
 export interface ClMenuItem {
   title: string
+  description?: string
   icon?: IconType
   right?: ReactElement
   onPress?: () => void
@@ -64,7 +65,14 @@ function MenuItem({ index, onPress, ...item }: ClMenuItem & { index: number }) {
             size={styles.icon.fontSize}
           />
         )}
-        <ClText style={styles.title}>{item.title}</ClText>
+        <View>
+          <ClText style={styles.title}>{item.title}</ClText>
+          {item.description && (
+            <ClText type="helper" dim>
+              {item.description}
+            </ClText>
+          )}
+        </View>
       </View>
       {item.right && <View style={styles.right}>{item.right}</View>}
     </Component>
@@ -86,13 +94,13 @@ const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
     borderTopColor: resolveColor(colors.neutral[700], colors.neutral[200]),
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  title: {
-    ...typo.fontMap.semiBold,
-  },
+  title: typo.fontMap.semiBold,
   left: {
     flexDirection: 'row',
     gap: spacing[2],
+    alignItems: 'center',
   },
   right: {},
   icon: {
