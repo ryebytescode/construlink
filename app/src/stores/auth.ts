@@ -12,15 +12,21 @@ type Action = {
   setRole: (role: Role | null) => void
   setMode: (mode: State['mode']) => void
   setUser: (user: State['user']) => void
+  reset: () => void
 }
 
-export const useAuthStore = create<State & Action>()((set) => ({
+const initialValues: State = {
   role: null,
   mode: null,
   user: null,
+}
+
+export const useAuthStore = create<State & Action>()((set) => ({
+  ...initialValues,
   setRole: (role) => set({ role }),
   setMode: (mode) => set({ mode }),
   setUser: (user) => set({ user }),
+  reset: () => set(initialValues),
 }))
 
 export const isEmployer = () => useAuthStore.getState().role === Role.EMPLOYER
