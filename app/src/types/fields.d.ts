@@ -22,3 +22,5 @@ interface ResetPasswordFields {
   newPassword: string
   confirmPassword: string
 }
+
+type ChangeDisplayNameFields = Pick<SignUpFields, 'firstName' | 'lastName'>
