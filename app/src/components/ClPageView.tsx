@@ -81,6 +81,7 @@ const useStyles = createStyles(({ spacing, typo }) => ({
   container: {
     gap: spacing[4],
     paddingHorizontal: spacing[4],
+    paddingBottom: spacing[4],
   },
   pageHeader: {
     gap: spacing[2],
