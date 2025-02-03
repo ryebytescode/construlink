@@ -38,11 +38,25 @@ const options: ClTabOption[] = [
     icon: {
       outline: {
         set: IconSet.MaterialCommunityIcons,
-        name: 'briefcase-search-outline',
+        name: 'account-search-outline',
       },
       filled: {
         set: IconSet.MaterialCommunityIcons,
-        name: 'briefcase-search',
+        name: 'account-search',
+      },
+    },
+    shown: true,
+  },
+  {
+    routeName: 'posts',
+    icon: {
+      outline: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'post-outline',
+      },
+      filled: {
+        set: IconSet.MaterialCommunityIcons,
+        name: 'post',
       },
     },
     shown: true,
@@ -143,7 +157,8 @@ const UserLayout = () => {
         name="tradespeople"
         redirect={role === Role.TRADESPERSON}
         options={{
-          title: 'Tradespeople',
+          title: 'Hire',
+          headerTitle: 'Tradespeople',
           headerRight: () => (
             <TouchableOpacity
               onPress={() => router.navigate('/user/job/search')}
@@ -151,6 +166,27 @@ const UserLayout = () => {
               <ClIcon
                 set={IconSet.MaterialIcon}
                 name="search"
+                color={styles.settingsIcon.color}
+                size={styles.settingsIcon.fontSize}
+              />
+            </TouchableOpacity>
+          ),
+          headerRightContainerStyle: styles.headerRightContainer,
+        }}
+      />
+      <Tabs.Screen
+        name="posts"
+        redirect={role === Role.TRADESPERSON}
+        options={{
+          title: 'Posts',
+          headerTitle: 'My Posts',
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => router.navigate('/user/job/create')}
+            >
+              <ClIcon
+                set={IconSet.MaterialIcon}
+                name="add-circle"
                 color={styles.settingsIcon.color}
                 size={styles.settingsIcon.fontSize}
               />
