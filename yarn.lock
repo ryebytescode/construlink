@@ -1445,6 +1445,7 @@ __metadata:
     expo-symbols: "npm:~0.2.1"
     expo-system-ui: "npm:~4.0.7"
     expo-web-browser: "npm:~14.0.2"
+    immer: "npm:^10.1.1"
     jest: "npm:^29.7.0"
     jest-expo: "npm:~52.0.3"
     react: "npm:18.3.1"
@@ -1452,9 +1453,11 @@ __metadata:
     react-hook-form: "npm:^7.54.2"
     react-native: "npm:0.76.6"
     react-native-appwrite: "npm:^0.6.0"
+    react-native-date-picker: "npm:^5.0.10"
     react-native-gesture-handler: "npm:~2.20.2"
     react-native-get-random-values: "npm:^1.11.0"
     react-native-pager-view: "npm:6.5.1"
+    react-native-pell-rich-editor: "npm:^1.9.0"
     react-native-react-query-devtools: "npm:^1.3.10"
     react-native-reanimated: "npm:~3.16.7"
     react-native-safe-area-context: "npm:4.12.0"
@@ -7368,6 +7371,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immer@npm:^10.1.1":
+  version: 10.1.1
+  resolution: "immer@npm:10.1.1"
+  checksum: 10c0/b749e10d137ccae91788f41bd57e9387f32ea6d6ea8fd7eb47b23fd7766681575efc7f86ceef7fe24c3bc9d61e38ff5d2f49c2663b2b0c056e280a4510923653
+  languageName: node
+  linkType: hard
+
 "import-fresh@npm:^2.0.0":
   version: 2.0.0
   resolution: "import-fresh@npm:2.0.0"
@@ -10726,6 +10736,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-date-picker@npm:^5.0.10":
+  version: 5.0.10
+  resolution: "react-native-date-picker@npm:5.0.10"
+  peerDependencies:
+    react: ">= 17.0.1"
+    react-native: ">= 0.64.3"
+  checksum: 10c0/20256350c8b04720751d3d36942a45577ad5eeb2654cde1934c48802ff3801ef03619e073d95a058388a3148eee68fe45b3c2dafc1d1ef349606815e45b3cf65
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:~2.20.2":
   version: 2.20.2
   resolution: "react-native-gesture-handler@npm:2.20.2"
@@ -10782,6 +10802,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/2c6a1cdd30151252f7ee31ce039246c59308ddd4ff6d4dbf44b0d64387338e51cfc432a68795cd80f2f7a1c77617c259462de48c2f4cd24d98805290d70ec02f
+  languageName: node
+  linkType: hard
+
+"react-native-pell-rich-editor@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "react-native-pell-rich-editor@npm:1.9.0"
+  peerDependencies:
+    react-native: ">=0.50.0"
+    react-native-webview: ">=7.5.2"
+  checksum: 10c0/a0020751b75ce3bcfea9888d0ea4f146c472e1365996e7c5a9a2f18c7aed08ee324f1196e708f086ed8c54bac2c3793d766e55ce275fd97011eadee93051f29c
   languageName: node
   linkType: hard
 
