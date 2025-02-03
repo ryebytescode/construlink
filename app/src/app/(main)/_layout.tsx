@@ -124,6 +124,14 @@ export default function MainLayout() {
             name="user/job/view-application"
             options={{ title: 'Application Details' }}
           />
+          <Stack.Screen
+            name="user/job/create"
+            options={{ title: 'Create Job Post' }}
+          />
+          <Stack.Screen
+            name="user/job/description-editor"
+            options={{ title: 'Job Details' }}
+          />
         </ClStack>
         <Toasts
           defaultStyle={{
