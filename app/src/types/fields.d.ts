@@ -24,3 +24,25 @@ interface ResetPasswordFields {
 }
 
 type ChangeDisplayNameFields = Pick<SignUpFields, 'firstName' | 'lastName'>
+
+interface CreateJobFields {
+  title: string
+  category: string
+  employmentType: string
+  location: string
+  description: string
+  postAs: string
+  deadline?: Date
+  payAmount?: number
+  payAmountMin?: number
+  payAmountMax?: number
+  rate?: string
+  isUsingRange: boolean
+}
+
+interface CreateCompanyFields {
+  name: string
+  description: string
+  size: string
+  location: string
+}
