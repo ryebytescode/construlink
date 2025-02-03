@@ -1,3 +1,4 @@
+import { stripNullish } from '@/helpers/utils'
 import { JobApplicationStatus, type Role } from '@/lib/constants'
 import auth from '@react-native-firebase/auth'
 import firestore, { serverTimestamp } from '@react-native-firebase/firestore'
@@ -85,12 +86,63 @@ export namespace UserCollection {
 }
 
 export namespace JobCollection {
+  export async function createJob(
+    employerId: string,
+    fields: CreateJobFields,
+    companyId?: string
+  ) {
+    const newFields = Object.assign(fields, companyId && { companyId })
+
+    try {
+      await firestore()
+        .collection('jobs')
+        .doc(uuidv7())
+        .set({
+          ...stripNullish(newFields),
+          createdAt: serverTimestamp(),
+          authorId: employerId,
+          status: 'pending',
+        })
+
+      return true
+    } catch (error: unknown) {
+      return false
+    }
+  }
+
   export async function getAllJobPosts() {
     const entries: Job[] = []
 
     try {
       const result = await db
         .collection<Job>('jobs')
+        .orderBy('createdAt', 'desc')
+        .get()
+
+      if (result.empty) return null
+
+      // biome-ignore lint/complexity/noForEach:
+      result.forEach((documentSnapshot) => {
+        entries.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        })
+      })
+
+      return entries
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+
+  export async function getMyJobPosts(uid: string) {
+    const entries: Job[] = []
+
+    try {
+      const result = await db
+        .collection<Job>('jobs')
+        .where('authorId', '==', uid)
         .orderBy('createdAt', 'desc')
         .get()
 
