@@ -99,40 +99,39 @@ export const ResetPasswordSchema: ZodType<ResetPasswordFields> = z
 export const ChangeDisplayNameSchema: ZodType<ChangeDisplayNameFields> =
   z.object(nameFields)
 
-export const CreateJobSchema: ZodType<CreateJobFields> = z
-  .object({
-    title: z
-      .string()
-      .min(1, 'Required')
-      .max(10, 'Must contain at most 10 characters'),
-    category: z.string().min(1, 'Required'),
-    employmentType: z.string().min(1, 'Required'),
-    location: z.string().min(1, 'Required'),
-    description: z
-      .string()
-      .min(1, 'Required')
-      .max(300, 'Must contain at most 300 characters'),
-    postAs: z.string().min(1, 'Required'),
-    deadline: z.date().min(new Date(), 'Invalid date').optional(),
-    payAmount: z.number().min(1, 'Must be at least 1').optional(),
-    payAmountMin: z.number().min(1, 'Must be at least 1').optional(),
-    payAmountMax: z.number().min(1, 'Must be at least 1').optional(),
-    rate: z.string().optional(),
-    isUsingRange: z.boolean(),
-  })
-  .refine(
-    (data) => {
-      if (data.isUsingRange) {
-        return (
-          data.payAmountMin !== undefined &&
-          data.payAmountMax !== undefined &&
-          data.payAmountMin <= data.payAmountMax
-        )
-      }
-      return data.payAmount !== undefined
-    },
-    {
-      message: 'Invalid pay amounts',
-      path: ['payAmountMin', 'payAmountMax', 'payAmount'],
-    }
-  )
+export const CreateJobSchema: ZodType<CreateJobFields> = z.object({
+  title: z
+    .string()
+    .min(1, 'Required')
+    .max(100, 'Must contain at most 100 characters'),
+  category: z.string().min(1, 'Required'),
+  employmentType: z.string().min(1, 'Required'),
+  location: z.string().min(1, 'Required'),
+  description: z
+    .string()
+    .min(1, 'Required')
+    .max(300, 'Must contain at most 300 characters'),
+  postAs: z.string().min(1, 'Required'),
+  deadline: z.date().min(new Date(), 'Invalid date').optional(),
+  // payAmount: z.number().min(1, 'Must be at least 1').optional(),
+  // payAmountMin: z.number().min(1, 'Must be at least 1').optional(),
+  // payAmountMax: z.number().min(1, 'Must be at least 1').optional(),
+  // rate: z.string().optional(),
+  // isUsingRange: z.boolean(),
+})
+// .refine(
+//   (data) => {
+//     if (data.isUsingRange) {
+//       return (
+//         data.payAmountMin !== undefined &&
+//         data.payAmountMax !== undefined &&
+//         data.payAmountMin <= data.payAmountMax
+//       )
+//     }
+//     return data.payAmount !== undefined
+//   },
+//   {
+//     message: 'Invalid pay amounts',
+//     path: ['payAmountMin', 'payAmountMax', 'payAmount'],
+//   }
+// )

@@ -33,11 +33,11 @@ interface CreateJobFields {
   description: string
   postAs: string
   deadline?: Date
-  payAmount?: number
-  payAmountMin?: number
-  payAmountMax?: number
-  rate?: string
-  isUsingRange: boolean
+  // payAmount?: number
+  // payAmountMin?: number
+  // payAmountMax?: number
+  // rate?: string
+  // isUsingRange: boolean
 }
 
 interface CreateCompanyFields {
