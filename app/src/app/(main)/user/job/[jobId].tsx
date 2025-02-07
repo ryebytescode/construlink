@@ -10,6 +10,7 @@ import { FormMessage } from '@/components/controlled/FormMessage'
 import { formatDateTime, formatMoney } from '@/helpers/utils'
 import { Cl } from '@/lib/options'
 import { JobCollection } from '@/services/firebase'
+import { isEmployer, useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
 import { IconSet } from '@/types/icons'
 import auth from '@react-native-firebase/auth'
@@ -60,7 +61,7 @@ export default function JobViewer() {
               />
             )}
             <ClCard>
-              <ClText type="h5" weight="bold">
+              <ClText type="h6" weight="bold">
                 {jobDetails.title}
               </ClText>
               <View style={{ gap: Spacing[1] }}>
@@ -93,7 +94,7 @@ export default function JobViewer() {
                     )!.label
                   }
                 />
-                {jobDetails.rate && (
+                {/* {jobDetails.rate && (
                   <ClIconText
                     icon={{
                       set: IconSet.MaterialIcon,
@@ -105,11 +106,11 @@ export default function JobViewer() {
                         : `${formatMoney(Number(jobDetails.payAmountMin))} - ${formatMoney(Number(jobDetails.payAmountMax))} ${jobDetails.rate}`
                     }
                   />
-                )}
+                )} */}
               </View>
             </ClCard>
             <ClCard>
-              <ClText type="h5" weight="bold">
+              <ClText type="h6" weight="bold">
                 Details
               </ClText>
               <ClWebView html={jobDetails.description as string} />
@@ -117,7 +118,7 @@ export default function JobViewer() {
             {/* <EmployerCard jobDetails={jobDetails} /> */}
             {jobDetails.deadline && (
               <ClCard>
-                <ClText type="h5" weight="bold">
+                <ClText type="h6" weight="bold">
                   Application Deadline
                 </ClText>
                 <ClIconText
@@ -129,12 +130,21 @@ export default function JobViewer() {
                 />
               </ClCard>
             )}
-            <ClButton
-              text="Apply Now"
-              bodyStyle={{ marginTop: Spacing[4] }}
-              onPress={() => router.push(`/user/job/apply?jobId=${jobId}`)}
-              disabled={isApplied}
-            />
+            {isEmployer() ? (
+              <ClButton
+                text="Edit Post"
+                bodyStyle={{ marginTop: Spacing[4] }}
+                onPress={() => router.push(`/user/job/apply?jobId=${jobId}`)}
+                disabled={isApplied}
+              />
+            ) : (
+              <ClButton
+                text="Apply Now"
+                bodyStyle={{ marginTop: Spacing[4] }}
+                onPress={() => router.push(`/user/job/apply?jobId=${jobId}`)}
+                disabled={isApplied}
+              />
+            )}
           </>
         )}
       </ClPageView>
