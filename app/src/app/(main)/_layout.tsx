@@ -130,7 +130,11 @@ export default function MainLayout() {
           />
           <Stack.Screen
             name="user/job/description-editor"
-            options={{ title: 'Job Details' }}
+            options={{ title: 'Edit' }}
+          />
+          <Stack.Screen
+            name="user/job/preview"
+            options={{ title: 'Preview' }}
           />
         </ClStack>
         <Toasts
