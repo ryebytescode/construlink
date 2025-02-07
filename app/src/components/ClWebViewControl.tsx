@@ -98,7 +98,7 @@ const useStyles = createStyles(
     inputLabel: {
       marginBottom: spacing[2],
       fontSize: TextInput.sizes.small.labelFontSize,
-      lineHeight: TextInput.sizes.small.labelFontSize,
+      // lineHeight: TextInput.sizes.small.labelFontSize,
     },
     webviewContainer: {
       padding: TextInput.sizes.small.padding,

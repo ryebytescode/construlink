@@ -107,7 +107,7 @@ const useStyles = createStyles(
     inputLabel: {
       marginBottom: spacing[2],
       fontSize: TextInput.sizes[size].labelFontSize,
-      lineHeight: TextInput.sizes[size].labelFontSize,
+      // lineHeight: TextInput.sizes[size].labelFontSize,
     },
     option: {
       gap: spacing[4],
