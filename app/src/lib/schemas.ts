@@ -8,7 +8,7 @@ const nameFields = {
 
 const passwordField = z
   .string()
-  .min(8, 'Must be 8 characters long')
+  .min(8, 'Must be at least 8 characters long')
   .regex(
     patterns.password.oneUpperCase,
     'Must contain at least one uppercase letter'
