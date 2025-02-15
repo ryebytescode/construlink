@@ -2,19 +2,17 @@ import { ClButton } from '@/components/ClButton'
 import { ClLinkText } from '@/components/ClLinkText'
 import { ClPageView } from '@/components/ClPageView'
 import { ClText } from '@/components/ClText'
-import { createStyles } from '@/helpers/createStyles'
-import { useAuthStore } from '@/stores/auth'
-import { Spacing } from '@/theme'
+import type { AuthMode } from '@/contexts/auth'
+import type { Role } from '@/lib/constants'
 import { IconSet } from '@/types/icons'
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { View } from 'react-native'
 
 export default function MethodChooserScreen() {
-  const authMode = useAuthStore((state) => state.mode) ?? 'signup'
-
-  function handleGoToCredentials() {
-    router.push({ pathname: `/auth/${authMode}` })
-  }
+  const { mode, role } = useLocalSearchParams<{
+    mode?: AuthMode
+    role?: Role
+  }>()
 
   return (
     <ClPageView
@@ -42,7 +40,12 @@ export default function MethodChooserScreen() {
           name: 'email',
         }}
         text="Continue with email"
-        onPress={handleGoToCredentials}
+        onPress={() =>
+          router.push({
+            pathname: `/auth/${mode ?? 'signup'}`,
+            params: { role },
+          })
+        }
       />
       <View style={{ flex: 1 }} />
       <ClText type="helper" style={{ textAlign: 'center' }} dim>
@@ -59,10 +62,3 @@ export default function MethodChooserScreen() {
     </ClPageView>
   )
 }
-
-const useStyles = createStyles(({ colors, spacing, typo }) => ({
-  text: {
-    textAlign: 'center',
-    marginTop: Spacing[4],
-  },
-}))

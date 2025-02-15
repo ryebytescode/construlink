@@ -3,19 +3,13 @@ import { ClPageView } from '@/components/ClPageView'
 import { ClRadioInput } from '@/components/ClRadio'
 import type { Role } from '@/lib/constants'
 import { Cl } from '@/lib/options'
-import { useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
 import { router } from 'expo-router'
-import { useEffect } from 'react'
+import { useState } from 'react'
 import { View } from 'react-native'
 
 export default function RoleSelectionScreen() {
-  const role = useAuthStore((state) => state.role)
-  const setRole = useAuthStore((state) => state.setRole)
-
-  useEffect(() => {
-    return () => setRole(null)
-  }, [setRole])
+  const [role, setRole] = useState<Role>()
 
   return (
     <ClPageView
@@ -27,14 +21,16 @@ export default function RoleSelectionScreen() {
         id="role"
         options={Cl.role}
         radioInputStyles={{ paddingVertical: Spacing[6] }}
-        value={role ?? undefined}
+        value={role}
         onChange={(value) => setRole(value as Role)}
       />
       <View style={{ flex: 1 }} />
       <ClButton
         text="Next"
         disabled={!role}
-        onPress={() => router.push('/auth/method-chooser')}
+        onPress={() =>
+          router.push({ pathname: '/auth/method-chooser', params: { role } })
+        }
       />
     </ClPageView>
   )
