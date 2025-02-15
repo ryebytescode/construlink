@@ -1,5 +1,6 @@
 interface User {
   role: import('@/lib/constants').Role
+  company?: Company
 }
 
 type Timestamp = import(
@@ -27,6 +28,7 @@ interface Job extends HasKey {
   postAs: string
   status: string
   applyCount: number
+  company?: Reference<Company>
 }
 
 interface JobApplication extends HasKey {
