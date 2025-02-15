@@ -1,39 +1,35 @@
 import ClLogo from '@/assets/images/logo'
 import { ClButton } from '@/components/ClButton'
-import { ClInlineSpinner } from '@/components/ClInlineSpinner'
 import { ClLinkText } from '@/components/ClLinkText'
 import { ClPageView } from '@/components/ClPageView'
 import { ClSpinner } from '@/components/ClSpinner'
 import { ClText } from '@/components/ClText'
+import { useAuth } from '@/contexts/auth'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
-import { useAuthStore } from '@/stores/auth'
+import { Role } from '@/lib/constants'
 import { Spacing } from '@/theme'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
-import React, { type MouseEvent } from 'react'
-import { type GestureResponderEvent, View } from 'react-native'
+import { useEffect } from 'react'
+import { View } from 'react-native'
 
 export default function GettingStartedScreen() {
   const styles = useStyles()
-  const setAuthMode = useAuthStore((state) => state.setMode)
-  const isAuth = useAuthStore((state) => state.user)
 
-  function handleGetStarted() {
-    setAuthMode('signup')
-    router.push('/auth/role-selection')
+  const { initializing, userInfo } = useAuth()
+
+  useEffect(() => {
+    if (userInfo) {
+      router.replace(
+        userInfo.role === Role.EMPLOYER ? '/user/tradespeople' : '/user/jobs'
+      )
+    }
+  }, [userInfo])
+
+  if (initializing || userInfo) {
+    return <ClSpinner visible />
   }
-
-  function handleGoToSignIn(
-    event: MouseEvent<HTMLAnchorElement> | GestureResponderEvent
-  ) {
-    event.preventDefault()
-
-    setAuthMode('signin')
-    router.push('/auth/method-chooser')
-  }
-
-  if (isAuth) return <ClInlineSpinner visible />
 
   return (
     <>
@@ -57,11 +53,25 @@ export default function GettingStartedScreen() {
           <ClButton
             text="Get Started"
             size="large"
-            onPress={handleGetStarted}
+            onPress={() =>
+              router.push({
+                pathname: '/auth/role-selection',
+                params: { mode: 'signup' },
+              })
+            }
           />
           <ClText style={{ textAlign: 'center', marginVertical: Spacing[2] }}>
             Already a member?{' '}
-            <ClLinkText href="/" onPress={handleGoToSignIn}>
+            <ClLinkText
+              href="/"
+              onPress={(event) => {
+                event.preventDefault()
+                router.push({
+                  pathname: '/auth/method-chooser',
+                  params: { mode: 'signin' },
+                })
+              }}
+            >
               Sign in
             </ClLinkText>
           </ClText>
@@ -71,7 +81,7 @@ export default function GettingStartedScreen() {
   )
 }
 
-const useStyles = createStyles(({ colors, spacing, typo }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, typo }) => ({
   backgroundImage: {
     width: '100%',
     height: '100%',
@@ -82,7 +92,7 @@ const useStyles = createStyles(({ colors, spacing, typo }) => ({
     paddingTop: spacing[40],
     justifyContent: 'space-between',
     alignItems: 'stretch',
-    backgroundColor: resolveColor(colors.modalBackground, '#ffffffd9'),
+    backgroundColor: resolveColor(scheme, colors.modalBackground, '#ffffffd9'),
   },
   greeting: {
     gap: spacing[4],

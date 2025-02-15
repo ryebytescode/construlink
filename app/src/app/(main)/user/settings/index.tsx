@@ -7,13 +7,13 @@ import {
 import { ClMenu, type ClMenuItem } from '@/components/ClMenu'
 import { ClPageView } from '@/components/ClPageView'
 import { ClRadioInput } from '@/components/ClRadio'
+import { useAuth } from '@/contexts/auth'
+import { User } from '@/services/firebase'
 import { useAppStore } from '@/stores/app'
-import { useAuthStore } from '@/stores/auth'
 import { Spacing } from '@/theme'
 import type { Scheme } from '@/theme/palette'
 import { IconSet } from '@/types/icons'
 import type { BottomSheetModal } from '@gorhom/bottom-sheet'
-import auth from '@react-native-firebase/auth'
 import { router } from 'expo-router'
 import React, { useMemo, useRef } from 'react'
 import { Alert } from 'react-native'
@@ -21,7 +21,7 @@ import { Alert } from 'react-native'
 export default function SettingsScreen() {
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const spinnerRef = useRef<ClSpinnerHandleProps>(null)
-  const resetAuthStore = useAuthStore((state) => state.reset)
+  const auth = useAuth()
 
   const menuItems: ClMenuItem[] = useMemo(
     () => [
@@ -81,8 +81,8 @@ export default function SettingsScreen() {
         text: 'Yes',
         onPress: async () => {
           spinnerRef.current?.show()
-          await auth().signOut()
-          resetAuthStore()
+          await User.signOut()
+          auth.reset()
           if (router.canDismiss()) router.dismissAll()
           router.replace('/')
         },

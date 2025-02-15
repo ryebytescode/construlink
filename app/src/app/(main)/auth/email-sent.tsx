@@ -7,9 +7,9 @@ import { ClText } from '@/components/ClText'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { Cl } from '@/lib/options'
+import { User } from '@/services/firebase'
 import { Spacing } from '@/theme'
 import { IconSet } from '@/types/icons'
-import auth from '@react-native-firebase/auth'
 import * as Linking from 'expo-linking'
 import { Redirect, router, useLocalSearchParams } from 'expo-router'
 import React, { type MouseEvent, useRef } from 'react'
@@ -33,7 +33,7 @@ export default function EmailSentScreen() {
       router.back()
     } else {
       spinnerRef.current?.show()
-      await auth().currentUser?.sendEmailVerification()
+      await User.sendEmailVerification()
 
       spinnerRef.current?.hide()
       Alert.alert(
@@ -99,14 +99,18 @@ export default function EmailSentScreen() {
   )
 }
 
-const useStyles = createStyles(({ colors, spacing, typo, sizes }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, typo, sizes }) => ({
   container: {
     alignItems: 'center',
     gap: spacing[2],
     marginTop: spacing[20],
   },
   icon: {
-    color: resolveColor(colors.states.success.base, colors.states.success[600]),
+    color: resolveColor(
+      scheme,
+      colors.states.success.base,
+      colors.states.success[600]
+    ),
     fontSize: sizes.icon['3xl'],
   },
 }))
