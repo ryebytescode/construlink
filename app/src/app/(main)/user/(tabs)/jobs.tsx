@@ -10,8 +10,9 @@ import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { JobCollection } from '@/services/firebase'
 import { IconSet } from '@/types/icons'
-import firestore from '@react-native-firebase/firestore'
+import { Timestamp } from '@react-native-firebase/firestore'
 import { useQuery } from '@tanstack/react-query'
+import { useMount } from 'ahooks'
 import { router } from 'expo-router'
 import React, { useEffect, useRef } from 'react'
 import { FlatList, RefreshControl, View } from 'react-native'
@@ -30,6 +31,7 @@ export default function Jobs() {
   } = useQuery({
     queryKey: ['jobs'],
     queryFn: JobCollection.getAllJobPosts,
+    enabled: false,
   })
 
   useEffect(() => {
@@ -39,6 +41,10 @@ export default function Jobs() {
       spinnerRef.current?.hide()
     }
   }, [isFetching, isRefetching])
+
+  useMount(() => {
+    setTimeout(refetch, 500)
+  })
 
   return (
     <>
@@ -78,7 +84,7 @@ export default function Jobs() {
               authorId={item.authorId}
               title={item.title}
               location={item.location}
-              postTime={new firestore.Timestamp(
+              postTime={new Timestamp(
                 item.createdAt.seconds,
                 item.createdAt.nanoseconds
               ).toDate()}
@@ -94,7 +100,7 @@ export default function Jobs() {
   )
 }
 
-const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
   emptyPlaceholder: {
     alignItems: 'center',
     gap: spacing[6],
@@ -102,7 +108,7 @@ const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
   },
   heroIcon: {
     fontSize: sizes.icon['4xl'],
-    color: resolveColor(colors.neutral[700], colors.neutral[300]),
+    color: resolveColor(scheme, colors.neutral[700], colors.neutral[300]),
   },
   encouragement: {
     alignItems: 'center',

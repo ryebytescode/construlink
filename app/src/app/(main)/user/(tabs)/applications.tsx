@@ -5,12 +5,12 @@ import { ClPageView } from '@/components/ClPageView'
 import type { ClSpinnerHandleProps } from '@/components/ClSpinner'
 import { ClText } from '@/components/ClText'
 import { ApplicationCard } from '@/components/cards/ApplicationCard'
+import { useAuth } from '@/contexts/auth'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
-import { JobCollection } from '@/services/firebase'
+import { JobCollection, User } from '@/services/firebase'
 import { IconSet } from '@/types/icons'
-import auth from '@react-native-firebase/auth'
-import firestore from '@react-native-firebase/firestore'
+import { Timestamp } from '@react-native-firebase/firestore'
 import { useQuery } from '@tanstack/react-query'
 import { router } from 'expo-router'
 import React, { useEffect, useRef } from 'react'
@@ -19,7 +19,7 @@ import { FlatList, RefreshControl, View } from 'react-native'
 export default function JobApplicationsTab() {
   const styles = useStyles()
   const spinnerRef = useRef<ClSpinnerHandleProps>(null)
-  const uid = auth().currentUser!.uid
+  const { userInfo } = useAuth()
 
   const {
     data: jobApplications,
@@ -29,7 +29,7 @@ export default function JobApplicationsTab() {
     isLoading,
   } = useQuery({
     queryKey: ['applications'],
-    queryFn: () => JobCollection.getJobApplications(uid),
+    queryFn: () => JobCollection.getJobApplications(User.get()!.uid),
   })
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function JobApplicationsTab() {
             <ApplicationCard
               applicationId={item.key}
               title={'Masonry'}
-              applyTime={new firestore.Timestamp(
+              applyTime={new Timestamp(
                 item.createdAt.seconds,
                 item.createdAt.nanoseconds
               ).toDate()}
@@ -91,7 +91,7 @@ export default function JobApplicationsTab() {
   )
 }
 
-const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
   emptyPlaceholder: {
     alignItems: 'center',
     gap: spacing[6],
@@ -99,7 +99,7 @@ const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
   },
   heroIcon: {
     fontSize: sizes.icon['4xl'],
-    color: resolveColor(colors.neutral[700], colors.neutral[300]),
+    color: resolveColor(scheme, colors.neutral[700], colors.neutral[300]),
   },
   encouragement: {
     alignItems: 'center',

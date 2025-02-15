@@ -39,14 +39,18 @@ export default function ResetDoneScreen() {
   )
 }
 
-const useStyles = createStyles(({ colors, spacing, sizes }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, sizes }) => ({
   container: {
     alignItems: 'center',
     gap: spacing[2],
     marginTop: spacing[20],
   },
   icon: {
-    color: resolveColor(colors.states.success.base, colors.states.success[600]),
+    color: resolveColor(
+      scheme,
+      colors.states.success.base,
+      colors.states.success[600]
+    ),
     fontSize: sizes.icon['3xl'],
   },
 }))

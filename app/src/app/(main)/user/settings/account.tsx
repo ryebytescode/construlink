@@ -5,6 +5,7 @@ import {
 } from '@/components/ClInlineSpinner'
 import { ClMenu, type ClMenuItem } from '@/components/ClMenu'
 import { ClPageView } from '@/components/ClPageView'
+import { useTheme } from '@/contexts/theme'
 import { resolveColor } from '@/helpers/resolveColor'
 import { User } from '@/services/firebase'
 import { Palette, Sizes } from '@/theme'
@@ -13,19 +14,24 @@ import { router } from 'expo-router'
 import React, { useMemo, useRef } from 'react'
 import { TouchableOpacity } from 'react-native'
 
-const editElement = (onPress: () => void) => (
-  <TouchableOpacity onPress={onPress}>
-    <ClIcon
-      set={IconSet.MaterialCommunityIcons}
-      name="pencil-outline"
-      size={Sizes.icon.md}
-      color={resolveColor(Palette.dark.neutral[400], Palette.dark.primaryText)}
-    />
-  </TouchableOpacity>
-)
-
 export default function AccountScreen() {
   const spinnerRef = useRef<ClSpinnerHandleProps>(null)
+  const { scheme } = useTheme()
+
+  const editElement = (onPress: () => void) => (
+    <TouchableOpacity onPress={onPress}>
+      <ClIcon
+        set={IconSet.MaterialCommunityIcons}
+        name="pencil-outline"
+        size={Sizes.icon.md}
+        color={resolveColor(
+          scheme,
+          Palette.dark.neutral[400],
+          Palette.dark.primaryText
+        )}
+      />
+    </TouchableOpacity>
+  )
 
   const menuItems: ClMenuItem[] = useMemo(
     () => [
