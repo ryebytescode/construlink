@@ -1,9 +1,10 @@
-import { useAppStore } from '@/stores/app'
+import type { Scheme } from '@/theme/palette'
 import type { ColorValue } from 'react-native'
 
 export function resolveColor(
+  scheme: Scheme,
   forDark: ColorValue,
   forLight: ColorValue
 ): ColorValue {
-  return useAppStore.getState().scheme === 'dark' ? forDark : forLight
+  return scheme === 'dark' ? forDark : forLight
 }

@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/theme'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useAppStore } from '@/stores/app'
 import { Typo } from '@/theme'
@@ -8,7 +9,7 @@ export function ClErrorMessage({
   message,
   ...rest
 }: TextProps & { message?: string }) {
-  const colors = useAppStore((state) => state.colors)
+  const { scheme, colors } = useTheme()
 
   return (
     <View
@@ -22,6 +23,7 @@ export function ClErrorMessage({
         type="helper"
         style={{
           color: resolveColor(
+            scheme,
             colors.states.danger[300],
             colors.states.danger[400]
           ),

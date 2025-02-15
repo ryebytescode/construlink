@@ -27,8 +27,8 @@ export function ClLinkText({
   )
 }
 
-const useStyles = createStyles(({ colors }) => ({
+const useStyles = createStyles(({ scheme, colors }) => ({
   text: {
-    color: resolveColor(colors.accent[500], colors.brand[600]),
+    color: resolveColor(scheme, colors.accent[500], colors.brand[600]),
   },
 }))

@@ -98,7 +98,7 @@ export function ClRadioInput({
 
 const useStyles = createStyles(
   (
-    { colors, spacing, sizes, typo, styled: { TextInput } },
+    { scheme, colors, spacing, sizes, typo, styled: { TextInput } },
     { size = 'medium' }: Pick<ClRadioInputProps, 'size'>
   ) => ({
     container: {
@@ -116,10 +116,18 @@ const useStyles = createStyles(
       padding: TextInput.sizes[size].padding,
       borderRadius: sizes.radius['2xl'],
       borderWidth: sizes.borderWidth.thin,
-      borderColor: resolveColor(colors.neutral[700], colors.neutral[200]),
+      borderColor: resolveColor(
+        scheme,
+        colors.neutral[700],
+        colors.neutral[200]
+      ),
     },
     optionSelected: {
-      backgroundColor: resolveColor(colors.neutral[700], colors.neutral[100]),
+      backgroundColor: resolveColor(
+        scheme,
+        colors.neutral[700],
+        colors.neutral[100]
+      ),
     },
     optionLeft: {
       alignItems: 'center',
@@ -138,9 +146,17 @@ const useStyles = createStyles(
       width: sizes.icon.md,
       height: sizes.icon.md,
       borderRadius: sizes.radius.full,
-      backgroundColor: resolveColor(colors.neutral[700], colors.neutral[50]),
+      backgroundColor: resolveColor(
+        scheme,
+        colors.neutral[700],
+        colors.neutral[50]
+      ),
       borderWidth: sizes.borderWidth.thin,
-      borderColor: resolveColor(colors.neutral[600], colors.neutral[300]),
+      borderColor: resolveColor(
+        scheme,
+        colors.neutral[600],
+        colors.neutral[300]
+      ),
     },
     radioButtonIndicator: {
       width: sizes.icon.sm,
@@ -148,7 +164,11 @@ const useStyles = createStyles(
       alignSelf: 'center',
     },
     radioButtonIndicatorSelected: {
-      backgroundColor: resolveColor(colors.accent[500], colors.brand.base),
+      backgroundColor: resolveColor(
+        scheme,
+        colors.accent[500],
+        colors.brand.base
+      ),
       borderRadius: sizes.radius.full,
     },
   })

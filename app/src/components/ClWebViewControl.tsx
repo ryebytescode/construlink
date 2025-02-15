@@ -113,20 +113,26 @@ const useStyles = createStyles(
       borderColor: TextInput.colors[scheme].border,
     },
     placeholder: {
-      color: resolveColor(colors.neutral[500], colors.neutral[400]),
+      color: resolveColor(scheme, colors.neutral[500], colors.neutral[400]),
     },
     inputInvalid: {
       borderColor: resolveColor(
+        scheme,
         colors.states.danger[300],
         colors.states.danger[400]
       ),
       backgroundColor: resolveColor(
+        scheme,
         colors.states.danger[900],
         colors.states.danger[50]
       ),
     },
     inputDisabled: {
-      borderColor: resolveColor(colors.neutral[800], colors.neutral[50]),
+      borderColor: resolveColor(
+        scheme,
+        colors.neutral[800],
+        colors.neutral[50]
+      ),
     },
   })
 )

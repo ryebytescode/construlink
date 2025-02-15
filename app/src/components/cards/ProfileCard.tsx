@@ -1,6 +1,7 @@
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { Role } from '@/lib/constants'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import React, { useMemo } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { AvatarUploader } from '../AvatarUploader'
@@ -23,18 +24,20 @@ export function ProfileCard(props: ProfileCardProps) {
   const styles = useStyles()
 
   return (
-    <View style={styles.profileCard}>
-      <AvatarUploader />
-      <View>
-        <ClText type="h6" style={styles.name}>
-          {name}
-        </ClText>
-        <ClText type="helper" style={styles.role} dim>
-          {designation}
-        </ClText>
+    <BottomSheetModalProvider>
+      <View style={styles.profileCard}>
+        <AvatarUploader />
+        <View>
+          <ClText type="h6" style={styles.name}>
+            {name}
+          </ClText>
+          <ClText type="helper" style={styles.role} dim>
+            {designation}
+          </ClText>
+        </View>
+        <StatsContainer role={role} stats={stats} />
       </View>
-      <StatsContainer role={role} stats={stats} />
-    </View>
+    </BottomSheetModalProvider>
   )
 }
 
@@ -70,8 +73,6 @@ function StatsContainer({
     []
   )
 
-  console.log(role)
-
   const handleStatPress = () => {
     // router.push('/(main)/(user)/stats')
   }
@@ -96,15 +97,19 @@ function StatsContainer({
   )
 }
 
-const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
   profileCard: {
     alignItems: 'center',
     gap: spacing[4],
-    backgroundColor: resolveColor(colors.neutral[800], colors.neutral[100]),
+    backgroundColor: resolveColor(
+      scheme,
+      colors.neutral[800],
+      colors.neutral[100]
+    ),
     paddingVertical: spacing[4],
     borderRadius: sizes.radius['2xl'],
     borderWidth: sizes.borderWidth.thin,
-    borderColor: resolveColor(colors.neutral[700], colors.neutral[200]),
+    borderColor: resolveColor(scheme, colors.neutral[700], colors.neutral[200]),
   },
   name: {
     ...typo.fontMap.bold,
@@ -117,7 +122,11 @@ const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
     flexDirection: 'row',
     paddingTop: spacing[4],
     borderTopWidth: sizes.borderWidth.thin,
-    borderTopColor: resolveColor(colors.neutral[700], colors.neutral[200]),
+    borderTopColor: resolveColor(
+      scheme,
+      colors.neutral[700],
+      colors.neutral[200]
+    ),
   },
   stat: {
     flex: 1,

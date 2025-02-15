@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/theme'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useAppStore } from '@/stores/app'
@@ -63,7 +64,7 @@ export const ClTextInput = forwardRef<RNTextInput, Partial<ClTextInputProps>>(
     const [focused, setFocused] = useState(false)
     const [showPassword, setShowPassword] = useState(!passwordMode)
 
-    const colors = useAppStore((state) => state.colors)
+    const { scheme, colors } = useTheme()
     const styles = useStyles({ size })
     const touchOpacity = 0.7
     const iconSize = {
@@ -92,8 +93,8 @@ export const ClTextInput = forwardRef<RNTextInput, Partial<ClTextInputProps>>(
         underlineColorAndroid="transparent"
         placeholderTextColor={
           disabled
-            ? resolveColor(colors.neutral[600], colors.neutral[400])
-            : resolveColor(colors.neutral[500], colors.neutral[400])
+            ? resolveColor(scheme, colors.neutral[600], colors.neutral[400])
+            : resolveColor(scheme, colors.neutral[500], colors.neutral[400])
         }
         selectionColor={colors.neutral[300]}
         onFocus={handleFocus}
@@ -192,21 +193,35 @@ const useStyles = createStyles(
         padding: TextInput.sizes[size].padding,
       },
       inputFocus: {
-        borderColor: resolveColor(colors.accent.base, colors.brand[400]),
-        backgroundColor: resolveColor(colors.accent[900], colors.brand[50]),
+        borderColor: resolveColor(
+          scheme,
+          colors.accent.base,
+          colors.brand[400]
+        ),
+        backgroundColor: resolveColor(
+          scheme,
+          colors.accent[900],
+          colors.brand[50]
+        ),
       },
       inputInvalid: {
         borderColor: resolveColor(
+          scheme,
           colors.states.danger[300],
           colors.states.danger[400]
         ),
         backgroundColor: resolveColor(
+          scheme,
           colors.states.danger[900],
           colors.states.danger[50]
         ),
       },
       inputDisabled: {
-        borderColor: resolveColor(colors.neutral[800], colors.neutral[50]),
+        borderColor: resolveColor(
+          scheme,
+          colors.neutral[800],
+          colors.neutral[50]
+        ),
       },
 
       // The actual field
@@ -232,7 +247,7 @@ const useStyles = createStyles(
         paddingLeft: TextInput.sizes[size].padding,
       },
       iconDisabled: {
-        color: resolveColor(colors.neutral[600], colors.neutral[200]),
+        color: resolveColor(scheme, colors.neutral[600], colors.neutral[200]),
       },
     }
   }

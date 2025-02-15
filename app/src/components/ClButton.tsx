@@ -1,7 +1,7 @@
+import { useTheme } from '@/contexts/theme'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useScheme } from '@/hooks/useScheme'
-import { useAppStore } from '@/stores/app'
 import { Sizes, Styled } from '@/theme'
 import type { SkinnedButtonColors } from '@/theme/styled'
 import type { IconType } from '@/types/icons'
@@ -54,7 +54,7 @@ export function ClButton(props: ClTextButtonProps) {
     ...rest
   } = props
   const styles = useStyles({ color, size, hasIcon: !!icon })
-  const colors = useAppStore((state) => state.colors)
+  const { colors } = useTheme()
 
   const colorProgress = useSharedValue(0)
   const buttonAnimStyles = useAnimatedStyle(() => {
@@ -145,7 +145,7 @@ export function ClButton(props: ClTextButtonProps) {
 
 const useStyles = createStyles(
   (
-    { scheme, styled: { Button }, colors, spacing, sizes },
+    { scheme, styled: { Button }, colors, spacing, sizes, typo },
     {
       color,
       size,
@@ -187,18 +187,20 @@ const useStyles = createStyles(
       text: {
         textAlign: 'center',
         fontSize: Button.sizes[size].font.fontSize,
+        ...typo.fontMap.semiBold,
       },
       textVariantSolid: {
         color: colors.white,
       },
       textVariantOutline: {
         color: resolveColor(
+          scheme,
           colors.white,
           Button.colors[scheme][color].background
         ),
       },
       textVariantDisabled: {
-        color: resolveColor(colors.neutral[800], colors.neutral[500]),
+        color: resolveColor(scheme, colors.neutral[800], colors.neutral[500]),
       },
 
       icon: {

@@ -8,6 +8,7 @@ import type { LabelPosition } from '@react-navigation/bottom-tabs/lib/typescript
 import { useLayoutEffect } from 'react'
 import type { PressableProps } from 'react-native'
 import Animated, {
+  runOnUI,
   SlideOutDown,
   useAnimatedStyle,
   useSharedValue,
@@ -56,10 +57,13 @@ export function ClTabItem(props: ClTabItemProps) {
   }))
 
   useLayoutEffect(() => {
-    iconScale.value = withSpring(isFocused ? ACTIVE_SCALE : 1, {
-      damping: 10,
-      stiffness: 382,
-    })
+    runOnUI(() => {
+      'worklet'
+      iconScale.value = withSpring(isFocused ? ACTIVE_SCALE : 1, {
+        damping: 10,
+        stiffness: 382,
+      })
+    })()
   }, [isFocused])
 
   return (

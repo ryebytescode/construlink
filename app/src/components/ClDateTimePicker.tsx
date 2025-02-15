@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/theme'
 import { resolveColor } from '@/helpers/resolveColor'
 import { formatDateTime } from '@/helpers/utils'
 import { useAppStore } from '@/stores/app'
@@ -35,6 +36,7 @@ export const ClDateTimePicker = forwardRef<RNTextInput, ClDateTimePickerProps>(
 
     const [value, setValue] = useState<Date>()
     const [pickerVisible, setPickerVisible] = useState(false)
+    const { scheme } = useTheme()
 
     const getTitle = () => {
       let title = ''
@@ -81,6 +83,7 @@ export const ClDateTimePicker = forwardRef<RNTextInput, ClDateTimePickerProps>(
           onCancel={onCancel}
           buttonColor={
             resolveColor(
+              scheme,
               Palette.dark.accent.base,
               Palette.light.brand.base
             ) as string
@@ -105,7 +108,7 @@ export const ControlledDateTimePicker = <TFields extends FieldValues>({
   ...controllerProps
 }: ControlledDateTimePickerProps & UseControllerProps<TFields>) => {
   const { field, fieldState } = useController(controllerProps)
-  const colors = useAppStore((state) => state.colors)
+  const { scheme, colors } = useTheme()
 
   return (
     <View style={{ gap: Spacing[1] }}>
@@ -127,6 +130,7 @@ export const ControlledDateTimePicker = <TFields extends FieldValues>({
             name="error"
             size={Sizes.icon.sm}
             color={resolveColor(
+              scheme,
               colors.states.danger[300],
               colors.states.danger[400]
             )}

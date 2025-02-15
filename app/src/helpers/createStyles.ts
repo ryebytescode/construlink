@@ -1,4 +1,4 @@
-import { useAppStore } from '@/stores/app'
+import { useTheme } from '@/contexts/theme'
 import type { Theme } from '@/theme'
 import sizes from '@/theme/sizes'
 import spacing from '@/theme/spacing'
@@ -6,7 +6,6 @@ import styled from '@/theme/styled'
 import typography from '@/theme/typography'
 import { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
-import { useShallow } from 'zustand/react/shallow'
 
 export const createStyles =
   <
@@ -19,13 +18,7 @@ export const createStyles =
     styles: StyleType | ((theme: Theme, props: ExtraProps) => StyleType)
   ) =>
   (props?: ExtraProps): StyleType => {
-    const dynamicThemeProps = useAppStore(
-      useShallow((state) => ({
-        scheme: state.scheme,
-        colors: state.colors,
-      }))
-    )
-
+    const { scheme, colors } = useTheme()
     const staticThemeProps = useMemo(
       () => ({
         typo: typography,
@@ -40,10 +33,10 @@ export const createStyles =
       const css =
         typeof styles === 'function'
           ? styles(
-              { ...dynamicThemeProps, ...staticThemeProps },
+              { scheme, colors, ...staticThemeProps },
               props ?? ({} as ExtraProps)
             )
           : styles
       return StyleSheet.create(css)
-    }, [props, dynamicThemeProps.scheme])
+    }, [props, scheme])
   }

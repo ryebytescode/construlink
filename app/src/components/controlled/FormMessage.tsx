@@ -49,7 +49,10 @@ export function FormMessage({ message, state }: FormMessageProps) {
 }
 
 const useStyles = createStyles(
-  ({ spacing, sizes, colors, typo }, { state }: { state: UIState }) => ({
+  (
+    { scheme, spacing, sizes, colors, typo },
+    { state }: { state: UIState }
+  ) => ({
     container: {
       flex: 1,
       flexDirection: 'row',
@@ -57,18 +60,24 @@ const useStyles = createStyles(
       padding: spacing[4],
       borderRadius: sizes.radius['2xl'],
       backgroundColor: resolveColor(
+        scheme,
         colors.states[state][900],
         colors.states[state][50]
       ),
       borderWidth: sizes.borderWidth.thin,
       borderColor: resolveColor(
+        scheme,
         colors.states[state][500],
         colors.states[state][400]
       ),
     },
     icon: {
       fontSize: sizes.icon.md,
-      color: resolveColor(colors.states[state].base, colors.states[state][700]),
+      color: resolveColor(
+        scheme,
+        colors.states[state].base,
+        colors.states[state][700]
+      ),
     },
     textWrapper: {
       flex: 1,

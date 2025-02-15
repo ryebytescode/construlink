@@ -79,19 +79,27 @@ function MenuItem({ index, onPress, ...item }: ClMenuItem & { index: number }) {
   )
 }
 
-const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
   container: {
     overflow: 'hidden',
-    backgroundColor: resolveColor(colors.neutral[800], colors.neutral[100]),
+    backgroundColor: resolveColor(
+      scheme,
+      colors.neutral[800],
+      colors.neutral[100]
+    ),
     borderRadius: sizes.radius['2xl'],
     borderWidth: sizes.borderWidth.thin,
-    borderColor: resolveColor(colors.neutral[700], colors.neutral[200]),
+    borderColor: resolveColor(scheme, colors.neutral[700], colors.neutral[200]),
   },
   item: {
     paddingHorizontal: spacing[4],
     paddingVertical: spacing[4],
     borderTopWidth: sizes.borderWidth.thin,
-    borderTopColor: resolveColor(colors.neutral[700], colors.neutral[200]),
+    borderTopColor: resolveColor(
+      scheme,
+      colors.neutral[700],
+      colors.neutral[200]
+    ),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -104,7 +112,7 @@ const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
   },
   right: {},
   icon: {
-    color: resolveColor(colors.accent.base, colors.brand.base),
+    color: resolveColor(scheme, colors.accent.base, colors.brand.base),
     fontSize: typo.sizes['2xl'].fontSize,
   },
 }))

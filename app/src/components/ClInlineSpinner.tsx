@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/theme'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useAppStore } from '@/stores/app'
@@ -19,7 +20,7 @@ export interface ClSpinnerHandleProps {
 export const ClInlineSpinner = forwardRef<ClSpinnerHandleProps, ClSpinnerProps>(
   ({ transluscent, visible }, ref) => {
     const styles = useStyles({ transluscent })
-    const colors = useAppStore((state) => state.colors)
+    const { scheme, colors } = useTheme()
     const [isVisible, setIsVisible] = useState(visible ?? false)
 
     useImperativeHandle(ref, () => ({
@@ -39,7 +40,7 @@ export const ClInlineSpinner = forwardRef<ClSpinnerHandleProps, ClSpinnerProps>(
       >
         <ActivityIndicator
           size={Spacing[20]}
-          color={resolveColor(colors.accent[500], colors.brand[500])}
+          color={resolveColor(scheme, colors.accent[500], colors.brand[500])}
         />
       </Animated.View>
     ) : null

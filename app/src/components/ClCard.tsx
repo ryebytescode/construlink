@@ -41,12 +41,16 @@ export function ClCard({ onPress, children, footer, style }: ClCardProps) {
   return <View style={styles.card}>{contents()}</View>
 }
 
-const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
   card: {
-    backgroundColor: resolveColor(colors.neutral[800], colors.neutral[100]),
+    backgroundColor: resolveColor(
+      scheme,
+      colors.neutral[800],
+      colors.neutral[100]
+    ),
     borderRadius: sizes.radius['2xl'],
     borderWidth: sizes.borderWidth.thin,
-    borderColor: resolveColor(colors.neutral[700], colors.neutral[200]),
+    borderColor: resolveColor(scheme, colors.neutral[700], colors.neutral[200]),
   },
   section: {
     gap: spacing[4],
@@ -55,6 +59,6 @@ const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
   },
   hasBorder: {
     borderTopWidth: sizes.borderWidth.thin,
-    borderColor: resolveColor(colors.neutral[700], colors.neutral[200]),
+    borderColor: resolveColor(scheme, colors.neutral[700], colors.neutral[200]),
   },
 }))

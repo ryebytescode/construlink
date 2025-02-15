@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/theme'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useAppStore } from '@/stores/app'
 import { Sizes, Spacing } from '@/theme'
@@ -27,7 +28,7 @@ export const ControlledTextInput = <TFields extends FieldValues>({
   ...controllerProps
 }: ControlledTextInputProps & UseControllerProps<TFields>) => {
   const { field, fieldState } = useController(controllerProps)
-  const colors = useAppStore((state) => state.colors)
+  const { scheme, colors } = useTheme()
 
   return (
     <View style={[{ gap: Spacing[1] }, style]}>
@@ -49,6 +50,7 @@ export const ControlledTextInput = <TFields extends FieldValues>({
             name="error"
             size={Sizes.icon.sm}
             color={resolveColor(
+              scheme,
               colors.states.danger[300],
               colors.states.danger[400]
             )}

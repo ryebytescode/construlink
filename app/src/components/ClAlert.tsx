@@ -126,14 +126,20 @@ const useStyles = createStyles(
   ) => {
     const iconColors: Record<AlertState, ColorValue> = {
       success: resolveColor(
+        scheme,
         colors.states.success[500],
         colors.states.success[700]
       ),
       warning: resolveColor(
+        scheme,
         colors.states.warning[400],
         colors.states.warning[400]
       ),
-      error: resolveColor(colors.states.danger[400], colors.states.danger[300]),
+      error: resolveColor(
+        scheme,
+        colors.states.danger[400],
+        colors.states.danger[300]
+      ),
     }
 
     return {
@@ -149,7 +155,11 @@ const useStyles = createStyles(
       iconWrapper: {
         borderTopLeftRadius: sizes.radius.full,
         borderTopRightRadius: sizes.radius.full,
-        backgroundColor: resolveColor(colors.neutral[700], colors.white),
+        backgroundColor: resolveColor(
+          scheme,
+          colors.neutral[700],
+          colors.white
+        ),
         padding: spacing[1],
         top: spacing[8],
         zIndex: 1,
@@ -160,7 +170,11 @@ const useStyles = createStyles(
       },
       body: {
         width: '90%',
-        backgroundColor: resolveColor(colors.neutral[700], colors.background),
+        backgroundColor: resolveColor(
+          scheme,
+          colors.neutral[700],
+          colors.background
+        ),
         padding: spacing[4],
         borderRadius: sizes.radius['2xl'] + spacing[2],
         paddingTop: spacing[8],

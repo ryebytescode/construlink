@@ -111,14 +111,14 @@ function JobAppliedAgo({ timestamp }: { timestamp: Date }) {
   )
 }
 
-const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
   selected: {
-    backgroundColor: resolveColor(colors.accent[800], colors.brand[50]),
+    backgroundColor: resolveColor(scheme, colors.accent[800], colors.brand[50]),
     borderRadius: sizes.radius['2xl'],
     borderWidth: sizes.borderWidth.thin,
-    borderColor: resolveColor(colors.accent[700], colors.brand[200]),
+    borderColor: resolveColor(scheme, colors.accent[700], colors.brand[200]),
   },
   saveIcon: {
-    color: resolveColor(colors.accent[500], colors.brand[50]),
+    color: resolveColor(scheme, colors.accent[500], colors.brand[50]),
   },
 }))

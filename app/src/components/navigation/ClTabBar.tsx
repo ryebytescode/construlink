@@ -5,6 +5,7 @@ import type { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { useCallback, useEffect } from 'react'
 import { type LayoutChangeEvent, View } from 'react-native'
 import Animated, {
+  runOnUI,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -104,10 +105,16 @@ export function ClTabBar({
 
   // Trigger sliding animation
   useEffect(() => {
-    highlighterX.value = withSpring(highlighterDim.value.width * state.index, {
-      duration: 800,
-      stiffness: 20,
-    })
+    runOnUI(() => {
+      'worklet'
+      highlighterX.value = withSpring(
+        highlighterDim.value.width * state.index,
+        {
+          duration: 800,
+          stiffness: 20,
+        }
+      )
+    })()
   }, [state.index])
 
   return (
@@ -124,25 +131,29 @@ export function ClTabBar({
   )
 }
 
-const useStyles = createStyles(({ colors, spacing, sizes, typo }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
   tabBar: {
     position: 'absolute',
     bottom: 0,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: resolveColor(colors.neutral[900], 'white'),
+    backgroundColor: resolveColor(scheme, colors.neutral[900], 'white'),
     borderWidth: sizes.borderWidth.thin,
-    borderColor: resolveColor(colors.neutral[700], colors.neutral[200]),
+    borderColor: resolveColor(scheme, colors.neutral[700], colors.neutral[200]),
     marginHorizontal: spacing[4],
     borderRadius: sizes.radius['2xl'],
     borderCurve: 'continuous',
     overflow: 'hidden',
     elevation: 2,
-    shadowColor: resolveColor(colors.neutral[800], colors.neutral[300]),
+    shadowColor: resolveColor(scheme, colors.neutral[800], colors.neutral[300]),
   },
   tabHighlighter: {
-    backgroundColor: resolveColor(colors.accent[600], colors.brand[600]),
+    backgroundColor: resolveColor(
+      scheme,
+      colors.accent[600],
+      colors.brand[600]
+    ),
     position: 'absolute',
     left: 0,
   },

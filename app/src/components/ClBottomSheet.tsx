@@ -106,9 +106,9 @@ export const ClBottomSheet = forwardRef<BottomSheetModal, ClBottomSheetProps>(
   }
 )
 
-const useStyles = createStyles(({ colors, spacing, typo }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, typo }) => ({
   background: {
-    backgroundColor: resolveColor(colors.neutral[800], colors.white),
+    backgroundColor: resolveColor(scheme, colors.neutral[800], colors.white),
   },
   container: {
     padding: spacing[4],
