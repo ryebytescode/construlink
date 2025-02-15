@@ -1,18 +1,15 @@
 import { ClIcon } from '@/components/ClIcon'
 import { ClTabBar, type ClTabOption } from '@/components/navigation/ClTabBar'
+import { useAuth } from '@/contexts/auth'
+import { useTheme } from '@/contexts/theme'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { Role } from '@/lib/constants'
-import { useAuthStore } from '@/stores/auth'
 import { Palette, Typo } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { Tabs, router } from 'expo-router'
 import { TouchableOpacity, View } from 'react-native'
-import {
-  type EdgeInsets,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context'
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -108,9 +105,9 @@ const options: ClTabOption[] = [
 const UserLayout = () => {
   useRenderCount('UserLayout')
 
-  const insets = useSafeAreaInsets()
-  const styles = useStyles({ insets })
-  const role = useAuthStore((state) => state.role)
+  const styles = useStyles()
+  const { userInfo } = useAuth()
+  const { scheme } = useTheme()
 
   return (
     <Tabs
@@ -125,6 +122,7 @@ const UserLayout = () => {
           />
         ),
         headerTintColor: resolveColor(
+          scheme,
           Palette.dark.white,
           Palette.light.primaryText
         ) as string,
@@ -135,7 +133,7 @@ const UserLayout = () => {
     >
       <Tabs.Screen
         name="jobs"
-        redirect={role === Role.EMPLOYER}
+        redirect={userInfo!.role === Role.EMPLOYER}
         options={{
           title: 'Jobs',
           headerRight: () => (
@@ -155,7 +153,7 @@ const UserLayout = () => {
       />
       <Tabs.Screen
         name="tradespeople"
-        redirect={role === Role.TRADESPERSON}
+        redirect={userInfo!.role === Role.TRADESPERSON}
         options={{
           title: 'Hire',
           headerTitle: 'Tradespeople',
@@ -176,7 +174,7 @@ const UserLayout = () => {
       />
       <Tabs.Screen
         name="posts"
-        redirect={role === Role.TRADESPERSON}
+        redirect={userInfo!.role === Role.TRADESPERSON}
         options={{
           title: 'Posts',
           headerTitle: 'My Posts',
@@ -197,7 +195,7 @@ const UserLayout = () => {
       />
       <Tabs.Screen
         name="applications"
-        redirect={role === Role.EMPLOYER}
+        redirect={userInfo!.role === Role.EMPLOYER}
         options={{
           title: 'Track',
           headerTitle: 'My Applications',
@@ -256,19 +254,17 @@ const UserLayout = () => {
   )
 }
 
-const useStyles = createStyles(
-  ({ colors, sizes, spacing }, { insets }: { insets: EdgeInsets }) => ({
-    sceneContainer: {
-      backgroundColor: colors.background,
-    },
-    headerRightContainer: {
-      paddingRight: spacing[4],
-    },
-    settingsIcon: {
-      color: resolveColor(colors.accent.base, colors.brand.base),
-      fontSize: sizes.icon.md,
-    },
-  })
-)
+const useStyles = createStyles(({ scheme, colors, sizes, spacing }) => ({
+  sceneContainer: {
+    backgroundColor: colors.background,
+  },
+  headerRightContainer: {
+    paddingRight: spacing[4],
+  },
+  settingsIcon: {
+    color: resolveColor(scheme, colors.accent.base, colors.brand.base),
+    fontSize: sizes.icon.md,
+  },
+}))
 
 export default UserLayout
