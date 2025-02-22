@@ -36,10 +36,7 @@ export default function SignInScreen() {
   const onSubmit: SubmitHandler<SignInFields> = async (data) => {
     spinnerRef.current?.show()
 
-    if (await User.signIn(data, isEmailMode)) {
-      if (router.canDismiss()) router.dismissAll()
-      router.replace('/')
-    } else {
+    if (!(await User.signIn(data, isEmailMode))) {
       spinnerRef.current?.hide()
 
       Alert.alert(
