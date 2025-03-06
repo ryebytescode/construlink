@@ -3,47 +3,38 @@ import { ControlledDateTimePicker } from '@/components/ClDateTimePicker'
 import { ClPageView } from '@/components/ClPageView'
 import { ClRadioInput } from '@/components/ClRadio'
 import { ClSpinner, type ClSpinnerHandleProps } from '@/components/ClSpinner'
-import { ClWebViewControl } from '@/components/ClWebViewControl'
 import { ControlledSelectInput } from '@/components/controlled/ControlledSelectInput'
 import { ControlledTextInput } from '@/components/controlled/ControlledTextInput'
 import { createStyles } from '@/helpers/createStyles'
 import { Cl } from '@/lib/options'
-import { JobCollection } from '@/services/firebase'
-import { useAuthStore } from '@/stores/auth'
-import { Spacing, Typo } from '@/theme'
-import { useNavigation } from 'expo-router'
+import { CreateJobSchema } from '@/lib/schemas'
+import { JobCollection, User } from '@/services/firebase'
+import { useFormStore } from '@/stores/forms'
+import { Spacing } from '@/theme'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMount } from 'ahooks'
+import { router, useNavigation } from 'expo-router'
 import React, { useEffect, useRef } from 'react'
-import {
-  Controller,
-  FormProvider,
-  useForm,
-  useFormContext,
-  useWatch,
-} from 'react-hook-form'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { Alert, View } from 'react-native'
-import Animated, {
-  FadeIn,
-  FadeOut,
-  SlideInRight,
-  SlideOutRight,
-} from 'react-native-reanimated'
+import { useShallow } from 'zustand/react/shallow'
 
 export default function AboutStep() {
-  const userId = useAuthStore((state) => state.user)?.uid
-  const role = useAuthStore((state) => state.role)
+  const { createJobFields, createCompanyFields, resetFormStore } = useFormStore(
+    useShallow((state) => ({
+      createJobFields: state.createJobFields,
+      createCompanyFields: state.createCompanyFields,
+      resetFormStore: state.reset,
+    }))
+  )
   const methods = useForm<CreateJobFields>({
     defaultValues: {
       postAs: 'individual',
+      ...createJobFields,
     },
+    resolver: zodResolver(CreateJobSchema),
   })
-  const {
-    control,
-    setValue,
-    getValues,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = methods
+  const { control, setValue, handleSubmit, watch } = methods
   const styles = useStyles()
   const navigation = useNavigation()
   const postAs = watch('postAs')
@@ -61,67 +52,67 @@ export default function AboutStep() {
         {
           text: 'Create',
           onPress: () => {
-            // router.push('/company/create')
+            router.push('/user/company/create')
           },
         },
       ]
     )
   }
 
-  const onSubmit = async (data: CreateJobFields, isPreview = false) => {
-    spinnerRef.current?.show()
-
-    // if (data.postAs === 'company' && !createCompanyFields) {
-    //   // Check if the company form is filled up
-    //   showNoCompanyAlert()
-    //   return
-    // }
+  async function onSubmit(data: CreateJobFields, isPreview = false) {
+    if (data.postAs === 'company' && !createCompanyFields) {
+      // Check if the company form is filled up
+      showNoCompanyAlert()
+      return
+    }
 
     if (isPreview) {
-      // router.push('/job/preview')
-    } else {
-      const result = await JobCollection.createJob(userId!, data)
+      router.push('/user/job/preview')
+      return
+    }
 
-      if (result) {
-        // router.push('/job/submitted')
-      } else {
-        spinnerRef.current?.hide()
-        Alert.alert(
-          'Submission Failed',
-          "We couldn't submit your form due to an error. Please check your internet connection and try again.",
-          [
-            {
-              text: 'Retry',
-            },
-          ]
-        )
-      }
+    spinnerRef.current?.show()
+    const result = await JobCollection.createJob(User.get()?.uid!, data)
+
+    if (result) {
+      router.push('/user/job/submitted')
+    } else {
+      spinnerRef.current?.hide()
+      Alert.alert(
+        'Submission Failed',
+        "We couldn't submit your form due to an error. Please check your internet connection and try again.",
+        [
+          {
+            text: 'Retry',
+          },
+        ]
+      )
     }
   }
 
-  // useEffect(() => {
-  //   const removeListener = navigation.addListener('beforeRemove', (event) => {
-  //     event.preventDefault()
-  //     // Clear the form store
-  //     resetFormStore()
-  //     navigation.dispatch(event.data.action)
-  //   })
+  useMount(() => {
+    const removeListener = navigation.addListener('beforeRemove', (event) => {
+      event.preventDefault()
+      // Clear the form store
+      resetFormStore()
+      navigation.dispatch(event.data.action)
+    })
 
-  //   const unsubscribe = useFormStore.subscribe((state) => {
-  //     setValue('description', state.createJobFields.description ?? '', {
-  //       shouldValidate: true,
-  //     })
-  //   })
+    const unsubscribe = useFormStore.subscribe((state) => {
+      setValue('description', state.createJobFields.description ?? '', {
+        shouldValidate: true,
+      })
+    })
 
-  //   return () => {
-  //     removeListener()
-  //     unsubscribe()
-  //   }
-  // }, [])
+    return () => {
+      removeListener()
+      unsubscribe()
+    }
+  })
 
-  // useEffect(() => {
-  //   if (postAs === 'company' && !createCompanyFields) showNoCompanyAlert()
-  // }, [postAs])
+  useEffect(() => {
+    if (postAs === 'company' && !createCompanyFields) showNoCompanyAlert()
+  }, [postAs])
 
   return (
     <>
@@ -131,9 +122,6 @@ export default function AboutStep() {
             <Controller
               name="postAs"
               control={control}
-              rules={{
-                required: true,
-              }}
               render={({ field }) => (
                 <ClRadioInput
                   id="postAs"
@@ -149,9 +137,6 @@ export default function AboutStep() {
             <ControlledTextInput
               name="title"
               control={control}
-              rules={{
-                required: true,
-              }}
               textInputOptions={{
                 label: 'Job Title',
                 placeholder: 'Brick mason',
@@ -161,9 +146,6 @@ export default function AboutStep() {
             <ControlledSelectInput
               name="category"
               control={control}
-              rules={{
-                required: true,
-              }}
               options={Cl.categories}
               selectInputOptions={{
                 label: 'Category',
@@ -174,9 +156,6 @@ export default function AboutStep() {
             <ControlledSelectInput
               name="employmentType"
               control={control}
-              rules={{
-                required: true,
-              }}
               options={Cl.employmentTypes}
               selectInputOptions={{
                 label: 'Employment Type',
@@ -184,38 +163,25 @@ export default function AboutStep() {
                 size: 'small',
               }}
             />
-            <View style={{ display: 'none' }}>
-              <ControlledTextInput
-                name="description"
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                textInputOptions={{
-                  label: 'Description',
-                  placeholder: 'Tap to edit...',
-                  size: 'small',
-                  numberOfLines: 3,
-                  readOnly: true,
-                  multiline: true,
-                  inputFieldStyle: {
-                    verticalAlign: 'top',
-                  },
-                }}
-              />
-            </View>
-            <ClWebViewControl
-              label="Description"
-              html={getValues('description') ?? ''}
-              valid={errors.description === undefined}
-              routeToEditor="/user/job/description-editor"
+            <ControlledTextInput
+              name="description"
+              control={control}
+              textInputOptions={{
+                label: 'Description',
+                readOnly: true,
+                placeholder: 'Tap to edit',
+                size: 'small',
+                verticalAlign: 'top',
+                multiline: true,
+                inputWrapperStyle: {
+                  height: Spacing[20],
+                },
+                onPress: () => router.push('/user/job/description-editor'),
+              }}
             />
             <ControlledTextInput
               name="location"
               control={control}
-              rules={{
-                required: true,
-              }}
               textInputOptions={{
                 label: 'Location',
                 placeholder: 'Odiongan, Romblon',
@@ -240,7 +206,7 @@ export default function AboutStep() {
                 bodyStyle={{ flex: 1 }}
               />
               <ClButton
-                text="Submit"
+                text="Create"
                 onPress={handleSubmit((data) => onSubmit(data))}
                 bodyStyle={{ flex: 1 }}
               />
