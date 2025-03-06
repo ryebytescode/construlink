@@ -6,13 +6,26 @@ import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { Role } from '@/lib/constants'
 import { Toasts } from '@backpackapp-io/react-native-toast'
+import { useUpdateEffect } from 'ahooks'
 import { Stack, router } from 'expo-router'
-import { useEffect } from 'react'
 
 export default function MainLayout() {
   useRenderCount('MainLayout')
 
   const styles = useStyles()
+  const { initializing, userInfo } = useAuth()
+
+  useUpdateEffect(() => {
+    if (!initializing && userInfo?.role === Role.TRADESPERSON) {
+      router.replace('/user/jobs')
+    } else if (!initializing && userInfo?.role === Role.EMPLOYER) {
+      router.replace('/user/tradespeople')
+    }
+  }, [initializing, userInfo])
+
+  if (initializing) {
+    return <ClSpinner visible />
+  }
 
   return (
     <>
