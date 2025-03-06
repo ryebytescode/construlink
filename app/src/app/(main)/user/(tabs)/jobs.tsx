@@ -1,4 +1,3 @@
-import { ClButton } from '@/components/ClButton'
 import { ClIcon } from '@/components/ClIcon'
 import { ClInlineSpinner } from '@/components/ClInlineSpinner'
 import { ClPageView } from '@/components/ClPageView'
@@ -13,7 +12,6 @@ import { IconSet } from '@/types/icons'
 import { Timestamp } from '@react-native-firebase/firestore'
 import { useQuery } from '@tanstack/react-query'
 import { useMount } from 'ahooks'
-import { router } from 'expo-router'
 import React, { useEffect, useRef } from 'react'
 import { FlatList, RefreshControl, View } from 'react-native'
 
@@ -66,16 +64,12 @@ export default function Jobs() {
               />
               <View style={styles.encouragement}>
                 <ClText type="lead" style={styles.heroText}>
-                  Create a job post now!
+                  Nothing to see here.
                 </ClText>
                 <ClText type="helper" dim>
-                  You can manage your posted jobs here.
+                  Check back later for new job postings.
                 </ClText>
               </View>
-              <ClButton
-                text="Post a Job"
-                onPress={() => router.navigate('/')}
-              />
             </View>
           }
           renderItem={({ item }) => (
