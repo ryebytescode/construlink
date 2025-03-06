@@ -2,34 +2,16 @@ import ClLogo from '@/assets/images/logo'
 import { ClButton } from '@/components/ClButton'
 import { ClLinkText } from '@/components/ClLinkText'
 import { ClPageView } from '@/components/ClPageView'
-import { ClSpinner } from '@/components/ClSpinner'
 import { ClText } from '@/components/ClText'
-import { useAuth } from '@/contexts/auth'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
-import { Role } from '@/lib/constants'
 import { Spacing } from '@/theme'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
-import { useEffect } from 'react'
 import { View } from 'react-native'
 
 export default function GettingStartedScreen() {
   const styles = useStyles()
-
-  const { initializing, userInfo } = useAuth()
-
-  useEffect(() => {
-    if (userInfo) {
-      router.replace(
-        userInfo.role === Role.EMPLOYER ? '/user/tradespeople' : '/user/jobs'
-      )
-    }
-  }, [userInfo])
-
-  if (initializing || userInfo) {
-    return <ClSpinner visible />
-  }
 
   return (
     <>
