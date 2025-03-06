@@ -67,6 +67,7 @@ export default function UserLayout() {
         name="job/submitted"
         options={{ headerTitle: () => null }}
       />
+      <Stack.Screen name="job/search-results" />
       <Stack.Screen
         name="company/create"
         options={{ title: 'Create Company' }}
