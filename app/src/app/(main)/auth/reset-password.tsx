@@ -62,7 +62,7 @@ export default function ResetPasswordScreen() {
   }, [code])
 
   if (!code) {
-    ;<Redirect href="/auth/signin" />
+    return <Redirect href="/auth/signin" />
   }
 
   return (
