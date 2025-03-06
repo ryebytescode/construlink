@@ -49,13 +49,7 @@ export default function VerificationScreen() {
             : {},
           {
             text: "I'll verify later",
-            onPress: () => {
-              if (currentUser) {
-                router.replace('/user/home')
-              } else {
-                router.replace('/')
-              }
-            },
+            onPress: () => router.replace('/'),
           },
         ])
       }
@@ -88,14 +82,14 @@ export default function VerificationScreen() {
   )
 }
 
-const useStyles = createStyles(({ colors, spacing, sizes }) => ({
+const useStyles = createStyles(({ scheme, colors, spacing, sizes }) => ({
   container: {
     alignItems: 'center',
     gap: spacing[2],
     marginTop: spacing[20],
   },
   icon: {
-    color: resolveColor(colors.accent[500], colors.brand[500]),
+    color: resolveColor(scheme, colors.accent[500], colors.brand[500]),
     fontSize: sizes.icon['3xl'],
   },
 }))
