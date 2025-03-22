@@ -1385,14 +1385,14 @@ __metadata:
     "@gorhom/bottom-sheet": "npm:^5.1.2"
     "@hookform/resolvers": "npm:^4.1.3"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
-    "@react-native-firebase/app": "npm:^21.12.0"
-    "@react-native-firebase/auth": "npm:^21.12.0"
-    "@react-native-firebase/firestore": "npm:^21.12.0"
+    "@react-native-firebase/app": "npm:^21.12.1"
+    "@react-native-firebase/auth": "npm:^21.12.1"
+    "@react-native-firebase/firestore": "npm:^21.12.1"
     "@react-navigation/bottom-tabs": "npm:^7.2.0"
     "@react-navigation/native": "npm:^7.0.14"
-    "@tanstack/query-async-storage-persister": "npm:^5.66.0"
-    "@tanstack/react-query": "npm:^5.66.0"
-    "@tanstack/react-query-persist-client": "npm:^5.66.0"
+    "@tanstack/query-async-storage-persister": "npm:^5.69.0"
+    "@tanstack/react-query": "npm:^5.69.0"
+    "@tanstack/react-query-persist-client": "npm:^5.69.0"
     "@types/jest": "npm:^29.5.14"
     "@types/react": "npm:~18.3.18"
     "@types/react-native-get-random-values": "npm:^1"
@@ -3162,9 +3162,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-firebase/app@npm:^21.12.0":
-  version: 21.12.0
-  resolution: "@react-native-firebase/app@npm:21.12.0"
+"@react-native-firebase/app@npm:^21.12.1":
+  version: 21.12.1
+  resolution: "@react-native-firebase/app@npm:21.12.1"
   dependencies:
     firebase: "npm:11.3.1"
   peerDependencies:
@@ -3174,31 +3174,31 @@ __metadata:
   peerDependenciesMeta:
     expo:
       optional: true
-  checksum: 10c0/1ef39e1656fb76d040ddc5107a5fe85c61ced20bb13227aa5f98604f7973964ab5bc7fbac471b66b06b0abad3af8fdae75b9b7e7cc8b31d7879ac5a2f8a24b86
+  checksum: 10c0/0a59b33400e1a07f3d6fa8da1f80c25a4107e7ede38ef726c931745f2a1e0974d12cd6a123c7e2ccc6b8a47789dd5185e6570473b097b1f5f334b6f97d580aab
   languageName: node
   linkType: hard
 
-"@react-native-firebase/auth@npm:^21.12.0":
-  version: 21.12.0
-  resolution: "@react-native-firebase/auth@npm:21.12.0"
+"@react-native-firebase/auth@npm:^21.12.1":
+  version: 21.12.1
+  resolution: "@react-native-firebase/auth@npm:21.12.1"
   dependencies:
     plist: "npm:^3.1.0"
   peerDependencies:
-    "@react-native-firebase/app": 21.12.0
+    "@react-native-firebase/app": 21.12.1
     expo: ">=47.0.0"
   peerDependenciesMeta:
     expo:
       optional: true
-  checksum: 10c0/7d20d232e292ee5fad4d9c3b6b4c568bb795bc38475cd4607a0cb4859dec5dbfe0d90c129eff9b2f5525af9992fb66359a0e474672a4dfd35b678bb1925bb633
+  checksum: 10c0/ca1b1c14c9af628aca84fab4260f249b26e36d72b60e17f43805810535266f4d05157f8d8c2529acdbcd16a52dc99803d305acd81255dee02788a74945414dc6
   languageName: node
   linkType: hard
 
-"@react-native-firebase/firestore@npm:^21.12.0":
-  version: 21.12.0
-  resolution: "@react-native-firebase/firestore@npm:21.12.0"
+"@react-native-firebase/firestore@npm:^21.12.1":
+  version: 21.12.1
+  resolution: "@react-native-firebase/firestore@npm:21.12.1"
   peerDependencies:
-    "@react-native-firebase/app": 21.12.0
-  checksum: 10c0/0a70fa7691eda7f38c465e8752e219535e6cb708e79523b06431bdf6f7c961abf0b530cd2e99d52ae90830713bfa10d4e66eaac92ece692bda3e9dbfb8267303
+    "@react-native-firebase/app": 21.12.1
+  checksum: 10c0/f223310e7d97c628f963ed2297e570793118eb631fade4034f740c89e8be9d77e6ae1dfa1c95c6370a88b9763e7bff2e1ce38c97797c3cc5d1f030e0a8002e80
   languageName: node
   linkType: hard
 
@@ -3528,51 +3528,51 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-async-storage-persister@npm:^5.66.0":
-  version: 5.66.0
-  resolution: "@tanstack/query-async-storage-persister@npm:5.66.0"
+"@tanstack/query-async-storage-persister@npm:^5.69.0":
+  version: 5.69.0
+  resolution: "@tanstack/query-async-storage-persister@npm:5.69.0"
   dependencies:
-    "@tanstack/query-persist-client-core": "npm:5.66.0"
-  checksum: 10c0/596886d16be831791caf70680d6a52fd631d50314c31df37c17d03a6dec1fc4d5181ebfd5e660342fe079a44eaf7c2eadf17f455fa26e9416a867c3d6dc34f45
+    "@tanstack/query-persist-client-core": "npm:5.69.0"
+  checksum: 10c0/e750f1e4b87e405fa7120c10d2cfb9670fb40ee51ab10dc33eca79a66763a9bfa39c9a60524108fdddc918180f0be557d450b1649e801ed2ba8081bfa9703024
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.66.0":
-  version: 5.66.0
-  resolution: "@tanstack/query-core@npm:5.66.0"
-  checksum: 10c0/a03afcb3a075f1923ce3d03dcb16662bb35159280bf87598b9d446366cfd47f5c736be41fb90938c4e6848633c036087d7019f0dbb95f2f2450a9fea4764adbb
+"@tanstack/query-core@npm:5.69.0":
+  version: 5.69.0
+  resolution: "@tanstack/query-core@npm:5.69.0"
+  checksum: 10c0/8ad87046d1a8c18773de10e74d7fef2093cdbe9734e76460945048c00a219ae3d2421eab2b4d54340f3f491813f99ceef7d2849827d95490c8b67de1b87934ae
   languageName: node
   linkType: hard
 
-"@tanstack/query-persist-client-core@npm:5.66.0":
-  version: 5.66.0
-  resolution: "@tanstack/query-persist-client-core@npm:5.66.0"
+"@tanstack/query-persist-client-core@npm:5.69.0":
+  version: 5.69.0
+  resolution: "@tanstack/query-persist-client-core@npm:5.69.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.66.0"
-  checksum: 10c0/602706de8ecd077a86e553e470458cdb9436762052dc326da320a8ecb19625ac6c4c6f853797b5eeeaf752929255f7c1b9aff146f4b47bc3d4c5dbfba3604423
+    "@tanstack/query-core": "npm:5.69.0"
+  checksum: 10c0/8f736fec9de4660c0edef8930bd9fae0e3ca295a31743ca777809e3538927ef9b4da9ea51dc610df59b0a6d45ad35048ac4ce59e71686bbb9e9865ce3b7861e1
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-persist-client@npm:^5.66.0":
-  version: 5.66.0
-  resolution: "@tanstack/react-query-persist-client@npm:5.66.0"
+"@tanstack/react-query-persist-client@npm:^5.69.0":
+  version: 5.69.0
+  resolution: "@tanstack/react-query-persist-client@npm:5.69.0"
   dependencies:
-    "@tanstack/query-persist-client-core": "npm:5.66.0"
+    "@tanstack/query-persist-client-core": "npm:5.69.0"
   peerDependencies:
-    "@tanstack/react-query": ^5.66.0
+    "@tanstack/react-query": ^5.69.0
     react: ^18 || ^19
-  checksum: 10c0/77298b50e1cfebe3a691e8a272c96722ed24a4bfe12c9df6380019fbd1cc7948a7420b92408d83bdac1858a9d93be521edd00a341f54c7cb0f106862e62044ba
+  checksum: 10c0/3cfd710b0dd8a7c8a5f8fa0a0ae37e82cab340e8f905fd028437af73dacf918bd397e49ca5a0a477fd919a0ff27eb027ca1466aeaaa3c4a8efcc00fd2a2fab8f
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.66.0":
-  version: 5.66.0
-  resolution: "@tanstack/react-query@npm:5.66.0"
+"@tanstack/react-query@npm:^5.69.0":
+  version: 5.69.0
+  resolution: "@tanstack/react-query@npm:5.69.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.66.0"
+    "@tanstack/query-core": "npm:5.69.0"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10c0/60e1a3fd7f2f8b2038d70954b51eeb84c31273d09a68537babdc2ac3d8c200968a1f7865a8e189ffd63be0c30387985b4b4eaf1d9065990bd3699ac5872b7523
+  checksum: 10c0/3481218d0dd1623af8148037011415ca6f57f2f918e859f6856b7d6cec191ca79029f6fd9e5b1139b1ec252198bda645ce8c1b44ac8dd28adf3c5f978a4126ec
   languageName: node
   linkType: hard
 
