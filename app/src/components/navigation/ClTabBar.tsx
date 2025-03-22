@@ -142,6 +142,7 @@ const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
     borderWidth: sizes.borderWidth.thin,
     borderColor: resolveColor(scheme, colors.neutral[700], colors.neutral[200]),
     marginHorizontal: spacing[4],
+    marginBottom: spacing[2],
     borderRadius: sizes.radius['2xl'],
     borderCurve: 'continuous',
     overflow: 'hidden',

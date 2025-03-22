@@ -135,3 +135,7 @@ export const CreateJobSchema: ZodType<CreateJobFields> = z.object({
 //     path: ['payAmountMin', 'payAmountMax', 'payAmount'],
 //   }
 // )
+
+export const SearchJobSchema: ZodType<Partial<SearchJobFields>> = z.object({
+  query: z.string().min(1, 'Required'),
+})

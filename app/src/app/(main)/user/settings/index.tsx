@@ -13,7 +13,10 @@ import { useAppStore } from '@/stores/app'
 import { Spacing } from '@/theme'
 import type { Scheme } from '@/theme/palette'
 import { IconSet } from '@/types/icons'
-import type { BottomSheetModal } from '@gorhom/bottom-sheet'
+import {
+  type BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet'
 import { router } from 'expo-router'
 import React, { useMemo, useRef } from 'react'
 import { Alert } from 'react-native'
@@ -91,7 +94,7 @@ export default function SettingsScreen() {
   }
 
   return (
-    <>
+    <BottomSheetModalProvider>
       <ClPageView
         id="settings"
         contentContainerStyle={{ flex: 1, justifyContent: 'space-between' }}
@@ -112,6 +115,6 @@ export default function SettingsScreen() {
           contentContainerStyle={{ padding: Spacing[4] }}
         />
       </ClBottomSheet>
-    </>
+    </BottomSheetModalProvider>
   )
 }

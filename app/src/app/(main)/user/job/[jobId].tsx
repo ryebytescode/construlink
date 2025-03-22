@@ -34,7 +34,7 @@ export default function JobViewer() {
         jobId as string
       )
 
-      setJobDetails(details)
+      setJobDetails(details ?? null)
       setIsApplied(applied)
     }
 

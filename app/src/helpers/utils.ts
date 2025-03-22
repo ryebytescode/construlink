@@ -1,3 +1,5 @@
+import { Cl } from '@/lib/options'
+
 export function formatMoney(value: number) {
   const PHP = Intl.NumberFormat('en-PH', {
     style: 'currency',
@@ -32,4 +34,28 @@ export function stripNullish<T extends {}>(obj: T): T {
   })
 
   return newObj
+}
+
+export function capitalizeFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+export function pluralize(str: string, count: number) {
+  return count === 1 ? str : `${str}s`
+}
+
+export function formatSchedule(schedule: boolean[]) {
+  const weekdays = schedule.slice(0, 5).every(Boolean)
+  const weekends = schedule.slice(5, 7).every(Boolean)
+  const daily = schedule.every(Boolean)
+
+  if (daily) return 'daily'
+  if (weekdays && weekends) return 'daily'
+  if (weekdays) return 'on weekdays'
+  if (weekends) return 'on weekends'
+
+  return schedule
+    .map((isAvailable, index) => (isAvailable ? Cl.days[index] : ''))
+    .filter(Boolean)
+    .join(', ')
 }

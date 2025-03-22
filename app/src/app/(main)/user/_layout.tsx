@@ -27,10 +27,7 @@ export default function UserLayout() {
   return (
     <ClStack id="user">
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="[userId]"
-        options={{ headerTitle: () => null }}
-      />
+      <Stack.Screen name="[userId]" options={{ headerTitle: () => null }} />
       <Stack.Screen
         name="dashboard-test"
         options={{ headerTitle: () => null }}
