@@ -1,32 +1,30 @@
 import { Role } from '@/lib/constants'
-import type { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import { create } from 'zustand'
 
 type State = {
-  role: Role | null
   mode: 'signin' | 'signup' | null
-  user: FirebaseAuthTypes.User | null
+  user: User | null
 }
 
 type Action = {
+  setAuthMode: (mode: State['mode']) => void
   setRole: (role: Role | null) => void
-  setMode: (mode: State['mode']) => void
-  setUser: (user: State['user']) => void
-  reset: () => void
+  signIn: (user: User | null) => void
+  signOut: () => void
 }
 
 const initialValues: State = {
-  role: null,
   mode: null,
   user: null,
 }
 
 export const useAuthStore = create<State & Action>()((set) => ({
   ...initialValues,
-  setRole: (role) => set({ role }),
-  setMode: (mode) => set({ mode }),
-  setUser: (user) => set({ user }),
-  reset: () => set(initialValues),
+  setAuthMode: (mode) => set({ mode }),
+  setRole: (role) => set({ user: { role } as User }),
+  signIn: (user) => set({ user }),
+  signOut: () => set(initialValues),
 }))
 
-export const isEmployer = () => useAuthStore.getState().role === Role.EMPLOYER
+export const isEmployer = () =>
+  useAuthStore.getState().user?.role === Role.EMPLOYER
