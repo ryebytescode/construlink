@@ -1,8 +1,3 @@
-interface User {
-  role: import('@/lib/constants').Role
-  company?: Company
-}
-
 type Timestamp = import(
   '@react-native-firebase/firestore'
 ).FirebaseFirestoreTypes.Timestamp
@@ -10,6 +5,27 @@ type Reference<T> = import(
   '@react-native-firebase/firestore'
 ).FirebaseFirestoreTypes.DocumentReference<T>
 type HasKey = { key: string }
+
+interface User extends HasKey {
+  role: import('@/lib/constants').Role
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  location: string
+  verified: boolean
+  company?: Company
+}
+
+interface Tradesperson extends Omit<User, 'role'> {
+  expertise: string[]
+  experience: string
+  availability: string
+  rating: number
+  reviews: number
+  schedule: boolean[]
+  jobApplications: Reference<JobApplication>[]
+}
 
 interface Job extends HasKey {
   authorId: string
@@ -29,6 +45,10 @@ interface Job extends HasKey {
   status: string
   applyCount: number
   company?: Reference<Company>
+}
+
+interface JobCategory extends HasKey {
+  title: string
 }
 
 interface JobApplication extends HasKey {
