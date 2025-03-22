@@ -40,6 +40,12 @@ interface CreateJobFields {
   // isUsingRange: boolean
 }
 
+interface SearchJobFields {
+  query: string
+  location: string
+  employmentType: string
+}
+
 interface CreateCompanyFields {
   name: string
   description: string
