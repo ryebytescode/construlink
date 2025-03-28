@@ -102,8 +102,8 @@ const options: ClTabOption[] = [
   },
 ]
 
-const UserLayout = () => {
-  useRenderCount('UserLayout')
+export default function TabsLayout() {
+  useRenderCount('TabsLayout')
 
   const styles = useStyles()
   const { userInfo } = useAuth()
@@ -266,5 +266,3 @@ const useStyles = createStyles(({ scheme, colors, sizes, spacing }) => ({
     fontSize: sizes.icon.md,
   },
 }))
-
-export default UserLayout
