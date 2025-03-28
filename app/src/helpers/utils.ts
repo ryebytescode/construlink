@@ -40,6 +40,10 @@ export function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
+export function formatFullName(firstName: string, lastName: string) {
+  return `${firstName} ${lastName}`
+}
+
 export function pluralize(str: string, count: number) {
   return count === 1 ? str : `${str}s`
 }
