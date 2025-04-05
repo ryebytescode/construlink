@@ -7,7 +7,7 @@ type Reference<T> = import(
 type HasKey = { key: string }
 
 interface User extends HasKey {
-  role: import('@/lib/constants').Role
+  role?: import('@/lib/constants').Role
   firstName: string
   lastName: string
   email: string
@@ -15,6 +15,8 @@ interface User extends HasKey {
   location: string
   verified: boolean
   company?: Company
+  bio?: string
+  emailHidden: boolean
 }
 
 interface Tradesperson extends Omit<User, 'role'> {
@@ -61,9 +63,58 @@ interface JobApplication extends HasKey {
   review: string
 }
 
+interface HireRequest extends HasKey {
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  respondedAt: Timestamp
+  status: import('@/lib/constants').HireRequestStatus
+  tradesperson: Reference<Tradesperson>
+  tradespersonName: string
+  employer: Reference<User>
+  phone: string
+  email?: string
+  location: string
+  jobType: string
+  jobDescription: string
+  expectedStartDate?: Date
+  budget?: number
+}
+
 interface Company extends HasKey {
   name: string
   description: string
   size: string
   location: string
+}
+
+interface WorkPost extends HasKey {
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  description: string
+  fileUrl: string
+  employer: Reference<User>
+  location: string
+}
+
+interface SavedProfile extends HasKey {
+  savedAt: Timestamp
+  profileId: string
+  savedById: string
+  tradespersonName: string
+}
+
+interface Review extends HasKey {
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  rating: number
+  message: string
+  author: Reference<User>
+  target: Reference<User>
+}
+
+interface ChatMessage extends HasKey {
+  createdAt: Timestamp
+  sender: Reference<User>
+  recipient: Reference<User>
+  content: string
 }
