@@ -15,3 +15,11 @@ export enum JobApplicationStatus {
   REJECTED = 'rejected',
   WITHDRAWN = 'withdrawn',
 }
+
+export enum HireRequestStatus {
+  PENDING = 'pending',
+  ACCEPTED = 'accepted',
+  REJECTED = 'rejected',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled',
+}
