@@ -12,19 +12,29 @@ import { ClSpringAnimatedPressable } from './ClAnimated'
 
 interface ClCardProps extends PropsWithChildren {
   onPress?: PressableProps['onPress']
+  header?: ReactNode
   footer?: ReactNode
   style?: StyleProp<ViewStyle>
 }
 
-export function ClCard({ onPress, children, footer, style }: ClCardProps) {
+export function ClCard({
+  onPress,
+  children,
+  header,
+  footer,
+  style,
+}: ClCardProps) {
   const styles = useStyles()
 
   const contents = () => {
     return (
       <>
+        {header && (
+          <View style={[styles.section, styles.hasBottomBorder]}>{header}</View>
+        )}
         <View style={styles.section}>{children}</View>
         {footer && (
-          <View style={[styles.section, styles.hasBorder]}>{footer}</View>
+          <View style={[styles.section, styles.hasTopBorder]}>{footer}</View>
         )}
       </>
     )
@@ -57,8 +67,12 @@ const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
     paddingHorizontal: spacing[4],
     paddingVertical: spacing[3],
   },
-  hasBorder: {
+  hasTopBorder: {
     borderTopWidth: sizes.borderWidth.thin,
+    borderColor: resolveColor(scheme, colors.neutral[700], colors.neutral[200]),
+  },
+  hasBottomBorder: {
+    borderBottomWidth: sizes.borderWidth.thin,
     borderColor: resolveColor(scheme, colors.neutral[700], colors.neutral[200]),
   },
 }))
