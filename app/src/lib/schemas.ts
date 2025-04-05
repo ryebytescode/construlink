@@ -139,3 +139,21 @@ export const CreateJobSchema: ZodType<CreateJobFields> = z.object({
 export const SearchJobSchema: ZodType<Partial<SearchJobFields>> = z.object({
   query: z.string().min(1, 'Required'),
 })
+
+export const HireSchema: ZodType<Omit<HireFields, 'tradespersonName'>> =
+  z.object({
+    phone: z
+      .string()
+      .min(1, 'Required')
+      .regex(
+        patterns.phone,
+        'Invalid format. Should be in the form 0912 345 6789'
+      ),
+    location: z.string().min(1, 'Required'),
+    jobType: z.string().min(1, 'Required'),
+    jobDescription: z
+      .string()
+      .min(1, 'Required')
+      .max(300, 'Must contain at most 300 characters'),
+    expectedStartDate: z.date().min(new Date(), 'Invalid date').optional(),
+  })
