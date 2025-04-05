@@ -14,6 +14,7 @@ export type AuthMode = 'signin' | 'signup'
 
 interface AuthContextProps {
   initializing: boolean
+  isFetchingUserInfo: boolean
   userInfo: User | null
   reset(): void
 }
@@ -26,18 +27,19 @@ export function ClAuthProvider({ children }: PropsWithChildren) {
   const [initializing, setInitializing] = useState(true)
   const [isAuth, setIsAuth] = useState(false)
   const tqClient = useQueryClient()
-  const { data: cachedUserInfo } = useQuery<User>({
-    queryKey: ['user'],
-    queryFn: async () => {
-      const user = User.get()
-      const userInfo = await UserCollection.getUserInfo(user!.uid)
-      if (!userInfo) {
-        throw new Error('User not found')
-      }
-      return userInfo
-    },
-    enabled: isAuth,
-  })
+  const { data: cachedUserInfo, isFetching: isFetchingUserInfo } =
+    useQuery<User>({
+      queryKey: ['user'],
+      queryFn: async () => {
+        const user = User.get()
+        const userInfo = await UserCollection.getUserInfo(user!.uid)
+        if (!userInfo) {
+          throw new Error('User not found')
+        }
+        return userInfo
+      },
+      enabled: isAuth,
+    })
 
   function reset() {
     setIsAuth(false)
@@ -56,7 +58,12 @@ export function ClAuthProvider({ children }: PropsWithChildren) {
 
   return (
     <AuthContext.Provider
-      value={{ initializing, userInfo: cachedUserInfo ?? null, reset }}
+      value={{
+        initializing,
+        isFetchingUserInfo,
+        userInfo: cachedUserInfo ?? null,
+        reset,
+      }}
     >
       {children}
     </AuthContext.Provider>
