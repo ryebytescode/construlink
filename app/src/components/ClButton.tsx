@@ -181,7 +181,7 @@ const useStyles = createStyles(
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: spacing[8],
+        gap: spacing[2],
       },
 
       text: {
@@ -204,7 +204,7 @@ const useStyles = createStyles(
       },
 
       icon: {
-        fontSize: sizes.icon.md,
+        fontSize: size === 'small' ? sizes.icon.sm : sizes.icon.md,
       },
 
       iconVariantSolid: {
