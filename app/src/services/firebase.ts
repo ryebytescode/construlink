@@ -1,5 +1,5 @@
 import { stripNullish } from '@/helpers/utils'
-import { JobApplicationStatus, Role } from '@/lib/constants'
+import { HireRequestStatus, JobApplicationStatus, Role } from '@/lib/constants'
 import { getAuth } from '@react-native-firebase/auth'
 import {
   type FirebaseFirestoreTypes,
@@ -10,6 +10,7 @@ import {
   getDocs,
   getFirestore,
   increment,
+  limit,
   orderBy,
   query,
   serverTimestamp,
@@ -72,7 +73,13 @@ export namespace User {
           displayName: `${fields.firstName} ${fields.lastName}`,
         })
 
-        UserCollection.setUserInfo(user.uid, { role })
+        await UserCollection.setUserInfo(user.uid, {
+          role,
+          firstName: fields.firstName,
+          lastName: fields.lastName,
+          email: fields.email,
+          phone: fields.phone,
+        })
 
         await auth.currentUser?.sendEmailVerification()
       }
@@ -155,15 +162,9 @@ export namespace UserCollection {
     return result.exists ? result.data()!.role : null
   }
 
-  export async function getUserInfo<T extends User>(uid: string, role?: Role) {
-    const collection = role
-      ? role === Role.TRADESPERSON
-        ? 'tradespeople'
-        : 'employers'
-      : 'users'
-
+  export async function getUserInfo<T extends User>(uid: string) {
     const result = await getDoc<T>(
-      doc(db, collection, uid) as FirebaseFirestoreTypes.DocumentReference<T>
+      doc(db, 'users', uid) as FirebaseFirestoreTypes.DocumentReference<T>
     )
     return result.exists ? (result.data() ?? null) : null
   }
@@ -200,8 +201,9 @@ export namespace UserCollection {
       const fbQuery = query<Tradesperson>(
         collection(
           db,
-          'tradespeople'
-        ) as FirebaseFirestoreTypes.CollectionReference<Tradesperson>
+          'users'
+        ) as FirebaseFirestoreTypes.CollectionReference<Tradesperson>,
+        where('role', '==', Role.TRADESPERSON)
       )
       const result = await getDocs(fbQuery)
 
@@ -445,9 +447,9 @@ export namespace JobCollection {
     }
   }
 
-  export async function loadSearchSuggestions(queryText: string) {
+  export async function filterCategories(queryText?: string) {
     const entries: JobCategory[] = []
-    const cleanedQuery = queryText.trim().toLowerCase()
+    const cleanedQuery = queryText ? queryText.trim().toLowerCase() : ''
 
     try {
       const fbQuery = query<JobCategory>(
@@ -457,7 +459,8 @@ export namespace JobCollection {
         ) as FirebaseFirestoreTypes.CollectionReference<Job>,
         orderBy('title'),
         startAt(cleanedQuery),
-        endAt(cleanedQuery + '\uf8ff')
+        endAt(cleanedQuery + '\uf8ff'),
+        limit(10)
       )
       const result = await getDocs(fbQuery)
 
@@ -471,6 +474,142 @@ export namespace JobCollection {
       })
 
       return entries
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+
+  export async function getJobCategories() {
+    const entries: JobCategory[] = []
+
+    try {
+      const fbQuery = query<JobCategory>(
+        collection(
+          db,
+          'jobCategories'
+        ) as FirebaseFirestoreTypes.CollectionReference<JobCategory>,
+        orderBy('title'),
+        limit(10)
+      )
+      const result = await getDocs(fbQuery)
+
+      if (result.empty) return null
+
+      result.forEach((documentSnapshot) => {
+        entries.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        })
+      })
+
+      return entries
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+}
+
+export namespace HireRequestCollection {
+  export async function create(tradespersonId: string, fields: HireFields) {
+    const newFields = Object.assign(fields)
+
+    try {
+      await setDoc<HireRequest>(
+        doc(
+          db,
+          'hireRequests',
+          uuidv7()
+        ) as FirebaseFirestoreTypes.DocumentReference<HireRequest>,
+        {
+          ...stripNullish(newFields),
+          createdAt: serverTimestamp(),
+          employer: doc<User>(db, 'users', User.get()!.uid),
+          tradesperson: doc<Tradesperson>(db, 'users', tradespersonId),
+          status: HireRequestStatus.PENDING,
+        }
+      )
+
+      return true
+    } catch (error: unknown) {
+      return false
+    }
+  }
+
+  export async function getMyRequests() {
+    const entries: HireRequest[] = []
+
+    try {
+      const fbQuery = query<HireRequest>(
+        collection(
+          db,
+          'hireRequests'
+        ) as FirebaseFirestoreTypes.CollectionReference<HireRequest>,
+        where('employer', '==', doc<User>(db, 'users', User.get()!.uid)),
+        orderBy('createdAt', 'desc')
+      )
+      const result = await getDocs(fbQuery)
+
+      if (result.empty) return null
+
+      result.forEach((documentSnapshot) => {
+        entries.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        })
+      })
+
+      return entries
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+
+  export async function getRequests(tradespersonId: string) {
+    const entries: HireRequest[] = []
+
+    try {
+      const fbQuery = query<HireRequest>(
+        collection(
+          db,
+          'hireRequests'
+        ) as FirebaseFirestoreTypes.CollectionReference<HireRequest>,
+        where('tradespersonId', '==', tradespersonId),
+        orderBy('createdAt', 'desc')
+      )
+      const result = await getDocs(fbQuery)
+
+      if (result.empty) return null
+
+      result.forEach((documentSnapshot) => {
+        entries.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        })
+      })
+
+      return entries
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+
+  export async function getRequest(hireRequestId: string) {
+    try {
+      const result = await getDoc<HireRequest>(
+        doc<HireRequest>(
+          db,
+          'hireRequests',
+          hireRequestId
+        ) as FirebaseFirestoreTypes.DocumentReference<HireRequest>
+      )
+
+      if (!result.exists) return null
+
+      return result.data()
     } catch (error: unknown) {
       console.error(error)
       return null
@@ -524,3 +663,241 @@ export namespace CompanyCollection {
     }
   }
 }
+
+export namespace WorkPostCollection {
+  export async function createWorkPost(
+    tradespersonId: string,
+    fields: CreateWorkPostFields
+  ) {
+    const newFields = Object.assign(fields)
+
+    try {
+      await setDoc<WorkPost>(
+        doc(
+          db,
+          'workPosts',
+          tradespersonId
+        ) as FirebaseFirestoreTypes.DocumentReference<WorkPost>,
+        {
+          ...stripNullish(newFields),
+          createdAt: serverTimestamp(),
+          tradespersonId,
+        }
+      )
+
+      return true
+    } catch (error: unknown) {
+      return false
+    }
+  }
+
+  export async function getWorkPost(tradespersonId: string) {
+    try {
+      const result = await getDoc<WorkPost>(
+        doc<WorkPost>(
+          db,
+          'workPosts',
+          tradespersonId
+        ) as FirebaseFirestoreTypes.DocumentReference<WorkPost>
+      )
+
+      if (!result.exists) return null
+
+      return result.data() ?? null
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+
+  export async function getWorkPosts() {
+    const entries: WorkPost[] = []
+
+    try {
+      const fbQuery = query<WorkPost>(
+        collection(
+          db,
+          'workPosts'
+        ) as FirebaseFirestoreTypes.CollectionReference<WorkPost>,
+        orderBy('createdAt', 'desc')
+      )
+      const result = await getDocs(fbQuery)
+
+      if (result.empty) return null
+
+      // biome-ignore lint/complexity/noForEach:
+      result.forEach((documentSnapshot) => {
+        entries.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        })
+      })
+
+      return entries
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+}
+
+export namespace SavedProfileCollection {
+  export async function add(profileId: string, tradespersonName: string) {
+    const userId = User.get()!.uid
+
+    try {
+      await setDoc<SavedProfile>(
+        doc(
+          db,
+          'savedProfiles',
+          uuidv7()
+        ) as FirebaseFirestoreTypes.DocumentReference<SavedProfile>,
+        {
+          savedAt: serverTimestamp(),
+          profileId,
+          savedById: userId,
+          tradespersonName,
+        }
+      )
+
+      return true
+    } catch (error: unknown) {
+      return false
+    }
+  }
+
+  export async function getSavedProfiles() {
+    const entries: SavedProfile[] = []
+
+    try {
+      const fbQuery = query<SavedProfile>(
+        collection(
+          db,
+          'savedProfiles'
+        ) as FirebaseFirestoreTypes.CollectionReference<SavedProfile>,
+        where('savedById', '==', User.get()!.uid),
+        orderBy('savedAt', 'desc')
+      )
+      const result = await getDocs(fbQuery)
+
+      if (result.empty) return null
+
+      result.forEach((documentSnapshot) => {
+        entries.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        })
+      })
+
+      return entries
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+
+  export async function remove(profileId: string) {
+    try {
+      const fbQuery = query<SavedProfile>(
+        collection(
+          db,
+          'savedProfiles'
+        ) as FirebaseFirestoreTypes.CollectionReference<SavedProfile>,
+        where('profileId', '==', profileId),
+        where('savedById', '==', User.get()!.uid)
+      )
+      const result = await getDocs(fbQuery)
+
+      if (result.empty) return false
+
+      result.forEach(async (documentSnapshot) => {
+        await documentSnapshot.ref.delete()
+      })
+
+      return true
+    } catch (error: unknown) {
+      console.error(error)
+      return false
+    }
+  }
+
+  export async function checkIfSaved(profileId: string) {
+    try {
+      const fbQuery = query<SavedProfile>(
+        collection(
+          db,
+          'savedProfiles'
+        ) as FirebaseFirestoreTypes.CollectionReference<SavedProfile>,
+        where('profileId', '==', profileId),
+        where('savedById', '==', User.get()!.uid)
+      )
+      const result = await getDocs(fbQuery)
+
+      return !result.empty
+    } catch (error: unknown) {
+      console.error(error)
+      return false
+    }
+  }
+}
+
+export namespace ReviewCollection {
+  export async function createReview(
+    tradespersonId: string,
+    fields: CreateReviewFields
+  ) {
+    const newFields = Object.assign(fields)
+
+    try {
+      await setDoc<Review>(
+        doc(
+          db,
+          'reviews',
+          tradespersonId
+        ) as FirebaseFirestoreTypes.DocumentReference<Review>,
+        {
+          ...stripNullish(newFields),
+          createdAt: serverTimestamp(),
+          tradespersonId,
+        }
+      )
+
+      return true
+    } catch (error: unknown) {
+      return false
+    }
+  }
+
+  export async function getReviews(tradespersonId: string) {
+    const entries: Review[] = []
+
+    try {
+      const fbQuery = query<Review>(
+        collection(
+          db,
+          'reviews'
+        ) as FirebaseFirestoreTypes.CollectionReference<Review>,
+        where('tradespersonId', '==', tradespersonId),
+        orderBy('createdAt', 'desc')
+      )
+      const result = await getDocs(fbQuery)
+
+      if (result.empty) return null
+
+      // biome-ignore lint/complexity/noForEach:
+      result.forEach((documentSnapshot) => {
+        entries.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        })
+      })
+
+      return entries
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+}
+
+export namespace ChatCollection {}
