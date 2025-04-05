@@ -89,7 +89,11 @@ export const ClTextInput = forwardRef<RNTextInput, Partial<ClTextInputProps>>(
         ref={ref}
         {...rest}
         editable={!disabled}
-        style={[styles.inputField, inputFieldStyle]}
+        style={[
+          styles.inputField,
+          inputFieldStyle,
+          disabled && styles.inputFieldDisabled,
+        ]}
         underlineColorAndroid="transparent"
         placeholderTextColor={
           disabled
@@ -233,6 +237,9 @@ const useStyles = createStyles(
         color: colors.primaryText,
         fontSize: TextInput.sizes[size].fontSize,
         ...typo.fontMap.regular,
+      },
+      inputFieldDisabled: {
+        color: resolveColor(scheme, colors.neutral[400], colors.neutral[400]),
       },
 
       inputIcon: {
