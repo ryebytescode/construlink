@@ -40,6 +40,17 @@ interface CreateJobFields {
   // isUsingRange: boolean
 }
 
+interface HireFields {
+  tradespersonName: string
+  phone: string
+  email?: string
+  location: string
+  jobType: string
+  jobDescription: string
+  expectedStartDate?: Date
+  budget?: number
+}
+
 interface SearchJobFields {
   query: string
   location: string
@@ -52,3 +63,13 @@ interface CreateCompanyFields {
   size: string
   location: string
 }
+
+interface CreateWorkPostFields {
+  description: string
+  fileUrl: string
+  location: string
+}
+
+type CreateReviewFields = {}
+
+interface
