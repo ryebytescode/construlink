@@ -1,62 +1,103 @@
-// import { ClMenu } from '@/components/ClMenu'
+import { ClCard } from '@/components/ClCard'
+import { ClIconText } from '@/components/ClIconText'
+import {
+  ClInlineSpinner,
+  type ClSpinnerHandleProps,
+} from '@/components/ClInlineSpinner'
+import { ClMenu } from '@/components/ClMenu'
 import { ClPageView } from '@/components/ClPageView'
+import { ClText } from '@/components/ClText'
 import { ProfileCard } from '@/components/cards/ProfileCard'
 import { useAuth } from '@/contexts/auth'
-// import { ProfileCard } from '@/components/cards/ProfileCard'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
-import { User, UserCollection } from '@/services/firebase'
-import { isEmployer } from '@/stores/auth'
-import { useQuery } from '@tanstack/react-query'
-import { useMount } from 'ahooks'
+import { User } from '@/services/firebase'
+import { Typo } from '@/theme'
+import { IconSet } from '@/types/icons'
+import { router } from 'expo-router'
+import { useEffect, useRef } from 'react'
 
 export default function Profile() {
   useRenderCount('Profile')
 
-  const { userInfo } = useAuth()
-  const user = User.get()
-  const { data: stats, refetch } = useQuery({
-    queryKey: ['stats'],
-    queryFn: () => UserCollection.getStats(user!.uid, userInfo!.role),
-    enabled: false,
-  })
+  const { userInfo, isFetchingUserInfo } = useAuth()
+  const spinnerRef = useRef<ClSpinnerHandleProps>(null)
 
-  useMount(() => {
-    setTimeout(refetch, 500)
-  })
+  useEffect(() => {
+    if (isFetchingUserInfo) {
+      spinnerRef.current?.show()
+    } else {
+      spinnerRef.current?.hide()
+    }
+  }, [isFetchingUserInfo])
 
   return (
-    <ClPageView id="profile-tab">
-      <ProfileCard
-        role={userInfo!.role}
-        name={user!.displayName ?? '...'}
-        designation={isEmployer() ? 'Employer' : 'Tradesperson'}
-        stats={stats!}
-      />
-      {/* Overview */}
-      {/* <ClMenu
-        items={[
-          {
-            title: 'Job Posts',
-            icon: {
-              set: IconSet.MaterialCommunityIcons,
-              name: 'briefcase-variant-outline',
-            },
-            right: <ClText dim>{stats?.posts ?? '...'}</ClText>,
-            onPress: () => router.push('/(tabs)/jobs')
-          },
-          {
-            title: 'People Hired',
-            icon: {
-              set: IconSet.Ionicons,
-              name: 'hammer-outline',
-            },
-            right: <ClText dim>102</ClText>,
-          },
-        ]}
-      /> */}
-    </ClPageView>
+    <>
+      <ClPageView id="profile-tab">
+        {userInfo && (
+          <>
+            <ProfileCard userId={User.get()?.uid!} details={userInfo} self />
+            <ClCard
+              header={
+                <ClText style={{ ...Typo.fontMap.semiBold }}>About</ClText>
+              }
+            >
+              {userInfo.bio && (
+                <ClIconText
+                  text={userInfo.bio}
+                  icon={{
+                    set: IconSet.MaterialCommunityIcons,
+                    name: 'comment-quote',
+                  }}
+                />
+              )}
+              <ClIconText
+                text={userInfo.location}
+                icon={{
+                  set: IconSet.MaterialCommunityIcons,
+                  name: 'map-marker',
+                }}
+              />
+              {!userInfo.emailHidden && (
+                <ClIconText
+                  text={userInfo.email}
+                  icon={{ set: IconSet.MaterialCommunityIcons, name: 'email' }}
+                />
+              )}
+            </ClCard>
+            <ClMenu
+              items={[
+                {
+                  title: 'Hires',
+                  icon: {
+                    set: IconSet.MaterialCommunityIcons,
+                    name: 'account-check',
+                  },
+                  onPress: () => router.push('/user/requests'),
+                },
+                {
+                  title: 'Posts',
+                  icon: {
+                    set: IconSet.MaterialCommunityIcons,
+                    name: 'newspaper-variant',
+                  },
+                },
+                {
+                  title: 'Saved',
+                  icon: {
+                    set: IconSet.MaterialCommunityIcons,
+                    name: 'bookmark',
+                  },
+                  onPress: () => router.push('/user/saved'),
+                },
+              ]}
+            />
+          </>
+        )}
+      </ClPageView>
+      <ClInlineSpinner ref={spinnerRef} visible />
+    </>
   )
 }
 
