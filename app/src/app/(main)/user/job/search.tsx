@@ -65,7 +65,7 @@ function SearchSuggestions({ control, setQueryInput }: SearchSuggestionsProps) {
   const debouncedQuery = useDebounce(query, { wait: 500 })
   const { data: suggestions, refetch } = useQuery({
     queryKey: ['search-suggestions', debouncedQuery],
-    queryFn: () => JobCollection.loadSearchSuggestions(debouncedQuery),
+    queryFn: () => JobCollection.filterCategories(debouncedQuery),
     enabled: false,
   })
 
