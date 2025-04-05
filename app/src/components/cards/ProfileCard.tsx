@@ -1,10 +1,14 @@
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
+import { capitalizeFirstLetter, formatFullName } from '@/helpers/utils'
 import { Role } from '@/lib/constants'
+import { IconSet } from '@/types/icons'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { router } from 'expo-router'
 import React, { useMemo } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { AvatarUploader } from '../AvatarUploader'
+import { ClButton } from '../ClButton'
 import { ClText } from '../ClText'
 
 interface Stat {
@@ -13,14 +17,13 @@ interface Stat {
 }
 
 interface ProfileCardProps {
-  name: string
-  designation: string
-  role: Role
-  stats: Stats
+  details: User
+  userId: string
+  self?: boolean
 }
 
 export function ProfileCard(props: ProfileCardProps) {
-  const { name, designation, role, stats } = props
+  const { details, userId, self } = props
   const styles = useStyles()
 
   return (
@@ -29,22 +32,39 @@ export function ProfileCard(props: ProfileCardProps) {
         <AvatarUploader />
         <View>
           <ClText type="h6" style={styles.name}>
-            {name}
+            {formatFullName(details.firstName, details.lastName)}
           </ClText>
           <ClText type="helper" style={styles.role} dim>
-            {designation}
+            {capitalizeFirstLetter(details.role!)}
           </ClText>
         </View>
-        <StatsContainer role={role} stats={stats} />
+        {/* <StatsContainer role={details.role} /> */}
+        {!self && (
+          <View style={styles.ctaButtons}>
+            <ClButton
+              text="Message"
+              size="small"
+              icon={{ set: IconSet.MaterialCommunityIcons, name: 'message' }}
+            />
+            <ClButton
+              text="Hire Me"
+              size="small"
+              icon={{
+                set: IconSet.MaterialCommunityIcons,
+                name: 'account-plus',
+              }}
+              onPress={() =>
+                router.push({ pathname: '/user/job/hire', params: { userId } })
+              }
+            />
+          </View>
+        )}
       </View>
     </BottomSheetModalProvider>
   )
 }
 
-function StatsContainer({
-  role,
-  stats,
-}: { role: Role; stats: ProfileCardProps['stats'] }) {
+function StatsContainer({ role }: { role: Role }) {
   const styles = useStyles()
 
   const elements: Record<Role, Stat[]> = useMemo(
@@ -65,7 +85,11 @@ function StatsContainer({
       ],
       [Role.TRADESPERSON]: [
         {
-          label: 'Applications',
+          label: 'Jobs Done',
+          value: 0,
+        },
+        {
+          label: 'Rating',
           value: 0,
         },
       ],
@@ -86,7 +110,7 @@ function StatsContainer({
           onPress={handleStatPress}
         >
           <ClText type="lead" style={styles.statNumber}>
-            {element.value}
+            {5}
           </ClText>
           <ClText type="helper" style={styles.statLabel}>
             {element.label}
@@ -100,7 +124,7 @@ function StatsContainer({
 const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
   profileCard: {
     alignItems: 'center',
-    gap: spacing[4],
+    gap: spacing[2],
     backgroundColor: resolveColor(
       scheme,
       colors.neutral[800],
@@ -137,5 +161,10 @@ const useStyles = createStyles(({ scheme, colors, spacing, sizes, typo }) => ({
   },
   statLabel: {
     textAlign: 'center',
+  },
+  ctaButtons: {
+    marginTop: spacing[2],
+    flexDirection: 'row',
+    gap: spacing[2],
   },
 }))
