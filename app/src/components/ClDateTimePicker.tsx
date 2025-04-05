@@ -68,12 +68,13 @@ export const ClDateTimePicker = forwardRef<RNTextInput, ClDateTimePickerProps>(
         <ClTextInput
           {...rest}
           ref={ref}
-          value={value ? formatDateTime(value) : ''}
+          value={value ? formatDateTime(value, mode) : ''}
           onPress={() => setPickerVisible(true)}
           readOnly
         />
         <DateTimePicker
           modal
+          mode={mode}
           title={getTitle()}
           confirmText="Set"
           open={pickerVisible}
