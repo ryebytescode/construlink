@@ -6,7 +6,7 @@ import {
   type PropsWithChildren,
   createContext,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useState,
 } from 'react'
 
@@ -51,7 +51,7 @@ export function ClAuthProvider({ children }: PropsWithChildren) {
     if (initializing) setInitializing(false)
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const unsubscribe = getAuth().onAuthStateChanged(onAuthStateChanged)
     return unsubscribe
   }, [])
