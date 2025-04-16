@@ -1,14 +1,16 @@
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { capitalizeFirstLetter } from '@/helpers/utils'
-import { HireRequestStatus } from '@/lib/constants'
+import { HireRequestStatus, Role } from '@/lib/constants'
 import { Spacing } from '@/theme'
 import typography from '@/theme/typography'
 import { IconSet } from '@/types/icons'
+import { Timestamp } from '@react-native-firebase/firestore'
 import { formatDistanceToNowStrict } from 'date-fns'
 import { router, useFocusEffect } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { View } from 'react-native'
+import { ClButton } from '../ClButton'
 import { ClCard } from '../ClCard'
 import { ClIconText } from '../ClIconText'
 import { ClText } from '../ClText'
@@ -21,26 +23,24 @@ interface HireRequestCardProps
     | 'expectedStartDate'
     | 'budget'
     | 'status'
-    | 'tradespersonName'
     | 'createdAt'
   > {
+  fullName: string
   hireRequestId: string
-  selected?: boolean
-  onSelect?: (id: string) => void
+  role: Role
 }
 
 export function HireRequestCard(props: HireRequestCardProps) {
   const {
     hireRequestId,
-    tradespersonName,
+    fullName,
     createdAt,
     jobType,
     location,
     status,
-    selected,
-    onSelect,
+    role,
   } = props
-  const styles = useStyles()
+  const styles = useStyles({ status })
 
   function handleViewHireRequest() {
     router.navigate({
@@ -54,20 +54,21 @@ export function HireRequestCard(props: HireRequestCardProps) {
   return (
     <ClCard
       onPress={handleViewHireRequest}
-      style={selected && styles.selected}
       footer={
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: Spacing[2],
-          }}
-        >
-          <View style={styles.statusIndicator} />
-          <ClText type="helper" dim>
-            {capitalizeFirstLetter(status)}
-          </ClText>
-        </View>
+        role === Role.EMPLOYER && (
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: Spacing[2],
+            }}
+          >
+            <View style={styles.statusIndicator} />
+            <ClText type="helper" dim>
+              {capitalizeFirstLetter(status)}
+            </ClText>
+          </View>
+        )
       }
     >
       <View>
@@ -78,7 +79,7 @@ export function HireRequestCard(props: HireRequestCardProps) {
             flexWrap: 'wrap',
           }}
         >
-          {tradespersonName}
+          {fullName}
         </ClText>
       </View>
       <View>
@@ -99,7 +100,12 @@ export function HireRequestCard(props: HireRequestCardProps) {
           style={{ fontSize: typography.sizes.sm.fontSize }}
         />
       </View>
-      <Duration timestamp={createdAt.toDate()} />
+      <Duration
+        timestamp={new Timestamp(
+          createdAt.seconds,
+          createdAt.nanoseconds
+        ).toDate()}
+      />
     </ClCard>
   )
 }

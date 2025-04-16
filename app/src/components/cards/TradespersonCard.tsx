@@ -47,6 +47,7 @@ export function TradespersonCard(props: TradespersonCardProps) {
 
               return (
                 <ClIcon
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                   key={index}
                   set={IconSet.MaterialIcon}
                   name={
@@ -80,7 +81,7 @@ export function TradespersonCard(props: TradespersonCardProps) {
               flexWrap: 'wrap',
             }}
           >
-            {firstName + ' ' + lastName}
+            {`${firstName} ${lastName}`}
           </ClText>
           <ClText style={{ fontSize: typography.sizes.sm.fontSize }}>
             {capitalizeFirstLetter(expertise[0])}
@@ -111,7 +112,7 @@ export function TradespersonCard(props: TradespersonCardProps) {
             name: 'calendar',
           }}
           text={
-            schedule ? 'Available ' + formatSchedule(schedule) : 'No schedule'
+            schedule ? `Available ${formatSchedule(schedule)}` : 'No schedule'
           }
           style={{ fontSize: typography.sizes.sm.fontSize }}
         />

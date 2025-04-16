@@ -1,3 +1,4 @@
+import { useAuth } from '@/contexts/auth'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { capitalizeFirstLetter, formatFullName } from '@/helpers/utils'
@@ -25,6 +26,7 @@ interface ProfileCardProps {
 export function ProfileCard(props: ProfileCardProps) {
   const { details, userId, self } = props
   const styles = useStyles()
+  const { userInfo } = useAuth()
 
   return (
     <BottomSheetModalProvider>
@@ -46,17 +48,22 @@ export function ProfileCard(props: ProfileCardProps) {
               size="small"
               icon={{ set: IconSet.MaterialCommunityIcons, name: 'message' }}
             />
-            <ClButton
-              text="Hire Me"
-              size="small"
-              icon={{
-                set: IconSet.MaterialCommunityIcons,
-                name: 'account-plus',
-              }}
-              onPress={() =>
-                router.push({ pathname: '/user/job/hire', params: { userId } })
-              }
-            />
+            {userInfo!.role === Role.EMPLOYER && (
+              <ClButton
+                text="Hire Me"
+                size="small"
+                icon={{
+                  set: IconSet.MaterialCommunityIcons,
+                  name: 'account-plus',
+                }}
+                onPress={() =>
+                  router.push({
+                    pathname: '/user/job/hire',
+                    params: { userId },
+                  })
+                }
+              />
+            )}
           </View>
         )}
       </View>
