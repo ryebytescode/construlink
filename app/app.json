@@ -15,7 +15,11 @@
       },
       "package": "com.ryebytescode.construlink",
       "googleServicesFile": "./firebase/google-services.json",
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.POST_NOTIFICATIONS"
+      ]
     },
     "ios": {
       "supportsTablet": true,
@@ -41,15 +45,15 @@
         "expo-font",
         {
           "fonts": [
-            "node_modules/@expo-google-fonts/poppins/Poppins_100Thin.ttf",
-            "node_modules/@expo-google-fonts/poppins/Poppins_200ExtraLight.ttf",
-            "node_modules/@expo-google-fonts/poppins/Poppins_300Light.ttf",
-            "node_modules/@expo-google-fonts/poppins/Poppins_400Regular.ttf",
-            "node_modules/@expo-google-fonts/poppins/Poppins_500Medium.ttf",
-            "node_modules/@expo-google-fonts/poppins/Poppins_600SemiBold.ttf",
-            "node_modules/@expo-google-fonts/poppins/Poppins_700Bold.ttf",
-            "node_modules/@expo-google-fonts/poppins/Poppins_800ExtraBold.ttf",
-            "node_modules/@expo-google-fonts/poppins/Poppins_900Black.ttf"
+            "node_modules/@expo-google-fonts/poppins/100Thin/Poppins_100Thin.ttf",
+            "node_modules/@expo-google-fonts/poppins/200ExtraLight/Poppins_200ExtraLight.ttf",
+            "node_modules/@expo-google-fonts/poppins/300Light/Poppins_300Light.ttf",
+            "node_modules/@expo-google-fonts/poppins/400Regular/Poppins_400Regular.ttf",
+            "node_modules/@expo-google-fonts/poppins/500Medium/Poppins_500Medium.ttf",
+            "node_modules/@expo-google-fonts/poppins/600SemiBold/Poppins_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/poppins/700Bold/Poppins_700Bold.ttf",
+            "node_modules/@expo-google-fonts/poppins/800ExtraBold/Poppins_800ExtraBold.ttf",
+            "node_modules/@expo-google-fonts/poppins/900Black/Poppins_900Black.ttf"
           ]
         }
       ],
@@ -61,6 +65,12 @@
           "ios": {
             "useFrameworks": "static"
           }
+        }
+      ],
+      [
+        "react-native-permissions",
+        {
+          "iosPermissions": ["Camera", "Notifications"]
         }
       ]
     ],
