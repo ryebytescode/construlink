@@ -12,7 +12,7 @@ import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { formatFullName } from '@/helpers/utils'
 import { SavedProfileCollection, UserCollection } from '@/services/firebase'
-import { Typo } from '@/theme'
+import { Spacing, Typo } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { ToastPosition, toast } from '@backpackapp-io/react-native-toast'
 import {
@@ -21,8 +21,9 @@ import {
 } from '@gorhom/bottom-sheet'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useLocalSearchParams, useNavigation } from 'expo-router'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 import { TouchableOpacity, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function UserProfile() {
   const styles = useStyles()
@@ -43,14 +44,15 @@ export default function UserProfile() {
   const navigation = useNavigation()
   const bottomSheetRef = useRef<BottomSheetModal>(null)
   const queryClient = useQueryClient()
+  const insets = useSafeAreaInsets()
 
-  const handleSaveProfile = useCallback(async () => {
-    spinnerRef.current?.show()
-
+  async function handleSaveProfile() {
     if (userDetails) {
+      spinnerRef.current?.show()
+
       if (isSaved) {
         await SavedProfileCollection.remove(userId)
-        toast.success('Profile unsaved successfully', {
+        toast.success('Profile unsaved', {
           position: ToastPosition.BOTTOM,
         })
       } else {
@@ -58,16 +60,20 @@ export default function UserProfile() {
           userId,
           formatFullName(userDetails.firstName, userDetails.lastName)
         )
-        toast.success('Profile saved successfully', {
+        toast.success('Profile saved', {
           position: ToastPosition.BOTTOM,
         })
       }
-    }
 
-    queryClient.invalidateQueries({ queryKey: ['user', userId, 'save-state'] })
-    bottomSheetRef.current?.dismiss()
-    spinnerRef.current?.hide()
-  }, [userDetails])
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['user', userId] }),
+        queryClient.invalidateQueries({ queryKey: ['saved-profiles'] }),
+      ])
+
+      bottomSheetRef.current?.dismiss()
+      spinnerRef.current?.hide()
+    }
+  }
 
   useEffect(() => {
     if (isFetching || isRefetching) {
@@ -77,7 +83,7 @@ export default function UserProfile() {
     }
   }, [isFetching, isRefetching])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPressIn={() => bottomSheetRef.current?.present()}>
@@ -179,7 +185,11 @@ export default function UserProfile() {
       </ClPageView>
       <ClInlineSpinner ref={spinnerRef} visible />
       <BottomSheetModalProvider>
-        <ClBottomSheet ref={bottomSheetRef} enableDynamicSizing={true}>
+        <ClBottomSheet
+          ref={bottomSheetRef}
+          enableDynamicSizing
+          bottomInset={insets.top + insets.bottom}
+        >
           <ClMenu
             hasBorders={false}
             items={[

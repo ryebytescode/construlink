@@ -64,6 +64,9 @@ export default function HiringScreen() {
 
     const result = await HireRequestCollection.create(User.get()?.uid!, {
       ...data,
+      tradespersonId: userId,
+      employerId: User.get()?.uid!,
+      employerName: formatFullName(myDetails!.firstName, myDetails!.lastName),
       tradespersonName: formatFullName(
         userDetails!.firstName,
         userDetails!.lastName

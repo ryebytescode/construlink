@@ -47,7 +47,11 @@ export default function TradespeopleTab() {
 
   return (
     <>
-      <ClPageView id="tradespeople-tab" scrollable={false}>
+      <ClPageView
+        id="tradespeople-tab"
+        scrollable={false}
+        contentContainerStyle={{ flex: 1 }}
+      >
         <FlatList
           data={users}
           contentContainerStyle={styles.entries}

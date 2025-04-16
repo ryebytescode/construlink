@@ -27,7 +27,6 @@ export default function JobPostsTab() {
   } = useQuery({
     queryKey: ['job-posts'],
     queryFn: JobCollection.getAllJobPosts,
-    enabled: false,
   })
 
   useEffect(() => {
@@ -37,10 +36,6 @@ export default function JobPostsTab() {
       spinnerRef.current?.hide()
     }
   }, [isFetching, isRefetching])
-
-  useMount(() => {
-    setTimeout(refetch, 500)
-  })
 
   return (
     <>

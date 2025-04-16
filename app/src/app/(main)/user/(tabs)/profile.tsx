@@ -82,6 +82,7 @@ export default function Profile() {
                     set: IconSet.MaterialCommunityIcons,
                     name: 'newspaper-variant',
                   },
+                  onPress: () => router.push('/user/posts'),
                 },
                 {
                   title: 'Saved',

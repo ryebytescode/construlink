@@ -1,91 +1,88 @@
-import { ClButton } from '@/components/ClButton'
 import { ClIcon } from '@/components/ClIcon'
-import { ClInlineSpinner } from '@/components/ClInlineSpinner'
 import { ClPageView } from '@/components/ClPageView'
-import type { ClSpinnerHandleProps } from '@/components/ClSpinner'
 import { ClText } from '@/components/ClText'
 import { HireRequestCard } from '@/components/cards/HireRequestCard'
-import { JobCard } from '@/components/cards/JobCard'
+import { useAuth } from '@/contexts/auth'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
-import { HireRequestCollection, JobCollection } from '@/services/firebase'
+import { Role } from '@/lib/constants'
+import { HireRequestCollection, User } from '@/services/firebase'
 import { IconSet } from '@/types/icons'
-import { Timestamp } from '@react-native-firebase/firestore'
 import { useQuery } from '@tanstack/react-query'
 import { useMount } from 'ahooks'
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { FlatList, RefreshControl, View } from 'react-native'
 
 export default function RequestsScreen() {
   const styles = useStyles()
-  const spinnerRef = useRef<ClSpinnerHandleProps>(null)
-
+  const { userInfo } = useAuth()
   const {
     data: requests,
     refetch,
     isRefetching,
-    isFetching,
   } = useQuery({
     queryKey: ['hire-requests'],
-    queryFn: HireRequestCollection.getMyRequests,
+    queryFn: () => {
+      if (userInfo!.role! === Role.EMPLOYER) {
+        return HireRequestCollection.getMyRequests()
+      }
+
+      return HireRequestCollection.getRequests(User.get()!.uid)
+    },
     enabled: false,
   })
 
-  useEffect(() => {
-    if (isFetching || isRefetching) {
-      spinnerRef.current?.show()
-    } else {
-      spinnerRef.current?.hide()
-    }
-  }, [isFetching, isRefetching])
-
   useMount(() => {
-    setTimeout(refetch, 500)
+    setTimeout(refetch, 100)
   })
 
   return (
-    <>
-      <ClPageView id="job-posts" scrollable={false}>
-        <FlatList
-          data={requests}
-          contentContainerStyle={styles.entries}
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
-          }
-          ListEmptyComponent={
-            <View style={styles.emptyPlaceholder}>
-              <ClIcon
-                set={IconSet.MaterialCommunityIcons}
-                name="account-outline"
-                color={styles.heroIcon.color}
-                size={styles.heroIcon.fontSize}
-              />
-              <View style={styles.encouragement}>
-                <ClText type="lead" style={styles.heroText}>
-                  No hire requests yet
-                </ClText>
-                <ClText type="helper" dim>
-                  Start hiring now.
-                </ClText>
-              </View>
-            </View>
-          }
-          renderItem={({ item }) => (
-            <HireRequestCard
-              key={item.key}
-              hireRequestId={item.key}
-              createdAt={item.createdAt}
-              jobType={item.jobType}
-              location={item.location}
-              status={item.status}
-              tradespersonName={item.tradespersonName}
+    <ClPageView id="job-posts" scrollable={false}>
+      <FlatList
+        data={requests}
+        contentContainerStyle={styles.entries}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        }
+        ListEmptyComponent={
+          <View style={styles.emptyPlaceholder}>
+            <ClIcon
+              set={IconSet.MaterialCommunityIcons}
+              name="account-outline"
+              color={styles.heroIcon.color}
+              size={styles.heroIcon.fontSize}
             />
-          )}
-        />
-      </ClPageView>
-      <ClInlineSpinner ref={spinnerRef} transluscent />
-    </>
+            <View style={styles.encouragement}>
+              <ClText type="lead" style={styles.heroText}>
+                No hire requests yet
+              </ClText>
+              <ClText type="helper" dim>
+                {userInfo!.role! === Role.EMPLOYER
+                  ? 'Start hiring now.'
+                  : 'Start applying for jobs now.'}
+              </ClText>
+            </View>
+          </View>
+        }
+        renderItem={({ item }) => (
+          <HireRequestCard
+            key={item.key}
+            hireRequestId={item.key}
+            createdAt={item.createdAt}
+            jobType={item.jobType}
+            location={item.location}
+            status={item.status}
+            fullName={
+              userInfo!.role! === Role.EMPLOYER
+                ? item.tradespersonName
+                : item.employerName
+            }
+            role={userInfo?.role!}
+          />
+        )}
+      />
+    </ClPageView>
   )
 }
 

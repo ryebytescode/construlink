@@ -45,6 +45,10 @@ export default function UserLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="[userId]" options={{ headerTitle: () => null }} />
         <Stack.Screen
+          name="messages/[threadId]"
+          options={{ title: 'Message', animation: 'fade_from_bottom' }}
+        />
+        <Stack.Screen
           name="dashboard-test"
           options={{ headerTitle: () => null }}
         />
@@ -110,6 +114,10 @@ export default function UserLayout() {
         />
         <Stack.Screen name="requests" options={{ title: 'Hires' }} />
         <Stack.Screen name="saved" options={{ title: 'Saved' }} />
+        <Stack.Screen
+          name="notifications"
+          options={{ title: 'Notifications' }}
+        />
       </ClStack>
     </>
   )

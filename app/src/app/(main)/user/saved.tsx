@@ -68,7 +68,7 @@ export default function ViewSavedScreen() {
             <SavedProfileCard
               key={item.key}
               tradespersonName={item.tradespersonName}
-              profileId={item.key}
+              profileId={item.profileId}
               savedAt={item.savedAt}
             />
           )}

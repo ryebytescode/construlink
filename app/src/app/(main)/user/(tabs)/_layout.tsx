@@ -6,7 +6,7 @@ import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { Role } from '@/lib/constants'
-import { Palette, Typo } from '@/theme'
+import { Palette, Spacing, Typo } from '@/theme'
 import { IconSet } from '@/types/icons'
 import { Tabs, router } from 'expo-router'
 import { TouchableOpacity, View } from 'react-native'
@@ -158,16 +158,28 @@ export default function TabsLayout() {
           title: 'Hire',
           headerTitle: 'Tradespeople',
           headerRight: () => (
-            <TouchableOpacity
-              onPress={() => router.navigate('/user/job/search')}
-            >
-              <ClIcon
-                set={IconSet.MaterialIcon}
-                name="search"
-                color={styles.settingsIcon.color}
-                size={styles.settingsIcon.fontSize}
-              />
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', gap: Spacing[4] }}>
+              <TouchableOpacity
+                onPress={() => router.navigate('/user/job/search')}
+              >
+                <ClIcon
+                  set={IconSet.MaterialIcon}
+                  name="search"
+                  color={styles.settingsIcon.color}
+                  size={styles.settingsIcon.fontSize}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => router.navigate('/user/notifications')}
+              >
+                <ClIcon
+                  set={IconSet.MaterialCommunityIcons}
+                  name="bell"
+                  color={styles.settingsIcon.color}
+                  size={styles.settingsIcon.fontSize}
+                />
+              </TouchableOpacity>
+            </View>
           ),
           headerRightContainerStyle: styles.headerRightContainer,
         }}
