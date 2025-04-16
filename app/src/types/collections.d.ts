@@ -68,9 +68,10 @@ interface HireRequest extends HasKey {
   updatedAt: Timestamp
   respondedAt: Timestamp
   status: import('@/lib/constants').HireRequestStatus
-  tradesperson: Reference<Tradesperson>
+  tradespersonId: string
   tradespersonName: string
-  employer: Reference<User>
+  employerId: string
+  employerName: string
   phone: string
   email?: string
   location: string
@@ -112,9 +113,39 @@ interface Review extends HasKey {
   target: Reference<User>
 }
 
+interface ChatThread extends HasKey {
+  createdAt: Timestamp
+  updatedAt?: Timestamp
+  participantIds: string[]
+  participants: ChatParticipant[]
+  lastMessage: string
+  lastMessageAt: Timestamp
+  lastSenderId: string
+  isRead: boolean
+}
+
+interface ChatParticipant {
+  userId: string
+  fullName: string
+  avatarUrl?: string
+  isOnline?: boolean
+  isTyping?: boolean
+  lastSeen?: Timestamp
+}
+
 interface ChatMessage extends HasKey {
   createdAt: Timestamp
-  sender: Reference<User>
-  recipient: Reference<User>
-  content: string
+  senderId: string
+  fullName: string
+  message: string
+  type: import('@/lib/constants').MessageType
+}
+
+interface Notification extends HasKey {
+  createdAt: Timestamp
+  recipientId: string
+  title: string
+  body: string
+  isRead: boolean
+  type: import('@/lib/constants').NotificationType
 }
