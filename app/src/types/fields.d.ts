@@ -42,6 +42,9 @@ interface CreateJobFields {
 
 interface HireFields {
   tradespersonName: string
+  tradespersonId: string
+  employerId: string
+  employerName: string
   phone: string
   email?: string
   location: string
@@ -70,6 +73,11 @@ interface CreateWorkPostFields {
   location: string
 }
 
+// biome-ignore lint/complexity/noBannedTypes: <explanation>
 type CreateReviewFields = {}
 
-interface
+interface CreateNotificationFields {
+  title: string
+  body: string
+  type: import('@/lib/constants').NotificationType
+}

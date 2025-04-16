@@ -6,6 +6,7 @@ type State = {
   createCompanyFields: Partial<CreateCompanyFields> | null
   selectedRecipientId: string
   selectedJobType: string
+  hireRequestFields: Partial<HireFields> | null
 }
 
 type Action = {
@@ -13,6 +14,7 @@ type Action = {
   setCreateCompanyFields: (fields: Partial<CreateCompanyFields> | null) => void
   setSelectedRecipientId: (id: string) => void
   setSelectedJobType: (jobType: string) => void
+  setHireRequestFields: (fields: Partial<HireFields>) => void
   reset: () => void
 }
 
@@ -36,6 +38,7 @@ const initialState: State = {
   createCompanyFields: null,
   selectedRecipientId: '',
   selectedJobType: '',
+  hireRequestFields: null,
 }
 
 export const useFormStore = create<State & Action>()(
@@ -45,6 +48,7 @@ export const useFormStore = create<State & Action>()(
     setCreateCompanyFields: (fields) => set({ createCompanyFields: fields }),
     setSelectedRecipientId: (id) => set({ selectedRecipientId: id }),
     setSelectedJobType: (jobType) => set({ selectedJobType: jobType }),
+    setHireRequestFields: (fields) => set({ hireRequestFields: fields }),
     reset: () => set(initialState),
   }))
 )

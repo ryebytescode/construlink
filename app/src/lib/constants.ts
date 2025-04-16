@@ -23,3 +23,20 @@ export enum HireRequestStatus {
   COMPLETED = 'completed',
   CANCELLED = 'cancelled',
 }
+
+export enum NotificationType {
+  JOB_APPLICATION = 'job_application',
+  HIRE_REQUEST = 'hire_request',
+  MESSAGE = 'message',
+  REVIEW = 'review',
+  WORK_POST = 'work_post',
+}
+
+export enum MessageType {
+  TEXT = 'text',
+  IMAGE = 'image',
+  VIDEO = 'video',
+  AUDIO = 'audio',
+  FILE = 'file',
+  LOCATION = 'location',
+}
