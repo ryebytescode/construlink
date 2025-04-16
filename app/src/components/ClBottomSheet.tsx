@@ -1,5 +1,6 @@
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
+import { Spacing } from '@/theme'
 import spacing from '@/theme/spacing'
 import {
   BottomSheetBackdrop,
@@ -14,6 +15,7 @@ import {
 import type { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
 import { type ReactNode, forwardRef, useCallback, useEffect } from 'react'
 import { BackHandler, type StyleProp, type ViewStyle } from 'react-native'
+import { EdgeInsets, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export interface ClBottomSheetProps
   extends Omit<BottomSheetModalProps, 'footerComponent'> {
@@ -34,7 +36,8 @@ export const ClBottomSheet = forwardRef<BottomSheetModal, ClBottomSheetProps>(
       contentContainerStyle,
       ...rest
     } = props
-    const styles = useStyles()
+    const insets = useSafeAreaInsets()
+    const styles = useStyles({ insets })
     const { dismiss } = useBottomSheetModal()
 
     const renderBackdrop = useCallback(
