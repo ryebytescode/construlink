@@ -1,8 +1,10 @@
 import { stripNullish } from '@/helpers/utils'
 import { HireRequestStatus, JobApplicationStatus, Role } from '@/lib/constants'
+import { getApp } from '@react-native-firebase/app'
 import { getAuth } from '@react-native-firebase/auth'
 import {
   type FirebaseFirestoreTypes,
+  Timestamp,
   collection,
   doc,
   endAt,
@@ -10,6 +12,7 @@ import {
   getDocs,
   getFirestore,
   increment,
+  initializeFirestore,
   limit,
   orderBy,
   query,
@@ -19,11 +22,11 @@ import {
   updateDoc,
   where,
 } from '@react-native-firebase/firestore'
+import type { IMessage } from 'react-native-gifted-chat'
 import { v7 as uuidv7 } from 'uuid'
 
 async function initialize() {
-  const firestore = getFirestore()
-  firestore.settings({
+  initializeFirestore(getApp(), {
     persistence: false,
   })
 }
@@ -404,7 +407,7 @@ export namespace JobCollection {
     }
   }
 
-  export async function searchJobPosts(queryText: string, filters: any) {
+  export async function searchJobPosts(queryText: string, filters: Job) {
     const entries: Job[] = []
 
     try {
@@ -414,7 +417,7 @@ export namespace JobCollection {
           'jobs'
         ) as FirebaseFirestoreTypes.CollectionReference<Job>,
         where('title', '>=', queryText),
-        where('title', '<=', queryText + '\uf8ff'),
+        where('title', '<=', `${queryText}\uf8ff`),
         orderBy('title')
       )
 
@@ -433,6 +436,7 @@ export namespace JobCollection {
 
       if (result.empty) return null
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       result.forEach((documentSnapshot) => {
         entries.push({
           ...documentSnapshot.data(),
@@ -459,13 +463,14 @@ export namespace JobCollection {
         ) as FirebaseFirestoreTypes.CollectionReference<Job>,
         orderBy('title'),
         startAt(cleanedQuery),
-        endAt(cleanedQuery + '\uf8ff'),
+        endAt(`${cleanedQuery}\uf8ff`),
         limit(10)
       )
       const result = await getDocs(fbQuery)
 
       if (result.empty) return null
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       result.forEach((documentSnapshot) => {
         entries.push({
           ...documentSnapshot.data(),
@@ -496,6 +501,7 @@ export namespace JobCollection {
 
       if (result.empty) return null
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       result.forEach((documentSnapshot) => {
         entries.push({
           ...documentSnapshot.data(),
@@ -525,8 +531,6 @@ export namespace HireRequestCollection {
         {
           ...stripNullish(newFields),
           createdAt: serverTimestamp(),
-          employer: doc<User>(db, 'users', User.get()!.uid),
-          tradesperson: doc<Tradesperson>(db, 'users', tradespersonId),
           status: HireRequestStatus.PENDING,
         }
       )
@@ -546,13 +550,14 @@ export namespace HireRequestCollection {
           db,
           'hireRequests'
         ) as FirebaseFirestoreTypes.CollectionReference<HireRequest>,
-        where('employer', '==', doc<User>(db, 'users', User.get()!.uid)),
+        where('employerId', '==', User.get()!.uid),
         orderBy('createdAt', 'desc')
       )
       const result = await getDocs(fbQuery)
 
       if (result.empty) return null
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       result.forEach((documentSnapshot) => {
         entries.push({
           ...documentSnapshot.data(),
@@ -583,6 +588,7 @@ export namespace HireRequestCollection {
 
       if (result.empty) return null
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       result.forEach((documentSnapshot) => {
         entries.push({
           ...documentSnapshot.data(),
@@ -613,6 +619,72 @@ export namespace HireRequestCollection {
     } catch (error: unknown) {
       console.error(error)
       return null
+    }
+  }
+
+  export async function update(
+    hireRequestId: string,
+    fields: Partial<HireRequest>
+  ) {
+    try {
+      await updateDoc<HireRequest>(
+        doc<HireRequest>(
+          db,
+          'hireRequests',
+          hireRequestId
+        ) as FirebaseFirestoreTypes.DocumentReference<HireRequest>,
+        {
+          ...stripNullish(fields),
+          updatedAt: serverTimestamp(),
+        }
+      )
+
+      return true
+    } catch (error: unknown) {
+      console.error(error)
+      return false
+    }
+  }
+
+  export async function accept(hireRequestId: string) {
+    try {
+      await updateDoc<HireRequest>(
+        doc<HireRequest>(
+          db,
+          'hireRequests',
+          hireRequestId
+        ) as FirebaseFirestoreTypes.DocumentReference<HireRequest>,
+        {
+          status: HireRequestStatus.ACCEPTED,
+          updatedAt: serverTimestamp(),
+        }
+      )
+
+      return true
+    } catch (error: unknown) {
+      console.error(error)
+      return false
+    }
+  }
+
+  export async function reject(hireRequestId: string) {
+    try {
+      await updateDoc<HireRequest>(
+        doc<HireRequest>(
+          db,
+          'hireRequests',
+          hireRequestId
+        ) as FirebaseFirestoreTypes.DocumentReference<HireRequest>,
+        {
+          status: HireRequestStatus.REJECTED,
+          updatedAt: serverTimestamp(),
+        }
+      )
+
+      return true
+    } catch (error: unknown) {
+      console.error(error)
+      return false
     }
   }
 }
@@ -782,6 +854,7 @@ export namespace SavedProfileCollection {
 
       if (result.empty) return null
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       result.forEach((documentSnapshot) => {
         entries.push({
           ...documentSnapshot.data(),
@@ -810,6 +883,7 @@ export namespace SavedProfileCollection {
 
       if (result.empty) return false
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       result.forEach(async (documentSnapshot) => {
         await documentSnapshot.ref.delete()
       })
@@ -900,4 +974,201 @@ export namespace ReviewCollection {
   }
 }
 
-export namespace ChatCollection {}
+export namespace ChatCollection {
+  export function getThreadsQuery() {
+    return query<ChatThread>(
+      collection(
+        db,
+        'chatThreads'
+      ) as FirebaseFirestoreTypes.CollectionReference<ChatThread>,
+      where('participantIds', 'array-contains', User.get()!.uid),
+      orderBy('lastMessageAt', 'desc')
+    )
+  }
+
+  export async function getMessages(threadId: string) {
+    try {
+      const result = await getDoc<ChatThread>(
+        doc<ChatThread>(
+          db,
+          'chatThreads',
+          threadId
+        ) as FirebaseFirestoreTypes.DocumentReference<ChatThread>
+      )
+
+      if (!result.exists) return null
+
+      const messagesCollection = collection(
+        result.ref,
+        'messages'
+      ) as FirebaseFirestoreTypes.CollectionReference<ChatMessage>
+
+      const messagesSnapshot = await getDocs(messagesCollection)
+
+      if (messagesSnapshot.empty) return []
+
+      const messages: IMessage[] = []
+      // biome-ignore lint/complexity/noForEach: <explanation>
+      messagesSnapshot.forEach((doc) => {
+        const data = doc.data()
+        messages.push({
+          _id: doc.id,
+          createdAt: new Timestamp(
+            data.createdAt.seconds,
+            data.createdAt.nanoseconds
+          ).toDate(),
+          text: data.message,
+          user: {
+            _id: data.senderId,
+            name: data.fullName,
+          },
+        })
+      })
+
+      return messages
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+
+  export async function getThread(threadId: string) {
+    try {
+      const result = await getDoc<ChatThread>(
+        doc<ChatThread>(
+          db,
+          'chatThreads',
+          threadId
+        ) as FirebaseFirestoreTypes.DocumentReference<ChatThread>
+      )
+
+      if (!result.exists) return null
+
+      return result.data() ?? null
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+
+  export function getRecipients(participants: ChatParticipant[]) {
+    return participants.filter(
+      (participant) => participant.userId !== User.get()!.uid
+    )
+  }
+
+  export async function markThreadAsRead(threadId: string) {
+    try {
+      const threadRef = doc<ChatThread>(
+        db,
+        'chatThreads',
+        threadId
+      ) as FirebaseFirestoreTypes.DocumentReference<ChatThread>
+
+      return await updateDoc(threadRef, {
+        isRead: true,
+      })
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+
+  export async function sendMessage(
+    threadId: string,
+    message: string,
+    senderId: string,
+    fullName: string
+  ) {
+    try {
+      const threadRef = doc<ChatThread>(
+        db,
+        'chatThreads',
+        threadId
+      ) as FirebaseFirestoreTypes.DocumentReference<ChatThread>
+
+      const messageRef = collection(
+        threadRef,
+        'messages'
+      ) as FirebaseFirestoreTypes.CollectionReference<ChatMessage>
+
+      await setDoc<ChatMessage>(
+        doc(
+          messageRef,
+          uuidv7()
+        ) as FirebaseFirestoreTypes.DocumentReference<ChatMessage>,
+        {
+          createdAt: serverTimestamp(),
+          message,
+          senderId,
+          fullName,
+        }
+      )
+
+      return true
+    } catch (error: unknown) {
+      console.error(error)
+      return false
+    }
+  }
+}
+
+export namespace NotificationCollection {
+  export async function create(
+    recipientId: string,
+    fields: CreateNotificationFields
+  ) {
+    const newFields = Object.assign(fields)
+
+    try {
+      await setDoc<Notification>(
+        doc(
+          db,
+          'notifications',
+          uuidv7()
+        ) as FirebaseFirestoreTypes.DocumentReference<Notification>,
+        {
+          ...stripNullish(newFields),
+          createdAt: serverTimestamp(),
+          recipientId,
+          isRead: false,
+        }
+      )
+
+      return true
+    } catch (error: unknown) {
+      return false
+    }
+  }
+
+  export async function getNotifications() {
+    const entries: Notification[] = []
+
+    try {
+      const fbQuery = query<Notification>(
+        collection(
+          db,
+          'notifications'
+        ) as FirebaseFirestoreTypes.CollectionReference<Notification>,
+        where('recipientId', '==', User.get()!.uid),
+        orderBy('createdAt', 'desc')
+      )
+      const result = await getDocs(fbQuery)
+
+      if (result.empty) return null
+
+      // biome-ignore lint/complexity/noForEach:
+      result.forEach((documentSnapshot) => {
+        entries.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        })
+      })
+
+      return entries
+    } catch (error: unknown) {
+      console.error(error)
+      return null
+    }
+  }
+}
