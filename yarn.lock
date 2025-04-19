@@ -1424,9 +1424,9 @@ __metadata:
     "@react-navigation/bottom-tabs": "npm:^7.2.0"
     "@react-navigation/material-top-tabs": "npm:^7.2.8"
     "@react-navigation/native": "npm:^7.0.14"
-    "@tanstack/query-async-storage-persister": "npm:^5.74.3"
-    "@tanstack/react-query": "npm:^5.74.3"
-    "@tanstack/react-query-persist-client": "npm:^5.74.3"
+    "@tanstack/query-async-storage-persister": "npm:^5.74.4"
+    "@tanstack/react-query": "npm:^5.74.4"
+    "@tanstack/react-query-persist-client": "npm:^5.74.4"
     "@types/jest": "npm:^29.5.14"
     "@types/react": "npm:~18.3.20"
     "@types/react-native-get-random-values": "npm:^1.8.2"
@@ -3735,51 +3735,51 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-async-storage-persister@npm:^5.74.3":
-  version: 5.74.3
-  resolution: "@tanstack/query-async-storage-persister@npm:5.74.3"
+"@tanstack/query-async-storage-persister@npm:^5.74.4":
+  version: 5.74.4
+  resolution: "@tanstack/query-async-storage-persister@npm:5.74.4"
   dependencies:
-    "@tanstack/query-persist-client-core": "npm:5.74.3"
-  checksum: 10c0/02b27595fb7aa57910bec9f21c084e123bce27ee8261e16d28f738ab47482a90d13b7ff849f1fa9e9b99ce4dc3160ce1f74452a3faac81c85456f1509fc87d25
+    "@tanstack/query-persist-client-core": "npm:5.74.4"
+  checksum: 10c0/e823dd8798580013ecba7ca35925ed56e4062d0bf7819bc7c2347f6ff590831e484ff2d8b269b0b61e6a4b43029c31211d00001949e74d5eae98de726b864d46
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.74.3":
-  version: 5.74.3
-  resolution: "@tanstack/query-core@npm:5.74.3"
-  checksum: 10c0/ad28c2a4b9c39b23fb4a621474f134320f4cf5a2ea62a12918ca27d95b4b4a8b15316d5eceba04debbe2ecc7453f4dbaeb8deede7eeef07a83ad6ee42659b326
+"@tanstack/query-core@npm:5.74.4":
+  version: 5.74.4
+  resolution: "@tanstack/query-core@npm:5.74.4"
+  checksum: 10c0/e74d0520b2ee14c8a65f9ff00e335cb9d25453b8af08d776ff3f7a6ba24178cbf4d6a884412df5a0747737e4ca87f637dafaad2c0f0e6afd7cd22e32e0d7dced
   languageName: node
   linkType: hard
 
-"@tanstack/query-persist-client-core@npm:5.74.3":
-  version: 5.74.3
-  resolution: "@tanstack/query-persist-client-core@npm:5.74.3"
+"@tanstack/query-persist-client-core@npm:5.74.4":
+  version: 5.74.4
+  resolution: "@tanstack/query-persist-client-core@npm:5.74.4"
   dependencies:
-    "@tanstack/query-core": "npm:5.74.3"
-  checksum: 10c0/236c20cb4e11a182ef9886fbab39d66d454785db0a7495e8828df30f635359ea4210481e3cb3724569e3ab1e003abbe97edf674ca487b9de9b643c64c1117322
+    "@tanstack/query-core": "npm:5.74.4"
+  checksum: 10c0/f9d33b3dae4b17e87ccdc6c7053760ad26b21c2473c94e1d9cf9055c1cc614ad4705dae388fe094da8a4ec2b1d60ef7988d9e991aa545223a808d771f724082f
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-persist-client@npm:^5.74.3":
-  version: 5.74.3
-  resolution: "@tanstack/react-query-persist-client@npm:5.74.3"
+"@tanstack/react-query-persist-client@npm:^5.74.4":
+  version: 5.74.4
+  resolution: "@tanstack/react-query-persist-client@npm:5.74.4"
   dependencies:
-    "@tanstack/query-persist-client-core": "npm:5.74.3"
+    "@tanstack/query-persist-client-core": "npm:5.74.4"
   peerDependencies:
-    "@tanstack/react-query": ^5.74.3
+    "@tanstack/react-query": ^5.74.4
     react: ^18 || ^19
-  checksum: 10c0/a8d938ddcfe02f25844c6a823d895673081bc292c98ad5a5534cbf45fa4fac9617d4951ebe766c1b303e42f3bf110f1f30740dadd366f7c4d5f743aa125fa912
+  checksum: 10c0/e6e3293cbade58c448580e7377fd7350f83597b16d078f97ae6edb9521a771accb6b820048ec548728ba0200acf8372d093020ec7b8b93a058ab033a86e6be37
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.74.3":
-  version: 5.74.3
-  resolution: "@tanstack/react-query@npm:5.74.3"
+"@tanstack/react-query@npm:^5.74.4":
+  version: 5.74.4
+  resolution: "@tanstack/react-query@npm:5.74.4"
   dependencies:
-    "@tanstack/query-core": "npm:5.74.3"
+    "@tanstack/query-core": "npm:5.74.4"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10c0/5bb0c55383ba1fdb88cddcc43ee308d201dc7bfece01e8bbd1e41b21ba21c3b58c6546670de411b83566fd42cf771061c8d6ccf6af5aef200bfeed068332b21e
+  checksum: 10c0/4434b1764efd5e5a7f35046e7411fed06d42372ebbd6e784dcfd81c3d107b41c86fec2b59652fccadb1bab25ca35ef9b6720c7f5c89d6e4302cf1d2f60291200
   languageName: node
   linkType: hard
 
@@ -5166,7 +5166,7 @@ __metadata:
   resolution: "construlink@workspace:."
   dependencies:
     "@biomejs/biome": "npm:1.9.4"
-    lefthook: "npm:^1.11.6"
+    lefthook: "npm:^1.11.10"
   languageName: unknown
   linkType: soft
 
@@ -8059,90 +8059,90 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lefthook-darwin-arm64@npm:1.11.6":
-  version: 1.11.6
-  resolution: "lefthook-darwin-arm64@npm:1.11.6"
+"lefthook-darwin-arm64@npm:1.11.10":
+  version: 1.11.10
+  resolution: "lefthook-darwin-arm64@npm:1.11.10"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"lefthook-darwin-x64@npm:1.11.6":
-  version: 1.11.6
-  resolution: "lefthook-darwin-x64@npm:1.11.6"
+"lefthook-darwin-x64@npm:1.11.10":
+  version: 1.11.10
+  resolution: "lefthook-darwin-x64@npm:1.11.10"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"lefthook-freebsd-arm64@npm:1.11.6":
-  version: 1.11.6
-  resolution: "lefthook-freebsd-arm64@npm:1.11.6"
+"lefthook-freebsd-arm64@npm:1.11.10":
+  version: 1.11.10
+  resolution: "lefthook-freebsd-arm64@npm:1.11.10"
   conditions: os=freebsd & cpu=arm64
   languageName: node
   linkType: hard
 
-"lefthook-freebsd-x64@npm:1.11.6":
-  version: 1.11.6
-  resolution: "lefthook-freebsd-x64@npm:1.11.6"
+"lefthook-freebsd-x64@npm:1.11.10":
+  version: 1.11.10
+  resolution: "lefthook-freebsd-x64@npm:1.11.10"
   conditions: os=freebsd & cpu=x64
   languageName: node
   linkType: hard
 
-"lefthook-linux-arm64@npm:1.11.6":
-  version: 1.11.6
-  resolution: "lefthook-linux-arm64@npm:1.11.6"
+"lefthook-linux-arm64@npm:1.11.10":
+  version: 1.11.10
+  resolution: "lefthook-linux-arm64@npm:1.11.10"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"lefthook-linux-x64@npm:1.11.6":
-  version: 1.11.6
-  resolution: "lefthook-linux-x64@npm:1.11.6"
+"lefthook-linux-x64@npm:1.11.10":
+  version: 1.11.10
+  resolution: "lefthook-linux-x64@npm:1.11.10"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"lefthook-openbsd-arm64@npm:1.11.6":
-  version: 1.11.6
-  resolution: "lefthook-openbsd-arm64@npm:1.11.6"
+"lefthook-openbsd-arm64@npm:1.11.10":
+  version: 1.11.10
+  resolution: "lefthook-openbsd-arm64@npm:1.11.10"
   conditions: os=openbsd & cpu=arm64
   languageName: node
   linkType: hard
 
-"lefthook-openbsd-x64@npm:1.11.6":
-  version: 1.11.6
-  resolution: "lefthook-openbsd-x64@npm:1.11.6"
+"lefthook-openbsd-x64@npm:1.11.10":
+  version: 1.11.10
+  resolution: "lefthook-openbsd-x64@npm:1.11.10"
   conditions: os=openbsd & cpu=x64
   languageName: node
   linkType: hard
 
-"lefthook-windows-arm64@npm:1.11.6":
-  version: 1.11.6
-  resolution: "lefthook-windows-arm64@npm:1.11.6"
+"lefthook-windows-arm64@npm:1.11.10":
+  version: 1.11.10
+  resolution: "lefthook-windows-arm64@npm:1.11.10"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"lefthook-windows-x64@npm:1.11.6":
-  version: 1.11.6
-  resolution: "lefthook-windows-x64@npm:1.11.6"
+"lefthook-windows-x64@npm:1.11.10":
+  version: 1.11.10
+  resolution: "lefthook-windows-x64@npm:1.11.10"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"lefthook@npm:^1.11.6":
-  version: 1.11.6
-  resolution: "lefthook@npm:1.11.6"
+"lefthook@npm:^1.11.10":
+  version: 1.11.10
+  resolution: "lefthook@npm:1.11.10"
   dependencies:
-    lefthook-darwin-arm64: "npm:1.11.6"
-    lefthook-darwin-x64: "npm:1.11.6"
-    lefthook-freebsd-arm64: "npm:1.11.6"
-    lefthook-freebsd-x64: "npm:1.11.6"
-    lefthook-linux-arm64: "npm:1.11.6"
-    lefthook-linux-x64: "npm:1.11.6"
-    lefthook-openbsd-arm64: "npm:1.11.6"
-    lefthook-openbsd-x64: "npm:1.11.6"
-    lefthook-windows-arm64: "npm:1.11.6"
-    lefthook-windows-x64: "npm:1.11.6"
+    lefthook-darwin-arm64: "npm:1.11.10"
+    lefthook-darwin-x64: "npm:1.11.10"
+    lefthook-freebsd-arm64: "npm:1.11.10"
+    lefthook-freebsd-x64: "npm:1.11.10"
+    lefthook-linux-arm64: "npm:1.11.10"
+    lefthook-linux-x64: "npm:1.11.10"
+    lefthook-openbsd-arm64: "npm:1.11.10"
+    lefthook-openbsd-x64: "npm:1.11.10"
+    lefthook-windows-arm64: "npm:1.11.10"
+    lefthook-windows-x64: "npm:1.11.10"
   dependenciesMeta:
     lefthook-darwin-arm64:
       optional: true
@@ -8166,7 +8166,7 @@ __metadata:
       optional: true
   bin:
     lefthook: bin/index.js
-  checksum: 10c0/c56db36c990f73b3b8c49251f3422412bf922467032a5f0bc9c0532eb0f259ed2ab91d7279f554ee825a589690fd48f235e74f45787408e9afb8649829fa6115
+  checksum: 10c0/bac4ba35c9cf9d738ce70e01c8c0d20fb07bfa36776d694c25ab240fbe91551104879d0dabd58fccf1520619ffa9a905dd4c40064e9c6fc9a6acc0534fe3dfb8
   languageName: node
   linkType: hard
 
