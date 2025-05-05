@@ -76,6 +76,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "96648eec-8b7e-4b50-8924-13128feb1976"
+      }
+    },
+    "owner": "nobrelli"
   }
 }
