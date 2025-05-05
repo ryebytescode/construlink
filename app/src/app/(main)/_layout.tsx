@@ -5,15 +5,62 @@ import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { useRenderCount } from '@/hooks/useRenderCount'
 import { Role } from '@/lib/constants'
+import { registerForPushNotificationsAsync } from '@/services/notifications'
 import { Toasts } from '@backpackapp-io/react-native-toast'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useUpdateEffect } from 'ahooks'
+import * as Notifications from 'expo-notifications'
 import { Stack, router } from 'expo-router'
+import { useEffect, useRef, useState } from 'react'
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+})
 
 export default function MainLayout() {
   useRenderCount('MainLayout')
 
   const styles = useStyles()
   const { initializing, userInfo } = useAuth()
+  const queryClient = useQueryClient()
+  const [notification, setNotification] = useState<
+    Notifications.Notification | undefined
+  >(undefined)
+  const notificationListener = useRef<Notifications.EventSubscription>()
+  const responseListener = useRef<Notifications.EventSubscription>()
+
+  useQuery({
+    queryKey: ['expoPushToken'],
+    queryFn: async () => {
+      const token = await registerForPushNotificationsAsync()
+      return token
+    },
+  })
+
+  useEffect(() => {
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification)
+      })
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response)
+      })
+
+    return () => {
+      notificationListener.current &&
+        Notifications.removeNotificationSubscription(
+          notificationListener.current
+        )
+      responseListener.current &&
+        Notifications.removeNotificationSubscription(responseListener.current)
+    }
+  }, [])
 
   useUpdateEffect(() => {
     if (!initializing && userInfo?.role === Role.TRADESPERSON) {

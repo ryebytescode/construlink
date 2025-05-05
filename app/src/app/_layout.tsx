@@ -23,7 +23,6 @@ import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { DevToolsBubble } from 'react-native-react-query-devtools'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-
 export { ErrorBoundary } from 'expo-router'
 
 SplashScreen.preventAutoHideAsync()
