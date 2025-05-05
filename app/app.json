@@ -72,7 +72,8 @@
         {
           "iosPermissions": ["Camera", "Notifications"]
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
