@@ -6,12 +6,14 @@ import { ClText } from '@/components/ClText'
 import { createStyles } from '@/helpers/createStyles'
 import { resolveColor } from '@/helpers/resolveColor'
 import { Spacing } from '@/theme'
+import { useQueryClient } from '@tanstack/react-query'
 import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { View } from 'react-native'
 
 export default function GettingStartedScreen() {
   const styles = useStyles()
+  const queryClient = useQueryClient()
 
   return (
     <>
